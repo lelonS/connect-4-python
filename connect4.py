@@ -1,0 +1,2 @@
+class ConnectFour:
+    pass
