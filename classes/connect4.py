@@ -8,8 +8,8 @@ class ConnectFour:
     def is_legal_move(self, col: int) -> bool:
         return self.board[col][-1] == -1
 
-    def make_move():
+    def make_move(self):
         pass
 
-    def check_win():
+    def check_win(self):
         pass
