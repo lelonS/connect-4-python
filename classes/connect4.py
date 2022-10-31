@@ -1,18 +1,13 @@
 class ConnectFour:
     board: list[list[int]]  # board[col][row]
     turn: int = 0
-    amount_cols: int
-    amount_rows: int
+    total_cols: int
+    total_cols: int
 
-    def __init__(self, amount_cols: int, amount_rows: int) -> None:
-        self.amount_cols = amount_cols
-        self.amount_rows = amount_rows
-        self.board = []
-        for _ in range(amount_cols):
-            col = []
-            for _ in range(amount_rows):
-                col.append(-1)  # Empty tile represented with -1
-            self.board.append(col)
+    def __init__(self, total_cols: int, total_rows: int) -> None:
+        self.total_cols = total_cols
+        self.total_cols = total_rows
+        self.board = [[-1]*total_rows]*total_cols
 
     def is_legal_move(self, col: int) -> bool:
         return self.board[col][-1] == -1
