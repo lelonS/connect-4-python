@@ -28,13 +28,14 @@ def draw_board(board: list[list[int]]):
 
 
 def main():
-    while True:
+    running = True
+    while running:
 
         # Handle pygame events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                break
+                running = False
 
 
 if __name__ == '__main__':
