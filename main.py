@@ -1,7 +1,6 @@
 import pygame
 from classes.connect4 import ConnectFour
 
-pygame.init()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -55,6 +54,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
 
 
 def main():
+    pygame.init()
 
     # Create screen
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
