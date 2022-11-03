@@ -12,7 +12,12 @@ class ConnectFour:
     def is_legal_move(self, col: int) -> bool:
         return len(self.board[col]) < self.total_rows
 
-    def make_move(self):
+    def make_move(self, col: int):
+        # Check if move is legal
+
+        # Append turn to column
+
+        # Change turn 0 -> 1 -> 0
         pass
 
     def check_win(self):
