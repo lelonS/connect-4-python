@@ -10,7 +10,8 @@ class ConnectFour:
         self.board = [[] for _ in range(total_cols)]
 
     def is_legal_move(self, col: int) -> bool:
-        return len(self.board[col]) < self.total_rows and col < self.total_cols
+        # Check if col is out of bounds and if row is full
+        return col < self.total_cols and len(self.board[col]) < self.total_rows
 
     def make_move(self, col: int):
         # Check if move is legal
@@ -22,3 +23,4 @@ class ConnectFour:
 
     def check_win(self):
         pass
+
