@@ -53,6 +53,10 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
             pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
 
 
+def get_col_from_x(x: int):
+    return x // TILE_SIZE
+
+
 def main():
     pygame.init()
 

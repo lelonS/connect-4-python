@@ -23,4 +23,3 @@ class ConnectFour:
 
     def check_win(self):
         pass
-
