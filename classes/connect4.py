@@ -19,7 +19,8 @@ class ConnectFour:
             # Append turn to column
             self.board[col].append(self.turn)
             # Change turn 0 -> 1 -> 0
-            self.turn = 1 if self.turn == 0 else 0
+            # self.turn = 1 if self.turn == 0 else 0
+            self.turn = (self.turn + 1) % 2
 
     def check_win(self):
         pass

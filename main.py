@@ -1,15 +1,14 @@
 import pygame
 from classes.connect4 import ConnectFour
 
-
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+LIME = (0, 255, 0)
 
 # Screen parameters
 WIDTH = 900
 HEIGHT = 600
-
 
 # Variables
 TILE_SIZE = 80
@@ -35,7 +34,7 @@ def draw_grid(screen: pygame.Surface, w: int, h: int):
 
 def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
     # Player colors
-    colors = [(255, 0, 0), (0, 0, 255)]
+    colors = [(255, 0, 0), (0, 0, 255), LIME]
 
     # Variables
     half_tile = TILE_SIZE / 2
@@ -53,7 +52,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
             pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
 
 
-def get_col_from_x(x: int):
+def get_col_from_x(x: int) -> int:
     return x // TILE_SIZE
 
 
@@ -64,13 +63,13 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Connect4")
 
-    # Temp create ConenctFour to test draw grid and draw piece
+    # Temp create ConnectFour to test draw grid and draw piece
     c = ConnectFour(7, 6)
-    c.board[0].append(0)
 
+    # Draw board
+    screen.fill(BLACK)
     draw_pieces(screen, c.board)
     draw_grid(screen, c.total_cols, c.total_rows)
-
     pygame.display.update()
 
     # Loop
@@ -82,6 +81,15 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_pos = pygame.mouse.get_pos()
+                col = get_col_from_x(mouse_pos[0])
+                c.make_move(col)
+
+                screen.fill(BLACK)
+                draw_pieces(screen, c.board)
+                draw_grid(screen, c.total_cols, c.total_rows)
+                pygame.display.update()
 
 
 if __name__ == '__main__':
