@@ -45,7 +45,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
         for row_num in range(len(board[col_num])):
             # Middle of row
             y_mid = HEIGHT - row_num * TILE_SIZE - half_tile
-            # Player (non negative int)
+            # Player (non-negative int)
             plr = board[col_num][row_num]
 
             # Draw piece
