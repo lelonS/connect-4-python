@@ -15,11 +15,11 @@ class ConnectFour:
 
     def make_move(self, col: int):
         # Check if move is legal
-
-        # Append turn to column
-
-        # Change turn 0 -> 1 -> 0
-        pass
+        if self.is_legal_move(col):
+            # Append turn to column
+            self.board[col].append(self.turn)
+            # Change turn 0 -> 1 -> 0
+            self.turn = 1 if self.turn == 0 else 0
 
     def check_win(self):
         pass
