@@ -1,10 +1,7 @@
 import pygame
 from classes.connect4 import ConnectFour
-from drawer import draw_pieces, draw_board_overlay
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-LIME = (0, 255, 0)
+from drawer import draw_board
+
 
 # Screen parameters
 WIDTH = 900
@@ -28,12 +25,7 @@ def main():
     # Temp create ConnectFour to test draw grid and draw piece
     c = ConnectFour(7, 6)
 
-    # Draw board
-    screen.fill(BLACK)
-    draw_pieces(screen, c.board)
-    draw_board_overlay(screen, c.total_cols, c.total_rows)
-
-    pygame.display.update()
+    draw_board(screen, c)
 
     # Loop
     running = True
@@ -49,12 +41,7 @@ def main():
                 col = get_col_from_x(mouse_pos[0])
                 c.make_move(col)
 
-                screen.fill(BLACK)
-
-                draw_pieces(screen, c.board)
-                draw_board_overlay(screen, c.total_cols, c.total_rows)
-                # draw_grid(screen, c.total_cols, c.total_rows)
-                pygame.display.update()
+                draw_board(screen, c)
 
 
 if __name__ == '__main__':
