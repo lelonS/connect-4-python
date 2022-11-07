@@ -22,7 +22,6 @@ def get_tile_pos(col: int, row: int) -> tuple[float, float]:
     x_coord = BOARD_BOTTOM_LEFT[0] + col * TILE_SIZE
     # Row
     y_coord = BOARD_BOTTOM_LEFT[1] - (row + 1) * TILE_SIZE
-    print(x_coord, y_coord)
     return (x_coord, y_coord)
 
 
