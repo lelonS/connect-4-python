@@ -8,14 +8,18 @@ WHITE = (255, 255, 255)
 LIME = (0, 255, 0)
 
 # Variables
-BOARD_BOTTOM_LEFT = (0, 600)
+BOARD_BOTTOM_LEFT = (300, 600)
 TILE_SIZE = 80
+
+
+def get_col_from_x(x: int) -> int:
+    return (x - BOARD_BOTTOM_LEFT[0]) // TILE_SIZE
 
 
 def get_tile_pos(col: int, row: int) -> tuple[float, float]:
     '''Returns top left point of tile'''
     # Col
-    x_coord = col * TILE_SIZE
+    x_coord = BOARD_BOTTOM_LEFT[0] + col * TILE_SIZE
     # Row
     y_coord = BOARD_BOTTOM_LEFT[1] - (row + 1) * TILE_SIZE
     print(x_coord, y_coord)
