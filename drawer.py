@@ -52,6 +52,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
         for row_num in range(len(board[col_num])):
             x_pos, y_pos = get_tile_pos(col_num, row_num)
 
+            # Get middle of tile
             x_mid = x_pos + TILE_SIZE / 2
             y_mid = y_pos + TILE_SIZE / 2
 
