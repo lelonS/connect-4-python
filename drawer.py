@@ -8,7 +8,7 @@ WHITE = (255, 255, 255)
 LIME = (0, 255, 0)
 
 # Variables
-BOARD_BOTTOM_LEFT = (300, 600)
+BOARD_BOTTOM_LEFT = (0, 600)
 TILE_SIZE = 80
 
 
