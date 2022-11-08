@@ -23,7 +23,7 @@ class ConnectFour:
             self.turn = (self.turn + 1) % 2
             print(self.check_win_at(col, len(self.board[col]) - 1))
 
-    def check_direction_win(self, col: int, row: int, direction: tuple[int, int]) -> bool:  # Check horizontal win
+    def check_dir_win(self, col: int, row: int, direction: tuple[int, int]) -> bool:  # Check horizontal win
         current_plr_pos = self.board[col][row]
         first_check = 0
         second_check = 0
@@ -54,13 +54,15 @@ class ConnectFour:
 
         if first_check + second_check >= 3:
             return True
+        else:
+            return False
 
     def check_win_at(self, col: int, row: int) -> bool:
-
-        direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]  # left, left-bottom, bottom, right-bottom
+        #                left, left-bottom, bottom, right-bottom
+        direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]
 
         for direction in direction_list:
-            if self.check_direction_win(col, row, direction):
+            if self.check_dir_win(col, row, direction):
                 return True
         return False
 
