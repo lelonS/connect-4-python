@@ -84,3 +84,15 @@ class ConnectFour:
         #             return True  # 4 in a row (1 right and 2 left of current)
         #     else:
         #         return False
+
+    def winner_text(self, text, x, y, colour) -> str:
+        font = pygame.font.Font('freesansbold.ttf', 16)
+        text1 = font.render('Congratulations!!!', 400, 640, (230, 230, 250)) #colour_purple
+        text2 = font.render('You are a winner!', 320, 640, (255,105,180)) #colour2_hotpink
+        text3_Play_AGAIN = ('Play again?...press key', 160, 640, (255,0,0)) #colour3_red
+
+        if self.check_direction_win():
+            self.check_direction_win = True
+            print(f' {text1}')
+            print(f' {text2}')
+            print(f' {text3_Play_AGAIN?}')
