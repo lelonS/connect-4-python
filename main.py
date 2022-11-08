@@ -2,10 +2,13 @@ import pygame
 from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x
 
-
 # Screen parameters
 WIDTH = 900
 HEIGHT = 600
+
+
+def highlight():
+    pass
 
 
 def main():
