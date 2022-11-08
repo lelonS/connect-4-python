@@ -68,3 +68,11 @@ def draw_board(screen: pygame.Surface, game: ConnectFour):
     draw_pieces(screen, game.board)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
     pygame.display.update()
+
+
+def draw_text(screen, text, size, x, y):
+
+    font = pygame.font.Font('freesansbold.ttf', size)
+    text = font.render('text', True, WHITE)
+    screen.blit(text, (x, y))
+
