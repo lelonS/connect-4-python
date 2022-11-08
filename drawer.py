@@ -61,18 +61,20 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
             # Draw piece
             pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
 
+def draw_text(screen, text, size, x, y):
+
+    font = pygame.font.Font('freesansbold.ttf', size)
+    text = font.render(text, True, WHITE)
+    screen.blit(text, (x, y))
 
 def draw_board(screen: pygame.Surface, game: ConnectFour):
     # Draw board
     screen.fill(BLACK)
     draw_pieces(screen, game.board)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
+    draw_text(screen, 'hej', 20, 50, 50)
     pygame.display.update()
 
 
-def draw_text(screen, text, size, x, y):
 
-    font = pygame.font.Font('freesansbold.ttf', size)
-    text = font.render('text', True, WHITE)
-    screen.blit(text, (x, y))
 
