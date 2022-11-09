@@ -1,4 +1,6 @@
 import pygame
+
+import drawer
 from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x
 
@@ -33,6 +35,8 @@ def main():
                 col = get_col_from_x(mouse_pos[0])
                 c.make_move(col)
                 draw_board(screen, c)
+                if c.check_win_at(col, len(c.board[col]) - 1):
+                    drawer.draw_text(screen, "You won!!", 20, 200, 50)
 
 
 if __name__ == '__main__':
