@@ -2,7 +2,6 @@ import pygame
 from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x
 
-
 # Screen parameters
 WIDTH = 900
 HEIGHT = 600
@@ -33,7 +32,6 @@ def main():
                 mouse_pos = pygame.mouse.get_pos()
                 col = get_col_from_x(mouse_pos[0])
                 c.make_move(col)
-
                 draw_board(screen, c)
 
 
