@@ -1,7 +1,6 @@
 import pygame
 from classes.connect4 import ConnectFour
 
-
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -65,10 +64,10 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
 
 
 def draw_text(screen, text, size, x, y):
-
     font = pygame.font.Font('freesansbold.ttf', size)
     text = font.render(text, True, WHITE)
     screen.blit(text, (x, y))
+    pygame.display.update()
 
 
 def draw_board(screen: pygame.Surface, game: ConnectFour):
@@ -76,5 +75,4 @@ def draw_board(screen: pygame.Surface, game: ConnectFour):
     screen.fill(BLACK)
     draw_pieces(screen, game.board)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
-    draw_text(screen, 'hej', 20, 50, 50)
     pygame.display.update()
