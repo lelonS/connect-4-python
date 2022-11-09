@@ -84,3 +84,9 @@ class ConnectFour:
         #             return True  # 4 in a row (1 right and 2 left of current)
         #     else:
         #         return False
+
+    def reset_game(self):
+        self.board = [[] for _ in range(self.total_cols)]
+
+
+
