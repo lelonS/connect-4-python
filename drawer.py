@@ -40,26 +40,35 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
     screen.blit(surf, (0, 0))
 
 
-def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
+def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
     # Player colors
     colors = [(255, 0, 0), (0, 0, 255)]
 
     # Variables
     half_tile = TILE_SIZE / 2
 
+    x_pos, y_pos = get_tile_pos(col, row)
+
+    # Get middle of tile
+    x_mid = x_pos + TILE_SIZE / 2
+    y_mid = y_pos + TILE_SIZE / 2
+
+    # Draw piece
+    pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
+
+
+def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
+    """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
-            x_pos, y_pos = get_tile_pos(col_num, row_num)
+            draw_piece(screen, col_num, row_num, board[col_num][row_num])
 
-            # Get middle of tile
-            x_mid = x_pos + TILE_SIZE / 2
-            y_mid = y_pos + TILE_SIZE / 2
 
-            # Player (non-negative int)
-            plr = board[col_num][row_num]
+def draw_text(screen, text, size, x, y):
 
-            # Draw piece
-            pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
+    font = pygame.font.Font('freesansbold.ttf', size)
+    text = font.render(text, True, WHITE)
+    screen.blit(text, (x, y))
 
 
 def draw_board(screen: pygame.Surface, game: ConnectFour):
@@ -67,4 +76,5 @@ def draw_board(screen: pygame.Surface, game: ConnectFour):
     screen.fill(BLACK)
     draw_pieces(screen, game.board)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
+    draw_text(screen, 'hej', 20, 50, 50)
     pygame.display.update()
