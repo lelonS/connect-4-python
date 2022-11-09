@@ -11,9 +11,9 @@ class ConnectFour:
 
     def is_legal_move(self, col: int) -> bool:
         # Check if col is out of bounds and if row is full
-        return col < self.total_cols and len(self.board[col]) < self.total_rows
+        return 0 <= col < self.total_cols and len(self.board[col]) < self.total_rows
 
-    def make_move(self, col: int):
+    def make_move(self, col: int) -> bool:
         # Check if move is legal
         if self.is_legal_move(col):
             # Append turn to column
@@ -21,7 +21,8 @@ class ConnectFour:
             # Change turn 0 -> 1 -> 0
             # self.turn = 1 if self.turn == 0 else 0
             self.turn = (self.turn + 1) % 2
-            print(self.check_win_at(col, len(self.board[col]) - 1))
+            return True  # Move made success
+        return False  # Move not made
 
     def check_dir_win(self, col: int, row: int, direction: tuple[int, int]) -> bool:
         """From the col and row a piece is placed, check_dir_win takes \n

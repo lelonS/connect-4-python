@@ -33,9 +33,9 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 col = get_col_from_x(mouse_pos[0])
-                c.make_move(col)
+                move_success = c.make_move(col)
                 draw_board(screen, c)
-                if c.check_win_at(col, len(c.board[col]) - 1):
+                if move_success and c.check_win_at(col, len(c.board[col]) - 1):
                     drawer.draw_text(screen, "You won!!", 20, 200, 50)
 
 
