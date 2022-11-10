@@ -67,6 +67,19 @@ def draw_text(screen, text, size, x, y):
     text = font.render(text, True, WHITE)
     screen.blit(text, (x, y))
 
+def hover_mouse(screen, mouse_pos, colour):
+
+    colour = WHITE
+    size = TILE_SIZE
+    mouse_pos = pygame.mouse.get_pos()
+    col = get_col_from_x(mouse_pos[0])
+    screen.blit()
+
+
+
+
+
+
 def draw_board(screen: pygame.Surface, game: ConnectFour):
     # Draw board
     screen.fill(BLACK)
