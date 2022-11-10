@@ -79,3 +79,8 @@ class ConnectFour:
             if self.check_dir_win(col, row, direction):
                 return True
         return False
+
+
+
+    def reset_game(self):
+        self.board = [[] for _ in range(self.total_cols)]
