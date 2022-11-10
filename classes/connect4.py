@@ -25,8 +25,8 @@ class ConnectFour:
         return False  # Move not made
 
     def check_dir_win(self, col: int, row: int, direction: tuple[int, int]) -> bool:
-        """From the col and row a piece is placed, check_dir_win takes \n
-        a direction and counts the same pieces in all directions. \n
+        """From the col and row a piece is placed, check_dir_win takes 
+        a direction and counts the same pieces in all directions. 
         Returns True if there's 4 or more total pieces in a line. """
         current_plr_pos = self.board[col][row]
         first_check = 0
