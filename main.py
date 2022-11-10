@@ -32,7 +32,7 @@ def main():
         # Handle pygame events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 
@@ -43,6 +43,7 @@ def main():
                     drawer.draw_text(screen, "You won!!", 20, 200, 50)
         draw_board(screen, c)
         pygame.display.update()
+    pygame.quit()
 
 if __name__ == '__main__':
     main()
