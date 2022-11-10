@@ -80,7 +80,5 @@ class ConnectFour:
                 return True
         return False
 
-
-
     def reset_game(self):
         self.board = [[] for _ in range(self.total_cols)]
