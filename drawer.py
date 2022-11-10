@@ -16,12 +16,12 @@ def get_col_from_x(x: int) -> int:
 
 
 def get_tile_pos(col: int, row: int) -> tuple[float, float]:
-    '''Returns top left point of tile'''
+    """Returns top left point of tile"""
     # Col
     x_coord = BOARD_BOTTOM_LEFT[0] + col * TILE_SIZE
     # Row
     y_coord = BOARD_BOTTOM_LEFT[1] - (row + 1) * TILE_SIZE
-    return (x_coord, y_coord)
+    return x_coord, y_coord
 
 
 def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
@@ -70,7 +70,6 @@ def draw_text(screen, text, size, x, y):
 
 
 def hover_mouse(screen, mouse_pos, row: int, plr: int):
-    mouse_pos = pygame.mouse.get_pos()
     col = get_col_from_x(mouse_pos[0])
     draw_piece(screen, col, row, plr)
 
