@@ -69,8 +69,7 @@ def draw_text(screen, text, size, x, y):
     screen.blit(text, (x, y))
 
 
-def hover_mouse(screen, mouse_pos, row: int, plr: int):
-    col = get_col_from_x(mouse_pos[0])
+def hover_mouse(screen, col: int, row: int, plr: int):
     draw_piece(screen, col, row, plr)
 
 

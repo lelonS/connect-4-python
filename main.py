@@ -27,7 +27,8 @@ def main():
     while running:
         screen.fill(drawer.BLACK)
         mouse_pos = pygame.mouse.get_pos()
-        drawer.hover_mouse(screen, mouse_pos, c.total_rows, c.turn)
+        mouse_col = get_col_from_x(mouse_pos[0])
+        drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
         for event in pygame.event.get():
@@ -35,14 +36,14 @@ def main():
 
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                move_success = c.make_move(mouse_col)
 
-                col = get_col_from_x(mouse_pos[0])
-                move_success = c.make_move(col)
-
-                if move_success and c.check_win_at(col, len(c.board[col]) - 1):
+                if move_success and c.check_win_at(mouse_col, len(c.board[mouse_col]) - 1):
                     drawer.draw_text(screen, "You won!!", 20, 200, 50)
+
         draw_board(screen, c)
         pygame.display.update()
+
     pygame.quit()
 
 
