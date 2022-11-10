@@ -69,15 +69,10 @@ def draw_text(screen, text, size, x, y):
     screen.blit(text, (x, y))
 
 
-
 def hover_mouse(screen, mouse_pos, row: int, plr: int):
-
     mouse_pos = pygame.mouse.get_pos()
     col = get_col_from_x(mouse_pos[0])
     draw_piece(screen, col, row, plr)
-
-
-
 
 
 def draw_board(screen: pygame.Surface, game: ConnectFour):
@@ -85,4 +80,3 @@ def draw_board(screen: pygame.Surface, game: ConnectFour):
 
     draw_pieces(screen, game.board)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
-
