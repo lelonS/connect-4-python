@@ -63,13 +63,13 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
             draw_piece(screen, col_num, row_num, board[col_num][row_num])
 
 
-def draw_text(screen, text, size, x, y):
+def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int):
     font = pygame.font.Font('freesansbold.ttf', size)
     text = font.render(text, True, WHITE)
     screen.blit(text, (x, y))
 
 
-def hover_mouse(screen, col: int, row: int, plr: int):
+def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
     draw_piece(screen, col, row, plr)
 
 
