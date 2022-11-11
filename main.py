@@ -32,7 +32,7 @@ def main():
         if game_over:
             # Draw win text
             drawer.draw_text(
-                screen, "You won!! Press R to restart", 32, 200, 50)
+                screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
         else:
             # Draw column mouse hovers over
             drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
