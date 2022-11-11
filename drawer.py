@@ -64,7 +64,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
 
 
 def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int):
-    font = pygame.font.Font('freesansbold.ttf', size)
+    font = pygame.font.SysFont("comicsansms", size)
     text = font.render(text, True, WHITE)
     screen.blit(text, (x, y))
 
