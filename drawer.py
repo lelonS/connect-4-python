@@ -4,10 +4,13 @@ from classes.connect4 import ConnectFour
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 LIME = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 # Variables
 BOARD_BOTTOM_LEFT = (0, 600)
+
 TILE_SIZE = 80
 
 
@@ -41,7 +44,7 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
 
 def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
     # Player colors
-    colors = [(255, 0, 0), (0, 0, 255)]
+    colors = [RED, BLUE]
 
     # Variables
     half_tile = TILE_SIZE / 2
