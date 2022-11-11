@@ -30,20 +30,27 @@ def main():
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
         if game_over:
+            # Draw win text
             drawer.draw_text(
-                screen, "You won!!\nPress R to restart", 20, 200, 50)
+                screen, "You won!! Press R to restart", 32, 200, 50)
         else:
+            # Draw column mouse hovers over
             drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-
                 running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 move_success = c.make_move(mouse_col)
                 if move_success and c.check_win_at(mouse_col, len(c.board[mouse_col]) - 1):
+                    # Someone won
                     game_over = True
+            elif event.type == pygame.KEYDOWN:
+                if game_over and event.key == pygame.K_r:
+                    # Reset game
+                    c.reset_game()
+                    game_over = False
 
         draw_board(screen, c)
         pygame.display.update()
