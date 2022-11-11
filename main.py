@@ -18,6 +18,7 @@ def main():
 
     # Temp create ConnectFour to test draw grid and draw piece
     c = ConnectFour(7, 6)
+    game_over = False
 
     draw_board(screen, c)
     pygame.display.update()
@@ -28,7 +29,11 @@ def main():
         screen.fill(drawer.BLACK)
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
-        drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
+        if game_over:
+            drawer.draw_text(
+                screen, "You won!!\nPress R to restart", 20, 200, 50)
+        else:
+            drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
         for event in pygame.event.get():
@@ -37,9 +42,8 @@ def main():
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 move_success = c.make_move(mouse_col)
-
                 if move_success and c.check_win_at(mouse_col, len(c.board[mouse_col]) - 1):
-                    drawer.draw_text(screen, "You won!!", 20, 200, 50)
+                    game_over = True
 
         draw_board(screen, c)
         pygame.display.update()
