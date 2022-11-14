@@ -69,6 +69,7 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: 
     """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
+            # Check if piece animated
             if (col_num, row_num) in falling_pieces:
                 piece = falling_pieces[(col_num, row_num)]
                 draw_piece(screen, (piece.x, piece.y), board[col_num][row_num])
@@ -89,6 +90,5 @@ def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
 
 def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict):
     # Draw board
-
     draw_pieces(screen, game.board,  falling_pieces)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
