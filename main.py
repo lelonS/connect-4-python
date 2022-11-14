@@ -1,8 +1,7 @@
 import pygame
 from classes.falling_point import FallingPoint
-import drawer
 from classes.connect4 import ConnectFour
-from drawer import draw_board, get_col_from_x
+from drawer import draw_board, get_col_from_x, BLACK, draw_text, get_tile_pos, hover_mouse
 
 # Screen parameters
 WIDTH = 900
@@ -40,7 +39,7 @@ def main():
     # Loop
     running = True
     while running:
-        screen.fill(drawer.BLACK)
+        screen.fill(BLACK)
 
         ms = clock.tick()
         seconds = ms / 1000
@@ -49,11 +48,11 @@ def main():
         mouse_col = get_col_from_x(mouse_pos[0])
         if game_over:
             # Draw win text
-            drawer.draw_text(
+            draw_text(
                 screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
         else:
             # Draw column mouse hovers over
-            drawer.hover_mouse(screen, mouse_col, c.total_rows, c.turn)
+            hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
         for event in pygame.event.get():
@@ -63,8 +62,8 @@ def main():
                 move_success = c.make_move(mouse_col)
                 if move_success:
                     landed_tile = len(c.board[mouse_col]) - 1
-                    top_coords = drawer.get_tile_pos(mouse_col, c.total_rows)
-                    tile_coords = drawer.get_tile_pos(mouse_col, landed_tile)
+                    top_coords = get_tile_pos(mouse_col, c.total_rows)
+                    tile_coords = get_tile_pos(mouse_col, landed_tile)
                     # Create animated piece
                     falling_pieces[(mouse_col, landed_tile)] = FallingPoint(
                         top_coords, 0, 1000, tile_coords[1])
