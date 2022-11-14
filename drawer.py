@@ -1,17 +1,7 @@
 import pygame
+import constants as const
+from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS
 from classes.connect4 import ConnectFour
-
-# Colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-LIME = (0, 255, 0)
-BLUE = (0, 0, 255)
-
-# Variables
-BOARD_BOTTOM_LEFT = (0, 600)
-
-TILE_SIZE = 80
 
 
 def get_col_from_x(x: int) -> int:
@@ -37,15 +27,12 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
         for row_num in range(rows):
             x_pos, y_pos = get_tile_pos(col_num, row_num)
 
-            pygame.draw.rect(surf, WHITE,
+            pygame.draw.rect(surf, const.WHITE,
                              (x_pos, y_pos, TILE_SIZE, TILE_SIZE), width=2)
     screen.blit(surf, (0, 0))
 
 
 def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
-    # Player colors
-    colors = [RED, BLUE]
-
     # Variables
     half_tile = TILE_SIZE / 2
 
@@ -56,7 +43,7 @@ def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
     y_mid = y_pos + TILE_SIZE / 2
 
     # Draw piece
-    pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
+    pygame.draw.circle(screen, PLR_COLORS[plr], (x_mid, y_mid), half_tile)
 
 
 def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
