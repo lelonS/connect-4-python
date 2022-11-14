@@ -27,7 +27,7 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
         for row_num in range(rows):
             x_pos, y_pos = get_tile_pos(col_num, row_num)
 
-            pygame.draw.rect(surf, const.WHITE,
+            pygame.draw.rect(surf, const.BLUE,
                              (x_pos, y_pos, TILE_SIZE, TILE_SIZE), width=2)
     screen.blit(surf, (0, 0))
 
