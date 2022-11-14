@@ -1,4 +1,4 @@
-class DroppingPoint():
+class FallingPoint():
     x: float
     y: float
     vel_y: float
