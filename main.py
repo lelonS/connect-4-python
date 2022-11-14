@@ -18,6 +18,13 @@ def update_all_falling(falling_pieces: dict, dt: float):
         del falling_pieces[key]
 
 
+def check_all_past(falling_pieces: dict, past_y: float):
+    for piece in falling_pieces.values():
+        if piece.y <= past_y:
+            return False
+    return True
+
+
 def main():
     pygame.init()
 
@@ -28,6 +35,7 @@ def main():
     # Temp create ConnectFour to test draw grid and draw piece
     c = ConnectFour(7, 6)
     game_over = False
+    can_move = True
 
     # Dictionary (col, row):FallingPoint
     falling_pieces = {}
@@ -46,11 +54,14 @@ def main():
 
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
+
+        can_move = check_all_past(
+            falling_pieces, get_tile_pos(0, c.total_rows - 1)[1])
         if game_over:
             # Draw win text
             draw_text(
                 screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
-        else:
+        elif can_move:
             # Draw column mouse hovers over
             hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
@@ -58,15 +69,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
                 move_success = c.make_move(mouse_col)
                 if move_success:
                     landed_tile = len(c.board[mouse_col]) - 1
                     top_coords = get_tile_pos(mouse_col, c.total_rows)
                     tile_coords = get_tile_pos(mouse_col, landed_tile)
+
                     # Create animated piece
                     falling_pieces[(mouse_col, landed_tile)] = FallingPoint(
-                        top_coords, 0, 1000, tile_coords[1])
+                        top_coords, 0, 2300, tile_coords[1])
+
                     # Check win
                     if c.check_win_at(mouse_col, landed_tile):
                         # Someone won
