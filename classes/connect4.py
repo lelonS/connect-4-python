@@ -82,3 +82,10 @@ class ConnectFour:
 
     def reset_game(self):
         self.board = [[] for _ in range(self.total_cols)]
+
+    def check_draw(self):
+        if self.check_board_full() and self.check_no_winner():
+            return True
+        return False
+
+
