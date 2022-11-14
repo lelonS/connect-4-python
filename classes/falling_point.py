@@ -15,7 +15,7 @@ class FallingPoint():
 
     def update(self, dt: float):
         """dt is seconds since last update"""
-        self.vel_y += self.acc_y
-        self.y += self.vel_y
+        self.vel_y += self.acc_y * dt
+        self.y += self.vel_y * dt
         if self.y >= self.max_y:
             self.is_past_max = True

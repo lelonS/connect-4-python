@@ -1,5 +1,5 @@
 import pygame
-
+from classes.falling_point import FallingPoint
 import drawer
 from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x
@@ -7,6 +7,16 @@ from drawer import draw_board, get_col_from_x
 # Screen parameters
 WIDTH = 900
 HEIGHT = 600
+
+
+def update_all_falling(falling_pieces: dict, dt: float):
+    keys_to_remove = []
+    for key in falling_pieces:
+        falling_pieces[key].update(dt)
+        if falling_pieces[key].is_past_max:
+            keys_to_remove.append(key)
+    for key in keys_to_remove:
+        del falling_pieces[key]
 
 
 def main():
@@ -20,13 +30,21 @@ def main():
     c = ConnectFour(7, 6)
     game_over = False
 
-    draw_board(screen, c)
+    # Dictionary (col, row):FallingPoint
+    falling_pieces = {}
+    clock = pygame.time.Clock()
+
+    draw_board(screen, c, falling_pieces)
     pygame.display.update()
 
     # Loop
     running = True
     while running:
         screen.fill(drawer.BLACK)
+
+        ms = clock.tick()
+        seconds = ms / 1000
+
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
         if game_over:
@@ -43,16 +61,25 @@ def main():
                 running = False
             elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 move_success = c.make_move(mouse_col)
-                if move_success and c.check_win_at(mouse_col, len(c.board[mouse_col]) - 1):
-                    # Someone won
-                    game_over = True
+                if move_success:
+                    landed_tile = len(c.board[mouse_col]) - 1
+                    top_coords = drawer.get_tile_pos(mouse_col, c.total_rows)
+                    tile_coords = drawer.get_tile_pos(mouse_col, landed_tile)
+                    # Create animated piece
+                    falling_pieces[(mouse_col, landed_tile)] = FallingPoint(
+                        top_coords, 0, 1000, tile_coords[1])
+                    # Check win
+                    if c.check_win_at(mouse_col, landed_tile):
+                        # Someone won
+                        game_over = True
             elif event.type == pygame.KEYDOWN:
                 if game_over and event.key == pygame.K_r:
                     # Reset game
                     c.reset_game()
                     game_over = False
 
-        draw_board(screen, c)
+        update_all_falling(falling_pieces, seconds)
+        draw_board(screen, c, falling_pieces)
         pygame.display.update()
 
     pygame.quit()

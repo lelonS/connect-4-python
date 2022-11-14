@@ -65,12 +65,16 @@ def draw_piece_at_col(screen: pygame.Surface, col: int, row: int, plr: int):
     draw_piece(screen, pos, plr)
 
 
-def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
+def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: dict):
     """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
-            draw_piece_at_col(screen, col_num, row_num,
-                              board[col_num][row_num])
+            if (col_num, row_num) in falling_pieces:
+                piece = falling_pieces[(col_num, row_num)]
+                draw_piece(screen, (piece.x, piece.y), board[col_num][row_num])
+            else:
+                draw_piece_at_col(screen, col_num, row_num,
+                                  board[col_num][row_num])
 
 
 def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int, color: tuple):
@@ -83,8 +87,8 @@ def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
     draw_piece_at_col(screen, col, row, plr)
 
 
-def draw_board(screen: pygame.Surface, game: ConnectFour):
+def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict):
     # Draw board
 
-    draw_pieces(screen, game.board)
+    draw_pieces(screen, game.board,  falling_pieces)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
