@@ -43,6 +43,7 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
 
 
 def draw_piece(screen: pygame.Surface, pos: tuple[float, float], plr: int):
+    """Variable pos is top left of the rect the circle is inside"""
     # Variables
     half_tile = TILE_SIZE / 2
 
