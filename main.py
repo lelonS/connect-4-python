@@ -1,9 +1,8 @@
 import pygame
-import constants as const
-from constants import WIDTH, HEIGHT
+from constants import WIDTH, HEIGHT, BLACK
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
-from drawer import draw_board, get_col_from_x, BLACK, draw_text, get_tile_pos, hover_mouse
+from drawer import draw_board, get_col_from_x, draw_text, get_tile_pos, hover_mouse
 
 
 def update_all_falling(falling_pieces: dict, dt: float):
