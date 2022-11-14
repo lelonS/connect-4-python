@@ -29,7 +29,6 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Connect4")
 
-    # Temp create ConnectFour to test draw grid and draw piece
     c = ConnectFour(7, 6)  # 7, 6
     game_over = False
 
