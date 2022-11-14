@@ -42,14 +42,14 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
     screen.blit(surf, (0, 0))
 
 
-def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
-    # Player colors
-    colors = [RED, BLUE]
-
+def draw_piece(screen: pygame.Surface, pos: tuple[float, float], plr: int):
     # Variables
     half_tile = TILE_SIZE / 2
 
-    x_pos, y_pos = get_tile_pos(col, row)
+    # Player colors
+    colors = [RED, BLUE]
+
+    x_pos, y_pos = pos
 
     # Get middle of tile
     x_mid = x_pos + TILE_SIZE / 2
@@ -59,11 +59,17 @@ def draw_piece(screen: pygame.Surface, col: int, row: int, plr: int):
     pygame.draw.circle(screen, colors[plr], (x_mid, y_mid), half_tile)
 
 
+def draw_piece_at_col(screen: pygame.Surface, col: int, row: int, plr: int):
+    pos = get_tile_pos(col, row)
+    draw_piece(screen, pos, plr)
+
+
 def draw_pieces(screen: pygame.Surface, board: list[list[int]]):
     """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
-            draw_piece(screen, col_num, row_num, board[col_num][row_num])
+            draw_piece_at_col(screen, col_num, row_num,
+                              board[col_num][row_num])
 
 
 def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int, color: tuple):
@@ -73,7 +79,7 @@ def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int, colo
 
 
 def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
-    draw_piece(screen, col, row, plr)
+    draw_piece_at_col(screen, col, row, plr)
 
 
 def draw_board(screen: pygame.Surface, game: ConnectFour):
