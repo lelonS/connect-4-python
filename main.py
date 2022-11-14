@@ -1,4 +1,5 @@
 import pygame
+import constants as const
 from constants import WIDTH, HEIGHT
 import drawer
 from classes.connect4 import ConnectFour
@@ -22,7 +23,7 @@ def main():
     # Loop
     running = True
     while running:
-        screen.fill(drawer.BLACK)
+        screen.fill(const.BLACK)
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
         if game_over:
