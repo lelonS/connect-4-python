@@ -30,9 +30,8 @@ def main():
     pygame.display.set_caption("Connect4")
 
     # Temp create ConnectFour to test draw grid and draw piece
-    c = ConnectFour(7, 6)
+    c = ConnectFour(7, 6)  # 7, 6
     game_over = False
-    can_move = True
 
     # Dictionary (col, row):FallingPoint
     falling_pieces = {}
