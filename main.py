@@ -56,14 +56,16 @@ def main():
         mouse_pos = pygame.mouse.get_pos()
         mouse_col = get_col_from_x(mouse_pos[0])
 
+        # Check if all past or in top row
         can_move = check_all_past(
             falling_pieces, get_tile_pos(0, c.total_rows - 1)[1])
+
         if game_over:
             # Draw win text
             draw_text(
                 screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
         elif can_move:
-            # Draw column mouse hovers over
+            # Draw column mouse hovers over if can move
             hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
