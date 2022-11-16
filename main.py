@@ -6,16 +6,22 @@ from drawer import draw_board, get_col_from_x, draw_text, get_tile_pos, hover_mo
 
 
 def update_all_falling(falling_pieces: dict, dt: float):
+    # Pieces past max_y to remove
     keys_to_remove = []
+
+    # Update all falling pieces
     for key in falling_pieces:
         falling_pieces[key].update(dt)
         if falling_pieces[key].is_past_max:
             keys_to_remove.append(key)
+
+    # Remove pieces past max_y
     for key in keys_to_remove:
         del falling_pieces[key]
 
 
 def check_all_past(falling_pieces: dict, past_y: float):
+    # Check if all falling pieces are past a y value
     for piece in falling_pieces.values():
         if piece.y <= past_y:
             return False
@@ -67,16 +73,16 @@ def main():
             elif not game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
                 move_success = c.make_move(mouse_col)
                 if move_success:
-                    landed_tile = len(c.board[mouse_col]) - 1
-                    top_coords = get_tile_pos(mouse_col, c.total_rows)
-                    tile_coords = get_tile_pos(mouse_col, landed_tile)
+                    landed_row = len(c.board[mouse_col]) - 1
+                    top_pos = get_tile_pos(mouse_col, c.total_rows)
+                    landed_pos = get_tile_pos(mouse_col, landed_row)
 
-                    # Create animated piece
-                    falling_pieces[(mouse_col, landed_tile)] = FallingPoint(
-                        top_coords, 0, 2300, tile_coords[1])
+                    # Create animated piece and add to dictionary
+                    falling_pieces[(mouse_col, landed_row)] = FallingPoint(
+                        top_pos, 0, 2300, landed_pos[1])
 
                     # Check win
-                    if c.check_win_at(mouse_col, landed_tile):
+                    if c.check_win_at(mouse_col, landed_row):
                         # Someone won
                         game_over = True
             elif event.type == pygame.KEYDOWN:
