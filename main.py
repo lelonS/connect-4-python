@@ -65,7 +65,7 @@ def main():
             draw_text(
                 screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
         elif can_move:
-            # Draw column mouse hovers over if can move
+            # Draw column mouse hovers over if user can move
             hover_mouse(screen, mouse_col, c.total_rows, c.turn)
 
         # Handle pygame events
