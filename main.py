@@ -5,7 +5,7 @@ from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x, draw_text, get_tile_pos, hover_mouse
 
 
-def update_all_falling(falling_pieces: dict, dt: float):
+def update_all_falling(falling_pieces: dict[tuple, FallingPoint], dt: float):
     # Pieces past max_y to remove
     keys_to_remove = []
 
@@ -39,7 +39,7 @@ def main():
     game_over = False
 
     # Dictionary (col, row):FallingPoint
-    falling_pieces = {}
+    falling_pieces: dict[tuple, FallingPoint] = {}
     clock = pygame.time.Clock()
 
     draw_board(screen, c, falling_pieces)

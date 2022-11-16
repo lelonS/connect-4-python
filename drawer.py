@@ -2,6 +2,7 @@ import pygame
 import constants as const
 from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS
 from classes.connect4 import ConnectFour
+from classes.falling_point import FallingPoint
 
 
 def get_col_from_x(x: int) -> int:
@@ -52,7 +53,7 @@ def draw_piece_at_col(screen: pygame.Surface, col: int, row: int, plr: int):
     draw_piece(screen, pos, plr)
 
 
-def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: dict):
+def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: dict[tuple, FallingPoint]):
     """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
@@ -75,7 +76,7 @@ def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
     draw_piece_at_col(screen, col, row, plr)
 
 
-def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict):
+def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict[tuple, FallingPoint]):
     # Draw board
     draw_pieces(screen, game.board,  falling_pieces)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
