@@ -21,7 +21,7 @@ class ConnectFour:
             self.board[col].append(self.turn)
             # Change turn 0 -> 1 -> 0
             # self.turn = 1 if self.turn == 0 else 0
-            self.turn = (self.turn + 1) % ConnectFour.number_of_players
+            self.turn = (self.turn + 1) % self.number_of_players
             return True  # Move made success
         return False  # Move not made
 
