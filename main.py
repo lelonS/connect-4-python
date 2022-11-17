@@ -1,5 +1,5 @@
 import pygame
-from constants import WIDTH, HEIGHT, BLACK
+from constants import WIDTH, HEIGHT, BLACK, PLR_COLORS
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from drawer import draw_board, get_col_from_x, draw_text, get_tile_pos, hover_mouse
@@ -41,6 +41,7 @@ def main():
     # Dictionary (col, row):FallingPoint
     falling_pieces: dict[tuple, FallingPoint] = {}
     clock = pygame.time.Clock()
+    winner = None
 
     draw_board(screen, c, falling_pieces)
     pygame.display.update()
@@ -63,7 +64,7 @@ def main():
         if game_over:
             # Draw win text
             draw_text(
-                screen, "You won!! Press R to restart", 32, 200, 50, (0, 255, 0))
+                screen, f"Player {winner} won!! Press R to restart", 32, 200, 50, PLR_COLORS[winner])
         elif can_move:
             # Draw column mouse hovers over if user can move
             hover_mouse(screen, mouse_col, c.total_rows, c.turn)
@@ -87,6 +88,7 @@ def main():
                     if c.check_win_at(mouse_col, landed_row):
                         # Someone won
                         game_over = True
+                        winner = c.board[mouse_col][landed_row]
             elif event.type == pygame.KEYDOWN:
                 if game_over and event.key == pygame.K_r:
                     # Reset game
