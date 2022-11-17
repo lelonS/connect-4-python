@@ -25,7 +25,7 @@ class ConnectFour:
             return True  # Move made success
         return False  # Move not made
 
-    def check_dir_win(self, col: int, row: int, direction: tuple[int, int]) -> bool:
+    def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> bool:
         """From the col and row a piece is placed, check_dir_win takes
         a direction and counts the same pieces in all directions.
         Returns True if there's 4 or more total pieces in a line. """
@@ -77,7 +77,7 @@ class ConnectFour:
         for direction in direction_list:
             # check_dir_win checks the above directions and their opposites.
             # That way we check victory condition for all directions.
-            if self.check_dir_win(col, row, direction):
+            if self.check_win_dir(col, row, direction):
                 return True
         return False
 
