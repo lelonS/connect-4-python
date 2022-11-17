@@ -1,14 +1,13 @@
 import pytest
 from classes.connect4 import ConnectFour
 
-
 test_win_board1 = [
     [0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 0, 0, 1],
+    [0, 0, 1, 0, 1, 1],
+    [0, 1, 1, 1, 0, 1],
+    [1, 1, 1, 1, 0, 1],
+    [0, 1, 1, 1, 0, 1],
+    [2, 0, 0, 0, 1, 1],
     [0, 0, 0, 0, 0, 1]
 ]
 LEFT = (-1, 0)
@@ -17,7 +16,13 @@ DOWN = (0, -1)
 RIGHT_DOWN = (1, -1)
 
 test_win_data = [
-    (3, 5, LEFT, True)
+    (3, 5, LEFT, True),
+    (0, 5, RIGHT_DOWN, True),
+    (3, 2, LEFT, True),
+    (3, 2, LEFT_DOWN, True),
+    (3, 2, DOWN, True),
+    (3, 2, RIGHT_DOWN, True),
+    (3, 0, LEFT, False),
 ]
 
 test_legal_move_data = [
