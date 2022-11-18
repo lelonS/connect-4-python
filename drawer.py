@@ -19,9 +19,9 @@ def get_tile_pos(col: int, row: int) -> tuple[float, float]:
 
 
 def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
-    # Draws grid
+    # Create surface to use for each tile
     tile_suface = pygame.Surface((TILE_SIZE, TILE_SIZE), pygame.SRCALPHA)
-    # Fill with transparent background
+    # Fill with blue background
     tile_suface.fill(const.BLUE)
     # Draw circle cutout
     pygame.draw.circle(tile_suface, (0, 0, 0, 0),
@@ -29,6 +29,7 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
 
     for col_num in range(cols):
         for row_num in range(rows):
+            # Draw tile_surface to screen at each tile
             pos = get_tile_pos(col_num, row_num)
             screen.blit(tile_suface, pos)
 
