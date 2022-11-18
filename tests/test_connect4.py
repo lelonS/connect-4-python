@@ -69,5 +69,5 @@ def test_is_legal_move(board, col, output):
 def test_check_board_full(board, output):
     c = ConnectFour(7, 6)
     if board is not None:
-        c.board = test_win_board1
+        c.board = board
     assert c.check_board_full() == output
