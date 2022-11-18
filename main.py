@@ -20,7 +20,7 @@ def update_all_falling(falling_pieces: dict[tuple, FallingPoint], dt: float):
         del falling_pieces[key]
 
 
-def check_all_past(falling_pieces: dict, past_y: float):
+def check_all_past(falling_pieces: dict, past_y: float) -> bool:
     # Check if all falling pieces are past a y value
     for piece in falling_pieces.values():
         if piece.y <= past_y:
