@@ -21,10 +21,10 @@ test_win_board2 = [
     [2, 0, 0, 0, 1, 1],
     [0, 0]
 ]
-LEFT = (-1, 0)
-LEFT_DOWN = (-1, -1)
-DOWN = (0, -1)
-RIGHT_DOWN = (1, -1)
+LEFT = (-1, 0)  # ←
+LEFT_DOWN = (-1, -1)  # ↙
+DOWN = (0, -1)  # ↓
+RIGHT_DOWN = (1, -1)  # ↘
 
 test_win_data = [
     (3, 5, LEFT, True),
