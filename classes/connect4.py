@@ -84,7 +84,7 @@ class ConnectFour:
     def reset_game(self):
         self.board = [[] for _ in range(self.total_cols)]
 
-    def check_board_full(self):
+    def check_board_full(self) -> bool:
         # Check if any legal move exists
         for col in range(self.total_cols):
             if self.is_legal_move(col):
