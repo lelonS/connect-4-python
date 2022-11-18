@@ -10,6 +10,15 @@ test_win_board1 = [
     [2, 0, 0, 0, 1, 1],
     [0, 0, 0, 0, 0, 1]
 ]
+test_win_board2 = [
+    [0, 0, 0],
+    [0, 0, 1, 0, 1, 1],
+    [0, 1, 1, 1, 0, 1],
+    [1, 1, 1],
+    [0, 1, 1, 1, 0, 1],
+    [2, 0, 0, 0, 1, 1],
+    [0, 0]
+]
 LEFT = (-1, 0)
 LEFT_DOWN = (-1, -1)
 DOWN = (0, -1)
@@ -34,6 +43,12 @@ test_legal_move_data = [
     (test_win_board1, 0, False)
 ]
 
+test_board_full_data = [
+    (test_win_board1, True),
+    (test_win_board2, False),
+    (None, False),
+]
+
 
 @pytest.mark.parametrize("col, row, direction, output", test_win_data)
 def test_check_win_dir(col, row, direction, output):
@@ -50,5 +65,9 @@ def test_is_legal_move(board, col, output):
     assert c.is_legal_move(col) == output
 
 
-def check_board_full():
-    pass
+@pytest.mark.parametrize("board, output", test_board_full_data)
+def test_check_board_full(board, output):
+    c = ConnectFour(7, 6)
+    if board is not None:
+        c.board = test_win_board1
+    assert c.check_board_full() == output
