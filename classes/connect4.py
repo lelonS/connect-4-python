@@ -83,9 +83,9 @@ class ConnectFour:
     def reset_game(self):
         self.board = [[] for _ in range(self.total_cols)]
 
-    def check_draw(self):
-        if self.check_board_full() and self.check_no_winner():
-            return True
-        return False
-
-
+    def check_board_full(self):
+        # Check if any legal move exists
+        for col in range(self.total_cols):
+            if self.is_legal_move(col):
+                return False
+        return True
