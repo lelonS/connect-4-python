@@ -1,6 +1,6 @@
 import pygame
 import constants as const
-from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS
+from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS, SEABLUE
 from classes.connect4 import ConnectFour
 from classes.falling_point import FallingPoint
 
@@ -20,18 +20,18 @@ def get_tile_pos(col: int, row: int) -> tuple[float, float]:
 
 def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
     # Create surface to use for each tile
-    tile_suface = pygame.Surface((TILE_SIZE, TILE_SIZE), pygame.SRCALPHA)
+    tile_surface = pygame.Surface((TILE_SIZE, TILE_SIZE), pygame.SRCALPHA)
     # Fill with blue background
-    tile_suface.fill(const.BLUE)
+    tile_surface.fill(SEABLUE)
     # Draw circle cutout
-    pygame.draw.circle(tile_suface, (0, 0, 0, 0),
+    pygame.draw.circle(tile_surface, (0, 0, 0, 0),
                        (TILE_SIZE / 2, TILE_SIZE / 2), TILE_SIZE / 2 - 5)
 
     for col_num in range(cols):
         for row_num in range(rows):
             # Draw tile_surface to screen at each tile
             pos = get_tile_pos(col_num, row_num)
-            screen.blit(tile_suface, pos)
+            screen.blit(tile_surface, pos)
 
 
 def draw_piece(screen: pygame.Surface, pos: tuple[float, float], plr: int):
@@ -79,5 +79,5 @@ def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
 
 def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict[tuple, FallingPoint]):
     # Draw board
-    draw_pieces(screen, game.board,  falling_pieces)
+    draw_pieces(screen, game.board, falling_pieces)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
