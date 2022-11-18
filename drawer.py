@@ -1,5 +1,4 @@
 import pygame
-import constants as const
 from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS, SEABLUE
 from classes.connect4 import ConnectFour
 from classes.falling_point import FallingPoint
@@ -25,7 +24,7 @@ def draw_board_overlay(screen: pygame.Surface, cols: int, rows: int):
     tile_surface.fill(SEABLUE)
     # Draw circle cutout
     pygame.draw.circle(tile_surface, (0, 0, 0, 0),
-                       (TILE_SIZE / 2, TILE_SIZE / 2), TILE_SIZE / 2 - 5)
+                       (TILE_SIZE / 2, TILE_SIZE / 2), TILE_SIZE * 0.45)
 
     for col_num in range(cols):
         for row_num in range(rows):
