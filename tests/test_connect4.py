@@ -1,6 +1,7 @@
 import pytest
 from classes.connect4 import ConnectFour
 
+# Full board
 test_win_board1 = [
     [0, 0, 0, 0, 0, 1],
     [0, 0, 1, 0, 1, 1],
@@ -10,6 +11,7 @@ test_win_board1 = [
     [2, 0, 0, 0, 1, 1],
     [0, 0, 0, 0, 0, 1]
 ]
+# Half-empty board (don't fill board)
 test_win_board2 = [
     [0, 0, 0],
     [0, 0, 1, 0, 1, 1],
