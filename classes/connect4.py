@@ -89,4 +89,5 @@ class ConnectFour:
         for col in range(self.total_cols):
             if self.is_legal_move(col):
                 return False
+        # No legal move exists
         return True
