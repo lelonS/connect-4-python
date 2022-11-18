@@ -65,7 +65,7 @@ def main():
             if winner is not None:
                 # Draw win text
                 draw_text(
-                    screen, f"Player {winner} won!! Press R to restart", 32, 200, 50, PLR_COLORS[winner])
+                    screen, f"Player {winner + 1} won!! Press R to restart", 32, 200, 50, PLR_COLORS[winner])
             else:
                 # Draw tie text
                 draw_text(screen, "Tie.. Press R to restart",
