@@ -20,7 +20,7 @@ def update_all_falling(falling_pieces: dict[tuple, FallingPoint], dt: float):
         del falling_pieces[key]
 
 
-def check_all_past(falling_pieces: dict, past_y: float):
+def check_all_past(falling_pieces: dict, past_y: float) -> bool:
     # Check if all falling pieces are past a y value
     for piece in falling_pieces.values():
         if piece.y <= past_y:
@@ -62,9 +62,15 @@ def main():
             falling_pieces, get_tile_pos(0, c.total_rows - 1)[1])
 
         if game_over:
-            # Draw win text
-            draw_text(
-                screen, f"Player {winner} won!! Press R to restart", 32, 200, 50, PLR_COLORS[winner])
+            if winner is not None:
+                # Draw win text
+                draw_text(
+                    screen, f"Player {winner} won!! Press R to restart", 32, 200, 50, PLR_COLORS[winner])
+            else:
+                # Draw tie text
+                draw_text(screen, "Tie.. Press R to restart",
+                          32, 200, 50, (125, 125, 125))
+
         elif can_move:
             # Draw column mouse hovers over if user can move
             hover_mouse(screen, mouse_col, c.total_rows, c.turn)
@@ -89,11 +95,16 @@ def main():
                         # Someone won
                         game_over = True
                         winner = c.board[mouse_col][landed_row]
+                    elif c.check_board_full():
+                        # Board full, and no winner = tue
+                        game_over = True
+                        winner = None
             elif event.type == pygame.KEYDOWN:
                 if game_over and event.key == pygame.K_r:
                     # Reset game
                     c.reset_game()
                     game_over = False
+                    winner = None
 
         update_all_falling(falling_pieces, seconds)
         draw_board(screen, c, falling_pieces)
