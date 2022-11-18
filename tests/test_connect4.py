@@ -32,7 +32,7 @@ test_win_data = [
     (3, 2, DOWN, True),
     (3, 2, RIGHT_DOWN, True),
     (3, 0, LEFT, False),
-    (0, 0, LEFT, False),
+    (0, 0, LEFT, False)
 ]
 
 test_legal_move_data = [
@@ -46,7 +46,7 @@ test_legal_move_data = [
 test_board_full_data = [
     (test_win_board1, True),
     (test_win_board2, False),
-    (None, False),
+    (None, False)
 ]
 
 
