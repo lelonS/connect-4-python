@@ -2,6 +2,7 @@ import pygame
 import constants as const
 from constants import BOARD_BOTTOM_LEFT, TILE_SIZE, PLR_COLORS
 from classes.connect4 import ConnectFour
+from classes.falling_point import FallingPoint
 
 
 def get_col_from_x(x: int) -> int:
@@ -47,12 +48,12 @@ def draw_piece(screen: pygame.Surface, pos: tuple[float, float], plr: int):
     pygame.draw.circle(screen, PLR_COLORS[plr], (x_mid, y_mid), half_tile)
 
 
-def draw_piece_at_col(screen: pygame.Surface, col: int, row: int, plr: int):
+def draw_piece_at_tile(screen: pygame.Surface, col: int, row: int, plr: int):
     pos = get_tile_pos(col, row)
     draw_piece(screen, pos, plr)
 
 
-def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: dict):
+def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: dict[tuple, FallingPoint]):
     """Draw all pieces in board"""
     for col_num in range(len(board)):
         for row_num in range(len(board[col_num])):
@@ -61,8 +62,8 @@ def draw_pieces(screen: pygame.Surface, board: list[list[int]], falling_pieces: 
                 piece = falling_pieces[(col_num, row_num)]
                 draw_piece(screen, (piece.x, piece.y), board[col_num][row_num])
             else:
-                draw_piece_at_col(screen, col_num, row_num,
-                                  board[col_num][row_num])
+                draw_piece_at_tile(screen, col_num, row_num,
+                                   board[col_num][row_num])
 
 
 def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int, color: tuple):
@@ -72,10 +73,10 @@ def draw_text(screen: pygame.Surface, text: str, size: int, x: int, y: int, colo
 
 
 def hover_mouse(screen: pygame.Surface, col: int, row: int, plr: int):
-    draw_piece_at_col(screen, col, row, plr)
+    draw_piece_at_tile(screen, col, row, plr)
 
 
-def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict):
+def draw_board(screen: pygame.Surface, game: ConnectFour, falling_pieces: dict[tuple, FallingPoint]):
     # Draw board
     draw_pieces(screen, game.board,  falling_pieces)
     draw_board_overlay(screen, game.total_cols, game.total_rows)
