@@ -48,10 +48,9 @@ class ConnectFour:
         return counter
 
     def check_win_at(self, col: int, row: int) -> bool:
-        # direction_list = [left, left-down, down, right-down] ← ↙ ↓ ↘
-        # direction_list_opp = [right, right-up, up, left-up] → ↗ ↑ ↖
-        direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]
-        direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]
+        """Checks if a piece at col and row is part of a winning combination."""
+        direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]  # ← ↙ ↓ ↘
+        direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]  # → ↗ ↑ ↖
 
         for i in range(4):
             first_check = self.check_win_dir(col, row, direction_list[i])
