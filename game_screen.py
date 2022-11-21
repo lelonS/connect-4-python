@@ -17,8 +17,6 @@ class GameScreen:
     player_colors = list[tuple[int, int, int]]
 
     can_move: bool
-    game_over: bool
-    winner: int
 
     def __init__(self, screen: pygame.Surface, board_bottom_left: tuple[int, int], plrs: list[Player]):
         self.screen = screen
@@ -132,21 +130,10 @@ class GameScreen:
                 self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(
                     top_pos, 0, 2300, landed_pos[1])
 
-                # Check win
-                if self.game.check_win_at(mouse_col, landed_row):
-                    # Someone won
-                    self.game_over = True
-                    self.winner = self.game.board[mouse_col][landed_row]
-                elif self.game.check_board_full():
-                    # Board full, and no winner = tue
-                    self.game_over = True
-                    self.winner = None
         elif event.type == pygame.KEYDOWN:
-            if self.game_over and event.key == pygame.K_r:
+            if self.game.has_won or self.game.has_drawn and event.key == pygame.K_r:
                 # Reset game
                 self.game.reset_game()
-                self.game_over = False
-                self.winner = None
 
     def run_game(self):
 
@@ -179,15 +166,14 @@ class GameScreen:
             self.can_move = self.check_all_past(
                 self.get_tile_pos(0, self.game.total_rows - 1)[1])
 
-            if self.game_over:
-                if self.winner is not None:
-                    # Draw win text
-                    draw_text(self.screen, f"Player {self.winner + 1} won!! Press R to restart", 32, 200, 50,
-                              self.player_colors[self.winner])
-                else:
-                    # Draw tie text
-                    draw_text(self.screen, "Tie.. Press R to restart",
-                              32, 200, 50, (125, 125, 125))
+            if self.game.has_won:
+                # Draw win text
+                draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
+                          self.player_colors[self.game.winner])
+            elif self.game.has_drawn:
+                # Draw tie text
+                draw_text(self.screen, "Tie.. Press R to restart",
+                          32, 200, 50, (125, 125, 125))
             elif self.can_move:
                 # Draw column mouse hovers over if user can move
                 self.hover_mouse(
