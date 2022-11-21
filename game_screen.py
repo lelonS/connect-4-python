@@ -168,13 +168,15 @@ class GameScreen:
         while running:
             self.screen.fill(BLACK)
 
+            # Get clock info
             ms = clock.tick()
             seconds = ms / 1000
 
+            # Get mouse info
             mouse_pos = pygame.mouse.get_pos()
             mouse_col = self.get_col_from_x(mouse_pos[0])
 
-            # Check if all past or in top row
+            # Check if all falling pieces past or in top row
             self.can_move = self.check_all_past(
                 self.get_tile_pos(0, self.game.total_rows - 1)[1])
 
@@ -187,7 +189,6 @@ class GameScreen:
                     # Draw tie text
                     draw_text(self.screen, "Tie.. Press R to restart",
                               32, 200, 50, (125, 125, 125))
-
             elif self.can_move:
                 # Draw column mouse hovers over if user can move
                 self.hover_mouse(
