@@ -25,15 +25,13 @@ class ConnectFour:
             return True  # Move made success
         return False  # Move not made
 
-    def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> bool:
-        """From the col and row a piece is placed, check_dir_win takes
-        a direction and counts the same pieces in all directions.
-        Returns True if there's 4 or more total pieces in a line. """
+    def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> int:
+        """From the col and row a piece is placed, the function takes
+        a direction and returns the number of pieces that share the same
+        value in a direction (not including the placed piece)."""
         current_plr_pos = self.board[col][row]
-        first_check = 0
-        second_check = 0
+        counter = 0
 
-        # First check (i.e. to the left)
         for i in range(1, 4):
             col_check = col + i * direction[0]
             row_check = row + i * direction[1]
@@ -42,42 +40,25 @@ class ConnectFour:
                 break
             if 0 > row_check or row_check >= len(self.board[col_check]):
                 break
+            # Adds to the counter when we find a piece that share the same value
             if current_plr_pos == self.board[col_check][row_check]:
-                # Adds to the counter when we find an identical piece
-                first_check += 1
+                counter += 1
             else:
                 break
-
-        # Second check (reversed direction from first check)
-        for i in range(1, 4):
-            col_check = col - i * direction[0]
-            row_check = row - i * direction[1]
-            # Stops looking for pieces if the next one is out of bounds
-            if 0 > col_check or col_check >= self.total_cols:
-                break
-            if 0 > row_check or row_check >= len(self.board[col_check]):
-                break
-            if current_plr_pos == self.board[col_check][row_check]:
-                # Adds to the counter when we find an identical piece
-                second_check += 1
-            else:
-                break
-
-        if first_check + second_check >= 3:
-            # Only have to check if total is 3 or more because we don't count
-            # initial piece.
-            return True
-        else:
-            return False
+        return counter
 
     def check_win_at(self, col: int, row: int) -> bool:
         # direction_list = [left, left-down, down, right-down] ← ↙ ↓ ↘
+        # direction_list_opp = [right, right-up, up, left-up] → ↗ ↑ ↖
         direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]
+        direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]
 
-        for direction in direction_list:
-            # check_dir_win checks the above directions and their opposites.
-            # That way we check victory condition for all directions.
-            if self.check_win_dir(col, row, direction):
+        for i in range(4):
+            first_check = self.check_win_dir(col, row, direction_list[i])
+            second_check = self.check_win_dir(col, row, direction_list_opp[i])
+
+            # return True if there are 4 or more pieces in a row from any direction
+            if first_check + second_check + 1 >= 4:
                 return True
         return False
 
