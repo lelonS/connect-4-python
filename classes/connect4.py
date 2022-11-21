@@ -4,8 +4,8 @@ class ConnectFour:
     total_cols: int
     total_rows: int
     number_of_players: int = 2  # Max 5
-    has_won: bool = False
-    has_drawn: bool = False
+    is_won: bool = False
+    is_tied: bool = False
     winner: int = -1
 
     def __init__(self, total_cols: int, total_rows: int) -> None:
@@ -25,10 +25,10 @@ class ConnectFour:
 
             # Check if move won the game
             if self.check_win_at(col, len(self.board[col]) - 1):
-                self.has_won = True
+                self.is_won = True
                 self.winner = self.turn
             elif self.check_board_full():
-                self.has_drawn = True
+                self.is_tied = True
 
             # Change turn 0 -> 1 -> 0
             # self.turn = 1 if self.turn == 0 else 0
@@ -74,8 +74,8 @@ class ConnectFour:
 
     def reset_game(self):
         self.board = [[] for _ in range(self.total_cols)]
-        self.has_won = False
-        self.has_drawn = False
+        self.is_won = False
+        self.is_tied = False
         self.winner = -1
 
     def check_board_full(self) -> bool:

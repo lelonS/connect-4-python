@@ -126,7 +126,7 @@ class GameScreen:
                     top_pos, 0, 2300, landed_pos[1])
 
         elif event.type == pygame.KEYDOWN:
-            if self.game.has_won or self.game.has_drawn and event.key == pygame.K_r:
+            if self.game.is_won or self.game.is_tied and event.key == pygame.K_r:
                 # Reset game
                 self.game.reset_game()
 
@@ -161,12 +161,12 @@ class GameScreen:
             can_move = self.check_all_past(
                 self.get_tile_pos(0, self.game.total_rows - 1)[1])
 
-            if self.game.has_won:
+            if self.game.is_won:
                 # Draw win text
                 can_move = False
                 draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
                           self.player_colors[self.game.winner])
-            elif self.game.has_drawn:
+            elif self.game.is_tied:
                 can_move = False
                 # Draw tie text
                 draw_text(self.screen, "Tie.. Press R to restart",
