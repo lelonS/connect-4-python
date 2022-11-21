@@ -2,7 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import SEABLUE, BLACK, PLR_COLORS
+from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE
 from drawer import draw_text
 
 
@@ -20,10 +20,10 @@ class GameScreen:
     game_over: bool
     winner: int
 
-    def __init__(self, screen: pygame.Surface, tile_size: int, board_bottom_left: tuple[int, int], plrs: list[Player]):
+    def __init__(self, screen: pygame.Surface, board_bottom_left: tuple[int, int], plrs: list[Player]):
         self.screen = screen
         self.falling_pieces = {}
-        self.tile_size = tile_size
+        self.tile_size = TILE_SIZE
         self.board_bottom_left = board_bottom_left
         self.players = plrs
         self.player_colors = PLR_COLORS
@@ -197,7 +197,8 @@ class GameScreen:
             # Handle pygame events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    pygame.quit()
+                    exit()
                 else:
                     self.handle_event(event, mouse_col)
 
@@ -205,11 +206,9 @@ class GameScreen:
             self.draw_board()
             pygame.display.update()
 
-        pygame.quit()
-
 
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((900, 600))
-    game_screen = GameScreen(screen, 80, (0, 600), (900, 600))
+    game_screen = GameScreen(screen, (0, 600), (900, 600))
     game_screen.run_game()
