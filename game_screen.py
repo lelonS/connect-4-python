@@ -86,9 +86,6 @@ class GameScreen:
                     self.draw_piece_at_tile(col_num, row_num,
                                             board[col_num][row_num])
 
-    def hover_mouse(self, col: int, row: int, plr: int):
-        self.draw_piece_at_tile(col, row, plr)
-
     def draw_board(self):
         # Draw board
         self.draw_pieces()
@@ -176,7 +173,7 @@ class GameScreen:
                           32, 200, 50, (125, 125, 125))
             elif can_move:
                 # Draw column mouse hovers over if user can move
-                self.hover_mouse(
+                self.draw_piece_at_tile(
                     mouse_col, self.game.total_rows, self.game.turn)
 
             # Handle pygame events
