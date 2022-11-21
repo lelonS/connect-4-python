@@ -113,7 +113,7 @@ class GameScreen:
         return True
 
     def handle_event(self, event: pygame.event.Event, mouse_col: int, can_move: bool):
-        if not self.game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
             move_success = self.game.make_move(mouse_col)
             if move_success:
                 landed_row = len(self.game.board[mouse_col]) - 1
@@ -135,11 +135,8 @@ class GameScreen:
         # Create caption
         pygame.display.set_caption("Connect4")
 
-        self.game_over = False
-
         # Dictionary (col, row):FallingPoint
         clock = pygame.time.Clock()
-        self.winner = None
 
         self.draw_board()
         pygame.display.update()
@@ -191,6 +188,6 @@ class GameScreen:
 
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode((900, 600))
-    game_screen = GameScreen(screen, (0, 600), 7, 6, [])
+    s = pygame.display.set_mode((900, 600))
+    game_screen = GameScreen(s, (0, 600), 7, 6, [])
     game_screen.run_game()
