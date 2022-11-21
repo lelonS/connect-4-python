@@ -86,11 +86,6 @@ class GameScreen:
                     self.draw_piece_at_tile(col_num, row_num,
                                             board[col_num][row_num])
 
-    def draw_board(self):
-        # Draw board
-        self.draw_pieces()
-        self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
-
     def update_all_falling(self, dt: float):
         # Pieces past max_y to remove
         keys_to_remove = []
@@ -130,6 +125,16 @@ class GameScreen:
                 # Reset game
                 self.game.reset_game()
 
+    def draw_win_text(self):
+        if self.game.is_won:
+            # Draw win text
+            draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
+                      self.player_colors[self.game.winner])
+        elif self.game.is_tied:
+            # Draw tie text
+            draw_text(self.screen, "Tie.. Press R to restart",
+                      32, 200, 50, (125, 125, 125))
+
     def run_game(self):
 
         # Create caption
@@ -137,9 +142,6 @@ class GameScreen:
 
         # Dictionary (col, row):FallingPoint
         clock = pygame.time.Clock()
-
-        self.draw_board()
-        pygame.display.update()
 
         # Loop
         running = True
@@ -149,29 +151,27 @@ class GameScreen:
             # Get clock info
             ms = clock.tick()
             seconds = ms / 1000
+            self.update_all_falling(seconds)
 
             # Get mouse info
             mouse_pos = pygame.mouse.get_pos()
             mouse_col = self.get_col_from_x(mouse_pos[0])
 
             # Check if all falling pieces past or in top row
-            can_move = self.check_all_past(
+            all_past = self.check_all_past(
                 self.get_tile_pos(0, self.game.total_rows - 1)[1])
+            can_move = all_past and not self.game.is_won and not self.game.is_tied
 
-            if self.game.is_won:
-                # Draw win text
-                can_move = False
-                draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
-                          self.player_colors[self.game.winner])
-            elif self.game.is_tied:
-                can_move = False
-                # Draw tie text
-                draw_text(self.screen, "Tie.. Press R to restart",
-                          32, 200, 50, (125, 125, 125))
-            elif can_move:
+            # Drawing
+            if can_move:
                 # Draw column mouse hovers over if user can move
                 self.draw_piece_at_tile(
                     mouse_col, self.game.total_rows, self.game.turn)
+
+            self.draw_win_text()
+            self.draw_pieces()
+            self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
+            pygame.display.update()
 
             # Handle pygame events
             for event in pygame.event.get():
@@ -180,10 +180,6 @@ class GameScreen:
                     exit()
                 else:
                     self.handle_event(event, mouse_col, can_move)
-
-            self.update_all_falling(seconds)
-            self.draw_board()
-            pygame.display.update()
 
 
 if __name__ == "__main__":
