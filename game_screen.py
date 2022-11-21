@@ -16,14 +16,14 @@ class GameScreen:
     players: list[Player]
     player_colors = list[tuple[int, int, int]]
 
-    def __init__(self, screen: pygame.Surface, board_bottom_left: tuple[int, int], plrs: list[Player]):
+    def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         self.screen = screen
         self.falling_pieces = {}
         self.tile_size = TILE_SIZE
-        self.board_bottom_left = board_bottom_left
+        self.board_bottom_left = board_bl
         self.players = plrs
         self.player_colors = PLR_COLORS
-        self.game = ConnectFour(7, 6)
+        self.game = ConnectFour(cols, rows)
 
     def get_col_from_x(self, x: int) -> int:
         return (x - self.board_bottom_left[0]) // self.tile_size
@@ -193,5 +193,5 @@ class GameScreen:
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((900, 600))
-    game_screen = GameScreen(screen, (0, 600), (900, 600))
+    game_screen = GameScreen(screen, (0, 600), 7, 6, [])
     game_screen.run_game()

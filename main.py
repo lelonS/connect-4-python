@@ -11,7 +11,7 @@ def main():
     pygame.display.set_caption("Connect4")
 
     # Open game screen
-    game_screen = GameScreen(screen, (0, 600), [])
+    game_screen = GameScreen(screen, (0, 600), 7, 6, [])
     game_screen.run_game()
 
 
