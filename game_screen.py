@@ -166,9 +166,11 @@ class GameScreen:
 
             if self.game.has_won:
                 # Draw win text
+                can_move = False
                 draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
                           self.player_colors[self.game.winner])
             elif self.game.has_drawn:
+                can_move = False
                 # Draw tie text
                 draw_text(self.screen, "Tie.. Press R to restart",
                           32, 200, 50, (125, 125, 125))
