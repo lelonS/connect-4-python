@@ -60,8 +60,8 @@ class GameScreen:
         x_pos, y_pos = pos
 
         # Get middle of tile
-        x_mid = x_pos + self.tile_size / 2
-        y_mid = y_pos + self.tile_size / 2
+        x_mid = x_pos + half_tile
+        y_mid = y_pos + half_tile
 
         plr_color = self.player_colors[plr]  # self.players[plr].color
         # Draw piece
