@@ -183,7 +183,7 @@ class GameScreen:
                     pygame.quit()
                     exit()
                 else:
-                    self.handle_event(event, mouse_col)
+                    self.handle_event(event, mouse_col, can_move)
 
             self.update_all_falling(seconds)
             self.draw_board()
