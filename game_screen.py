@@ -16,8 +16,6 @@ class GameScreen:
     players: list[Player]
     player_colors = list[tuple[int, int, int]]
 
-    can_move: bool
-
     def __init__(self, screen: pygame.Surface, board_bottom_left: tuple[int, int], plrs: list[Player]):
         self.screen = screen
         self.falling_pieces = {}
@@ -117,8 +115,8 @@ class GameScreen:
                 return False
         return True
 
-    def handle_event(self, event: pygame.event.Event, mouse_col: int):
-        if not self.game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.can_move:
+    def handle_event(self, event: pygame.event.Event, mouse_col: int, can_move: bool):
+        if not self.game_over and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
             move_success = self.game.make_move(mouse_col)
             if move_success:
                 landed_row = len(self.game.board[mouse_col]) - 1
@@ -163,7 +161,7 @@ class GameScreen:
             mouse_col = self.get_col_from_x(mouse_pos[0])
 
             # Check if all falling pieces past or in top row
-            self.can_move = self.check_all_past(
+            can_move = self.check_all_past(
                 self.get_tile_pos(0, self.game.total_rows - 1)[1])
 
             if self.game.has_won:
@@ -174,7 +172,7 @@ class GameScreen:
                 # Draw tie text
                 draw_text(self.screen, "Tie.. Press R to restart",
                           32, 200, 50, (125, 125, 125))
-            elif self.can_move:
+            elif can_move:
                 # Draw column mouse hovers over if user can move
                 self.hover_mouse(
                     mouse_col, self.game.total_rows, self.game.turn)
