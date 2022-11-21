@@ -150,10 +150,9 @@ class GameScreen:
 
     def run_game(self):
 
-        # Create screen
+        # Create caption
         pygame.display.set_caption("Connect4")
 
-        # c = ConnectFour(7, 6)  # 7, 6
         self.game_over = False
 
         # Dictionary (col, row):FallingPoint
