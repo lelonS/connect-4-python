@@ -44,7 +44,7 @@ class TextBox:
 
 if __name__ == '__main__':
     pygame.init()
-    screen = pygame.display.set_mode((500, 500))
+    s = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("TextBox")
 
     text_box = TextBox(100, 100, 200, 50, "PLAYER1", 15)
@@ -54,8 +54,8 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-        screen.fill((0, 0, 0))
-        text_box.draw(screen)
+        s.fill((0, 0, 0))
+        text_box.draw(s)
         pygame.display.update()
 
     pygame.quit()
