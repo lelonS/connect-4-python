@@ -40,3 +40,22 @@ class TextBox:
         else:
             text = self.font.render(self.text, True, self.text_color)
         screen.blit(text, (self.rect.x + 5, self.rect.y + 5))
+
+
+if __name__ == '__main__':
+    pygame.init()
+    screen = pygame.display.set_mode((500, 500))
+    pygame.display.set_caption("TextBox")
+
+    text_box = TextBox(100, 100, 200, 50, "PLAYER1", 15)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        screen.fill((0, 0, 0))
+        text_box.draw(screen)
+        pygame.display.update()
+
+    pygame.quit()
