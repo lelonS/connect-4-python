@@ -37,6 +37,7 @@ class GameScreen:
         return x_coord, y_coord
 
     def draw_board_overlay(self, cols: int, rows: int):
+        """Draws the board overlay with circle cutouts"""
         # Create surface to use for each tile
         tile_surface = pygame.Surface(
             (self.tile_size, self.tile_size), pygame.SRCALPHA)
@@ -87,6 +88,7 @@ class GameScreen:
                                             board[col_num][row_num])
 
     def update_all_falling(self, dt: float):
+        """Updates all falling pieces"""
         # Pieces past max_y to remove
         keys_to_remove = []
 
@@ -101,13 +103,14 @@ class GameScreen:
             del self.falling_pieces[key]
 
     def check_all_past(self, past_y: float) -> bool:
-        # Check if all falling pieces are past a y value
+        """Checks if all falling pieces are past a certain y value"""
         for piece in self.falling_pieces.values():
             if piece.y <= past_y:
                 return False
         return True
 
     def handle_event(self, event: pygame.event.Event, mouse_col: int, can_move: bool):
+        """Checks event type and handles it"""
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
             move_success = self.game.make_move(mouse_col)
             if move_success:
