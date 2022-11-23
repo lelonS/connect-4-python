@@ -28,6 +28,14 @@ class IntSelector:
         self.font_color = pygame.Color('white')
         self.background_color = pygame.Color('black')
 
+    def increase(self):
+        if self.value < self.max_value:
+            self.value += 1
+
+    def decrease(self):
+        if self.value > self.min_value:
+            self.value -= 1
+
     def draw(self, surface: pygame.Surface):
         # Draw the background
         pygame.draw.rect(surface, self.background_color, (self.x,
@@ -40,3 +48,6 @@ class IntSelector:
         text_size = value_text.get_size()
         surface.blit(value_text, (self.x + self.button_width +
                      text_size[0] / 2, self.y))
+
+    def update(self, event: pygame.event.Event):
+        pass
