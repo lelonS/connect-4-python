@@ -7,6 +7,9 @@ class ConnectFour:
     is_won: bool = False
     is_tied: bool = False
     winner: int = -1
+    #(coln : row)
+    winner_tile_1 : tuple [int, int ]
+    winner_tile_2 : tuple [int, int ]
 
     def __init__(self, total_cols: int, total_rows: int) -> None:
         self.total_cols = total_cols
