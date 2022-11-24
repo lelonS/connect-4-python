@@ -42,10 +42,11 @@ class TextBox:
             text = self.font.render(self.default_text, True, self.default_text_color)
         else:
             if self.is_focused:
-                text = self.font.render(self.text + "<", True, self.text_color)
+                text = self.font.render(self.text + "▮", True, self.text_color)
             else:
                 text = self.font.render(self.text, True, self.text_color)
-        screen.blit(text, (self.rect.x + 10, self.rect.y + 10))
+        # screen.blit(text, (self.rect.x + 10, self.rect.y + 10))
+        screen.blit(text, text.get_rect(center=self.rect.center))
 
     def update(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -60,6 +61,7 @@ class TextBox:
                 self.text = self.text[:-1]
             elif event.key == pygame.K_RETURN:
                 self.is_focused = False
+                self.bg_color = COLOR_INACTIVE
             elif len(self.text) < self.max_chars:
                 if event.unicode.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789":
                     self.text += event.unicode.upper()
