@@ -1,5 +1,6 @@
 import pygame
 
+
 class Button:
     text: str
     rect: pygame.Rect
@@ -9,7 +10,6 @@ class Button:
     border_width: int
     font: pygame.font.Font
     font_size: int
-
 
     def __init__(self, x: int, y: int, width: int, height: int, text: str):
         self.text = text
@@ -21,13 +21,13 @@ class Button:
         self.font_size = height
         self.font = pygame.font.SysFont("consolas", self.font_size)
 
-
     def draw(self, screen: pygame.Surface):
         # Draw background
         pygame.draw.rect(screen, self.bg_color, self.rect)
         # Draw border
-        pygame.draw.rect(screen, self.border_color, self.rect, self.border_width)
-        #draw text
+        pygame.draw.rect(screen, self.border_color,
+                         self.rect, self.border_width)
+        # draw text
         text = self.font.render(self.text, True, self.text_color)
         screen.blit(text, (self.rect.x, self.rect.y))
 
@@ -60,4 +60,3 @@ if __name__ == '__main__':
         pygame.display.update()
 
     pygame.quit()
-
