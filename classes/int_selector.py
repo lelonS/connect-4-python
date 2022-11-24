@@ -26,17 +26,17 @@ class IntSelector:
         self.min_value = min_value
         self.max_value = max_value
         self.font = pygame.font.SysFont('consolas', height)
-        self.font_color = pygame.Color('white')
-        self.background_color = pygame.Color('black')
+        self.font_color = (255, 255, 255)
+        self.background_color = (0, 0, 0)
 
         self.decrease_button = Button(x, y, button_width, height, '-')
         self.increase_button = Button(
             x + button_width * 2, y, button_width, height, '+')
 
-        self.decrease_button.bg_color = (0, 0, 0)
-        self.increase_button.bg_color = (0, 0, 0)
-        self.decrease_button.text_color = (255, 255, 255)
-        self.increase_button.text_color = (255, 255, 255)
+        self.decrease_button.bg_color = self.background_color
+        self.increase_button.bg_color = self.background_color
+        self.decrease_button.text_color = self.font_color
+        self.increase_button.text_color = self.font_color
 
     def increase(self):
         if self.value < self.max_value:
