@@ -72,7 +72,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    int_selector = IntSelector(100, 100, 50, 50, 0, 0, 10)
+    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 10)
 
     while True:
         clock.tick(60)
