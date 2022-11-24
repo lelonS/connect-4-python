@@ -27,9 +27,11 @@ class Button:
         # Draw border
         pygame.draw.rect(screen, self.border_color,
                          self.rect, self.border_width)
-        # draw text
+        # draw text in center
         text = self.font.render(self.text, True, self.text_color)
-        screen.blit(text, (self.rect.x, self.rect.y))
+        text_size = text.get_size()
+        screen.blit(text, (self.rect.centerx - text_size[0] / 2,
+                           self.rect.centery - text_size[1] / 2))
 
     def isClicked(self, event) -> bool:
         pos = pygame.mouse.get_pos()
