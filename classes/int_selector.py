@@ -29,9 +29,9 @@ class IntSelector:
         self.font_color = (255, 255, 255)
         self.background_color = (0, 0, 0)
 
-        self.decrease_button = Button(x, y, btn_width, height, '-')
+        self.decrease_button = Button(x, y, btn_width, height, '-', self.decrease)
         self.increase_button = Button(
-            x + btn_width * 2, y, btn_width, height, '+')
+            x + btn_width * 2, y, btn_width, height, '+', self.increase)
 
         self.decrease_button.bg_color = self.background_color
         self.increase_button.bg_color = self.background_color
@@ -60,10 +60,8 @@ class IntSelector:
                                   1.5 - text_size[0] / 2, self.y))
 
     def update(self, event: pygame.event.Event):
-        if self.increase_button.update(event):
-            self.increase()
-        if self.decrease_button.update(event):
-            self.decrease()
+        self.increase_button.update(event)
+        self.decrease_button.update(event)
 
 
 if __name__ == "__main__":

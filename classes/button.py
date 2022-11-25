@@ -12,8 +12,9 @@ class Button:
     hover_font: pygame.font.Font
     font_size: int
     hover: bool
+    on_click: callable
 
-    def __init__(self, x: int, y: int, width: int, height: int, text: str):
+    def __init__(self, x: int, y: int, width: int, height: int, text: str, on_click: callable):
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
         self.text_color = (0, 0, 0)
@@ -24,6 +25,7 @@ class Button:
         self.font = pygame.font.SysFont("consolas", self.font_size)
         self.hover_font = pygame.font.SysFont("consolas", int(self.font_size * 1.2))
         self.hover = False
+        self.on_click = on_click
 
     def draw(self, screen: pygame.Surface):
         # Draw background
@@ -41,13 +43,13 @@ class Button:
         #                    self.rect.centery - text_size[1] / 2))
         screen.blit(text, text.get_rect(center=self.rect.center))
 
-    def update(self, event) -> bool:
+    def update(self, event):
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             self.hover = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    return True
+                    self.on_click()
         else:
             self.hover = False
 
@@ -57,14 +59,13 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("Button")
 
-    button = Button(50, 50, 200, 60, 'test')
+    button = Button(50, 50, 200, 60, 'test', lambda: print('clicked'))
 
     run = True
 
     while run:
         for event in pygame.event.get():
-            if button.update(event):
-                print('Clicked')
+            button.update(event)
             if event.type == pygame.QUIT:
                 run = False
 
