@@ -7,9 +7,9 @@ class ConnectFour:
     is_won: bool = False
     is_tied: bool = False
     winner: int = -1
-    #(coln : row)
-    winner_tile_1 : tuple [int, int ]
-    winner_tile_2 : tuple [int, int ]
+    # (coln : row)
+    winner_tile_1: tuple[int, int]
+    winner_tile_2: tuple[int, int]
 
     def __init__(self, total_cols: int, total_rows: int) -> None:
         self.total_cols = total_cols
@@ -39,13 +39,13 @@ class ConnectFour:
             return True  # Move made success
         return False  # Move not made
 
-    def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> int:
+    def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> tuple[int, tuple[int, int]]:
         """From the col and row a piece is placed, the function takes
         a direction and returns the number of pieces that share the same
         value in a direction (not including the placed piece)."""
         current_plr_pos = self.board[col][row]
         counter = 0
-
+        furthest_tile = (col, row)
         for i in range(1, 4):
             col_check = col + i * direction[0]
             row_check = row + i * direction[1]
@@ -57,9 +57,10 @@ class ConnectFour:
             # Adds to the counter when we find a piece that share the same value
             if current_plr_pos == self.board[col_check][row_check]:
                 counter += 1
+                furthest_tile = (col_check, row_check)
             else:
                 break
-        return counter
+        return counter, furthest_tile
 
     def check_win_at(self, col: int, row: int) -> bool:
         """Checks if a piece at col and row is part of a winning combination."""
@@ -67,11 +68,15 @@ class ConnectFour:
         direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]  # → ↗ ↑ ↖
 
         for i in range(4):
-            first_check = self.check_win_dir(col, row, direction_list[i])
-            second_check = self.check_win_dir(col, row, direction_list_opp[i])
+            first_check, tile_1 = self.check_win_dir(
+                col, row, direction_list[i])
+            second_check, tile_2 = self.check_win_dir(
+                col, row, direction_list_opp[i])
 
             # return True if there are 4 or more pieces in a row from any direction
             if first_check + second_check + 1 >= 4:
+                self.winner_tile_1 = tile_1
+                self.winner_tile_2 = tile_2
                 return True
         return False
 
