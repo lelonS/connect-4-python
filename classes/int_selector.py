@@ -17,11 +17,11 @@ class IntSelector:
     increase_button: Button
     decrease_button: Button
 
-    def __init__(self, x: int, y: int, height: int, button_width: int, default_value: int, min_value: int, max_value: int):
+    def __init__(self, x: int, y: int, height: int, btn_width: int, default_value: int, min_value: int, max_value: int):
         self.x = x
         self.y = y
         self.height = height
-        self.button_width = button_width
+        self.button_width = btn_width
         self.value = default_value
         self.min_value = min_value
         self.max_value = max_value
@@ -29,9 +29,9 @@ class IntSelector:
         self.font_color = (255, 255, 255)
         self.background_color = (0, 0, 0)
 
-        self.decrease_button = Button(x, y, button_width, height, '-')
+        self.decrease_button = Button(x, y, btn_width, height, '-')
         self.increase_button = Button(
-            x + button_width * 2, y, button_width, height, '+')
+            x + btn_width * 2, y, btn_width, height, '+')
 
         self.decrease_button.bg_color = self.background_color
         self.increase_button.bg_color = self.background_color
