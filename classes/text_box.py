@@ -36,13 +36,16 @@ class TextBox:
         # Draw background
         pygame.draw.rect(screen, self.bg_color, self.rect)
         # Draw border
-        pygame.draw.rect(screen, self.border_color, self.rect, self.border_width)
+        pygame.draw.rect(screen, self.border_color,
+                         self.rect, self.border_width)
         # Draw text
         if self.text == "" and not self.is_focused:
-            text = self.font.render(self.default_text, True, self.default_text_color)
+            text = self.font.render(
+                self.default_text, True, self.default_text_color)
         else:
             if self.is_focused:
-                text = self.font.render(">" + self.text + "<", True, self.text_color)
+                text = self.font.render(
+                    ">" + self.text + "<", True, self.text_color)
             else:
                 text = self.font.render(self.text, True, self.text_color)
         # screen.blit(text, (self.rect.x + 10, self.rect.y + 10))
