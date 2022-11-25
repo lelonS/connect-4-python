@@ -131,7 +131,7 @@ class GameScreen:
     def draw_win_text(self):
         if self.game.is_won:
             # Draw win text
-            draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
+            draw_text(self.screen, f"Player {self.game.winner + 1} won!! [R]estart, [M]enu", 32, 200, 50,
                       self.player_colors[self.game.winner])
             col_1, row_1 = self.game.winner_tile_1
             col_2, row_2 = self.game.winner_tile_2
@@ -144,7 +144,7 @@ class GameScreen:
 
         elif self.game.is_tied:
             # Draw tie text
-            draw_text(self.screen, "Tie.. Press R to restart",
+            draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
 
     def run_game(self):
@@ -190,6 +190,9 @@ class GameScreen:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                    # Go to menu
+                    running = False
                 else:
                     self.handle_event(event, mouse_col, can_move)
 
