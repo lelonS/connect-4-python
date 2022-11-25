@@ -42,7 +42,7 @@ class TextBox:
             text = self.font.render(self.default_text, True, self.default_text_color)
         else:
             if self.is_focused:
-                text = self.font.render(self.text + "▮", True, self.text_color)
+                text = self.font.render(">" + self.text + "<", True, self.text_color)
             else:
                 text = self.font.render(self.text, True, self.text_color)
         # screen.blit(text, (self.rect.x + 10, self.rect.y + 10))
@@ -69,6 +69,7 @@ class TextBox:
 
 if __name__ == '__main__':
     pygame.init()
+    pygame.key.set_repeat(500, 50)
     s = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("TextBox")
 
