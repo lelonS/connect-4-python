@@ -1,5 +1,5 @@
 import pygame
-from constants import WIDTH, HEIGHT
+from constants import WIDTH, HEIGHT, BOARD_BOTTOM_LEFT
 from game_screen import GameScreen
 from classes.button import Button
 
@@ -11,7 +11,7 @@ pygame.display.set_caption("Connect4")
 
 
 def start_game():
-    game_screen = GameScreen(screen, (0, 600), 7, 6, [])
+    game_screen = GameScreen(screen, BOARD_BOTTOM_LEFT, 7, 6, [])
     game_screen.run_game()
 
 
