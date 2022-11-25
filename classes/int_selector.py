@@ -29,7 +29,8 @@ class IntSelector:
         self.font_color = (255, 255, 255)
         self.background_color = (0, 0, 0)
 
-        self.decrease_button = Button(x, y, btn_width, height, '-', self.decrease)
+        self.decrease_button = Button(
+            x, y, btn_width, height, '-', self.decrease)
         self.increase_button = Button(
             x + btn_width * 2, y, btn_width, height, '+', self.increase)
 

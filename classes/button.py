@@ -23,7 +23,8 @@ class Button:
         self.border_width = 2
         self.font_size = int(height * 0.8)
         self.font = pygame.font.SysFont("consolas", self.font_size)
-        self.hover_font = pygame.font.SysFont("consolas", int(self.font_size * 1.2))
+        self.hover_font = pygame.font.SysFont(
+            "consolas", int(self.font_size * 1.2))
         self.hover = False
         self.on_click = on_click
 
@@ -38,7 +39,6 @@ class Button:
             text = self.hover_font.render(self.text, True, self.text_color)
         else:
             text = self.font.render(self.text, True, self.text_color)
-        text_size = text.get_size()
         # screen.blit(text, (self.rect.centerx - text_size[0] / 2,
         #                    self.rect.centery - text_size[1] / 2))
         screen.blit(text, text.get_rect(center=self.rect.center))
