@@ -47,9 +47,8 @@ class Button:
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             self.hover = True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    self.on_click()
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self.on_click()
         else:
             self.hover = False
 
