@@ -2,7 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE
+from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE
 from drawer import draw_text
 
 
@@ -133,6 +133,18 @@ class GameScreen:
             # Draw win text
             draw_text(self.screen, f"Player {self.game.winner + 1} won!! Press R to restart", 32, 200, 50,
                       self.player_colors[self.game.winner])
+            col_1, row_1 = self.game.winner_tile_1
+            col_2, row_2 = self.game.winner_tile_2
+            x_1, y_1 = self.get_tile_pos(col_1, row_1)
+            x_2, y_2 = self.get_tile_pos(col_2, row_2)
+            h_tile = self.tile_size / 2
+            pos_1 = (x_1 + h_tile, y_1 + h_tile)
+            pos_2 = (x_2 + h_tile, y_2 + h_tile)
+            pygame.draw.line(self.screen,WHITE, pos_1, pos_2, width=10 )
+
+
+
+
         elif self.game.is_tied:
             # Draw tie text
             draw_text(self.screen, "Tie.. Press R to restart",
@@ -171,9 +183,10 @@ class GameScreen:
                 self.draw_piece_at_tile(
                     mouse_col, self.game.total_rows, self.game.turn)
 
-            self.draw_win_text()
+
             self.draw_pieces()
             self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
+            self.draw_win_text()
             pygame.display.update()
 
             # Handle pygame events
