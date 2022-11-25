@@ -11,8 +11,8 @@ class IntSelector:
     min_value: int
     max_value: int
     font: pygame.font.Font
-    font_color: pygame.Color
-    background_color: pygame.Color
+    font_color: tuple[int, int, int]
+    background_color: tuple[int, int, int]
 
     increase_button: Button
     decrease_button: Button
@@ -49,7 +49,7 @@ class IntSelector:
     def draw(self, surface: pygame.Surface):
         # Draw the background
         pygame.draw.rect(surface, self.background_color, (self.x,
-                         self.y, self.button_width * 3, self.height))
+                                                          self.y, self.button_width * 3, self.height))
         # Draw the buttons
         self.increase_button.draw(surface)
         self.decrease_button.draw(surface)
@@ -57,7 +57,7 @@ class IntSelector:
         value_text = self.font.render(str(self.value), True, self.font_color)
         text_size = value_text.get_size()
         surface.blit(value_text, (self.x + self.button_width *
-                     1.5 - text_size[0] / 2, self.y))
+                                  1.5 - text_size[0] / 2, self.y))
 
     def update(self, event: pygame.event.Event):
         if self.increase_button.isClicked(event):
