@@ -17,7 +17,7 @@ def start_game():
 
 def main():
     # Play button
-    play_button = Button(325, 200, 250, 100, "Play", start_game)
+    play_button = Button(325, 200, 250, 100, "PLAY", start_game)
     play_button.bg_color = (0, 0, 0)
     play_button.text_color = (255, 255, 255)
 
