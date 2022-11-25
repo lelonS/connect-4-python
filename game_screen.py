@@ -140,10 +140,7 @@ class GameScreen:
             h_tile = self.tile_size / 2
             pos_1 = (x_1 + h_tile, y_1 + h_tile)
             pos_2 = (x_2 + h_tile, y_2 + h_tile)
-            pygame.draw.line(self.screen,WHITE, pos_1, pos_2, width=10 )
-
-
-
+            pygame.draw.line(self.screen, WHITE, pos_1, pos_2, width=10)
 
         elif self.game.is_tied:
             # Draw tie text
@@ -182,7 +179,6 @@ class GameScreen:
                 # Draw column mouse hovers over if user can move
                 self.draw_piece_at_tile(
                     mouse_col, self.game.total_rows, self.game.turn)
-
 
             self.draw_pieces()
             self.draw_board_overlay(self.game.total_cols, self.game.total_rows)

@@ -7,10 +7,9 @@ class ConnectFour:
     is_won: bool = False
     is_tied: bool = False
     winner: int = -1
-    #(coln : row)
-    winner_tile_1 : tuple [int, int ]
-    winner_tile_2 : tuple [int, int ]
-
+    # (coln : row)
+    winner_tile_1: tuple[int, int]
+    winner_tile_2: tuple[int, int]
 
     def __init__(self, total_cols: int, total_rows: int) -> None:
         self.total_cols = total_cols
@@ -69,8 +68,10 @@ class ConnectFour:
         direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]  # → ↗ ↑ ↖
 
         for i in range(4):
-            first_check, tile_1 = self.check_win_dir(col, row, direction_list[i])
-            second_check, tile_2 = self.check_win_dir(col, row, direction_list_opp[i])
+            first_check, tile_1 = self.check_win_dir(
+                col, row, direction_list[i])
+            second_check, tile_2 = self.check_win_dir(
+                col, row, direction_list_opp[i])
 
             # return True if there are 4 or more pieces in a row from any direction
             if first_check + second_check + 1 >= 4:
