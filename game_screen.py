@@ -128,19 +128,32 @@ class GameScreen:
                 # Reset game
                 self.game.reset_game()
 
-    def draw_win_text(self):
+    def draw_win_line(self):
+
+        # Check if all pieces has fallen
+        if len(self.falling_pieces) > 0:
+            return
+
+        # All pieces have fallen
+        # Get winning line tiles
+        col_1, row_1 = self.game.winner_tile_1
+        col_2, row_2 = self.game.winner_tile_2
+        # Get positions of tiles
+        x_1, y_1 = self.get_tile_pos(col_1, row_1)
+        x_2, y_2 = self.get_tile_pos(col_2, row_2)
+        # Get middle of tiles
+        h_tile = self.tile_size / 2
+        pos_1 = (x_1 + h_tile, y_1 + h_tile)
+        pos_2 = (x_2 + h_tile, y_2 + h_tile)
+        pygame.draw.line(self.screen, WHITE, pos_1, pos_2, width=10)
+
+    def draw_result_info(self):
         if self.game.is_won:
             # Draw win text
             draw_text(self.screen, f"Player {self.game.winner + 1} won!! [R]estart, [M]enu", 32, 200, 50,
                       self.player_colors[self.game.winner])
-            col_1, row_1 = self.game.winner_tile_1
-            col_2, row_2 = self.game.winner_tile_2
-            x_1, y_1 = self.get_tile_pos(col_1, row_1)
-            x_2, y_2 = self.get_tile_pos(col_2, row_2)
-            h_tile = self.tile_size / 2
-            pos_1 = (x_1 + h_tile, y_1 + h_tile)
-            pos_2 = (x_2 + h_tile, y_2 + h_tile)
-            pygame.draw.line(self.screen, WHITE, pos_1, pos_2, width=10)
+            # Draw win line
+            self.draw_win_line()
 
         elif self.game.is_tied:
             # Draw tie text
@@ -182,7 +195,7 @@ class GameScreen:
 
             self.draw_pieces()
             self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
-            self.draw_win_text()
+            self.draw_result_info()
             pygame.display.update()
 
             # Handle pygame events
