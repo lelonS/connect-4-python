@@ -9,7 +9,9 @@ class Button:
     border_color: tuple[int, int, int]
     border_width: int
     font: pygame.font.Font
+    hover_font: pygame.font.Font
     font_size: int
+    hover: bool
 
     def __init__(self, x: int, y: int, width: int, height: int, text: str):
         self.text = text
@@ -18,8 +20,10 @@ class Button:
         self.bg_color = (255, 255, 255)
         self.border_color = (0, 0, 0)
         self.border_width = 2
-        self.font_size = height
+        self.font_size = int(height * 0.8)
         self.font = pygame.font.SysFont("consolas", self.font_size)
+        self.hover_font = pygame.font.SysFont("consolas", int(self.font_size * 1.2))
+        self.hover = False
 
     def draw(self, screen: pygame.Surface):
         # Draw background
@@ -28,17 +32,24 @@ class Button:
         pygame.draw.rect(screen, self.border_color,
                          self.rect, self.border_width)
         # draw text in center
-        text = self.font.render(self.text, True, self.text_color)
+        if self.hover:
+            text = self.hover_font.render(self.text, True, self.text_color)
+        else:
+            text = self.font.render(self.text, True, self.text_color)
         text_size = text.get_size()
-        screen.blit(text, (self.rect.centerx - text_size[0] / 2,
-                           self.rect.centery - text_size[1] / 2))
+        # screen.blit(text, (self.rect.centerx - text_size[0] / 2,
+        #                    self.rect.centery - text_size[1] / 2))
+        screen.blit(text, text.get_rect(center=self.rect.center))
 
-    def isClicked(self, event) -> bool:
+    def update(self, event) -> bool:
         pos = pygame.mouse.get_pos()
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if self.rect.collidepoint(pos):
+        if self.rect.collidepoint(pos):
+            self.hover = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
                     return True
+        else:
+            self.hover = False
 
 
 if __name__ == '__main__':
@@ -52,7 +63,7 @@ if __name__ == '__main__':
 
     while run:
         for event in pygame.event.get():
-            if button.isClicked(event):
+            if button.update(event):
                 print('Clicked')
             if event.type == pygame.QUIT:
                 run = False

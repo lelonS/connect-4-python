@@ -60,9 +60,9 @@ class IntSelector:
                                   1.5 - text_size[0] / 2, self.y))
 
     def update(self, event: pygame.event.Event):
-        if self.increase_button.isClicked(event):
+        if self.increase_button.update(event):
             self.increase()
-        if self.decrease_button.isClicked(event):
+        if self.decrease_button.update(event):
             self.decrease()
 
 
