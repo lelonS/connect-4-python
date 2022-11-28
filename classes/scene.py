@@ -7,10 +7,10 @@ class Scene:
     def __init__(self, screen: pygame.Surface) -> None:
         self.screen = screen
 
-    def update(events: list[pygame.event.Event], dt: float, sceneManager: 'SceneManager'):
+    def update(self, events: list[pygame.event.Event], dt: float, scene_manager: 'SceneManager'):
         raise NotImplementedError
 
-    def draw():
+    def draw(self):
         raise NotImplementedError
 
 
