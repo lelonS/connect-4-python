@@ -1,5 +1,6 @@
 import pygame
 from button import Button
+from constants import GAME_FONT
 
 
 class IntSelector:
@@ -25,7 +26,7 @@ class IntSelector:
         self.value = default_value
         self.min_value = min_value
         self.max_value = max_value
-        self.font = pygame.font.SysFont('consolas', height)
+        self.font = pygame.font.Font(GAME_FONT, height)
         self.font_color = (255, 255, 255)
         self.background_color = (0, 0, 0)
 

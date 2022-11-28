@@ -22,3 +22,6 @@ SEABLUE = (40, 60, 245)
 # Variables
 BOARD_BOTTOM_LEFT = (0, 600)
 TILE_SIZE = 80
+
+# Font
+GAME_FONT = "assets\RobotoMono-Regular.ttf"

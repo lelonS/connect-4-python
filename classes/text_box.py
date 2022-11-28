@@ -1,5 +1,5 @@
 import pygame
-
+from constants import GAME_FONT
 COLOR_INACTIVE = (141, 182, 205)  # LightSkyBlue3
 COLOR_ACTIVE = (28, 134, 238)  # DodgerBlue2
 
@@ -26,7 +26,7 @@ class TextBox:
         self.border_color = (0, 0, 0)
         self.border_width = 2
         self.font_size = height - 10
-        self.font = pygame.font.SysFont("consolas", self.font_size)
+        self.font = pygame.font.Font(GAME_FONT, self.font_size)
         self.max_chars = max_chars
         self.is_focused = False
         self.default_text = default_text
