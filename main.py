@@ -11,16 +11,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Connect4")
 
 
-def start_game():
-    game_screen = GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, [])
-    game_screen.run_game()
-
-
 def main():
-
     # Create scene manager
-    sceneManager = SceneManager()
-    sceneManager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
+    scene_manager = SceneManager()
+    scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
 
     # Create clock
     clock = pygame.time.Clock()
@@ -38,10 +32,10 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-        sceneManager.update(events, seconds)
+        scene_manager.update(events, seconds)
 
         # Draw
-        sceneManager.draw()
+        scene_manager.draw()
 
     # Open game screen
     # game_screen = GameScreen(screen, (0, 600), 7, 6, [])
