@@ -193,7 +193,7 @@ class GameScene(Scene):
                         top_pos, 0, 2300, landed_pos[1])
 
             elif event.type == pygame.KEYDOWN:
-                if self.game.is_won or self.game.is_tied and event.key == pygame.K_r:
+                if (self.game.is_won or self.game.is_tied) and event.key == pygame.K_r:
                     # Reset game
                     self.game.reset_game()
                 elif event.key == pygame.K_m:
