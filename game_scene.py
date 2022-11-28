@@ -159,7 +159,7 @@ class GameScene(Scene):
         self.draw_result_info()
         pygame.display.update()
 
-    def update(self, events: list[pygame.event.Event], dt: float, sceneManager: SceneManager):
+    def update(self, events: list[pygame.event.Event], dt: float, scene_manager: SceneManager):
         # Get clock info
         self.update_all_falling(dt)
 
@@ -193,7 +193,7 @@ class GameScene(Scene):
                     self.game.reset_game()
                 elif event.key == pygame.K_m:
                     # Go to menu
-                    sceneManager.go_to_origin_scene()
+                    scene_manager.go_to_origin_scene()
         self.current_hover_col = mouse_col
 
 
@@ -204,13 +204,13 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     sceneManager = SceneManager()
     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
-                           Player("test", (255, 0, 0))]))
+        Player("test", (255, 0, 0))]))
     while True:
-        dt = clock.tick() / 1000
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.QUIT:
+        seconds = clock.tick() / 1000
+        evs = pygame.event.get()
+        for e in evs:
+            if e.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-        sceneManager.update(events, dt)
+        sceneManager.update(evs, seconds)
         sceneManager.draw()
