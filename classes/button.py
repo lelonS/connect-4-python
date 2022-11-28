@@ -55,7 +55,7 @@ class Button:
 
 if __name__ == '__main__':
     pygame.init()
-    screen = pygame.display.set_mode((500, 500))
+    s = pygame.display.set_mode((500, 500))
     pygame.display.set_caption("Button")
 
     button = Button(50, 50, 200, 60, 'test', lambda: print('clicked'))
@@ -63,13 +63,13 @@ if __name__ == '__main__':
     run = True
 
     while run:
-        for event in pygame.event.get():
-            button.update(event)
-            if event.type == pygame.QUIT:
+        for e in pygame.event.get():
+            button.update(e)
+            if e.type == pygame.QUIT:
                 run = False
 
-        screen.fill((0, 0, 0))
-        button.draw(screen)
+        s.fill((0, 0, 0))
+        button.draw(s)
         pygame.display.update()
 
     pygame.quit()

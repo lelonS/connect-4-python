@@ -68,19 +68,19 @@ class IntSelector:
 if __name__ == "__main__":
     pygame.init()
     pygame.display.set_caption('IntSelector')
-    screen = pygame.display.set_mode((800, 600))
+    s = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
     int_selector = IntSelector(100, 100, 36, 36, 3, 0, 10)
 
     while True:
         clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            int_selector.update(event)
+            int_selector.update(e)
 
-        screen.fill((0, 0, 0))
-        int_selector.draw(screen)
+        s.fill((0, 0, 0))
+        int_selector.draw(s)
         pygame.display.update()
