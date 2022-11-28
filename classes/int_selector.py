@@ -59,7 +59,7 @@ class IntSelector:
         value_text = self.font.render(str(self.value), True, self.font_color)
         text_size = value_text.get_size()
         surface.blit(value_text, (self.x + self.button_width *
-                                  1.5 - text_size[0] / 2, self.y))
+                                  1.5 - text_size[0] / 2, self.y + self.height / 2 - text_size[1] / 2))
 
     def update(self, event: pygame.event.Event):
         self.increase_button.update(event)
