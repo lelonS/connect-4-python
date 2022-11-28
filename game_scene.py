@@ -205,7 +205,6 @@ class GameScene(Scene):
 if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
-    pygame.font.init()
     clock = pygame.time.Clock()
     sceneManager = SceneManager()
     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
