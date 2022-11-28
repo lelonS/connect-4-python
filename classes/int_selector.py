@@ -1,5 +1,5 @@
 import pygame
-from button import Button
+from classes.button import Button
 from constants import GAME_FONT
 
 
