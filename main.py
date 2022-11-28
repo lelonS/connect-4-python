@@ -1,8 +1,7 @@
 import pygame
 from constants import WIDTH, HEIGHT, BOARD_BOTTOM_LEFT
 from game_scene import GameScene
-from classes.button import Button
-from classes.scene import Scene, SceneManager
+from classes.scene import SceneManager
 
 pygame.init()
 
