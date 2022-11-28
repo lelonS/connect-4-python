@@ -213,5 +213,5 @@ class GameScene:
 if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
-    game_screen = GameScene(s, (0, 600), 7, 6, [])
+    game_screen = GameScene(s, (0, 600), 7, 6, [Player("name", (255, 0, 0))])
     game_screen.run_game()
