@@ -176,7 +176,6 @@ class GameScene(Scene):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.can_move:
                 # Attempt move
-                print("Attempting move...", mouse_col)
                 move_success = self.game.make_move(mouse_col)
                 if move_success:
                     # Get move info
