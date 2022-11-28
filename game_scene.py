@@ -21,7 +21,6 @@ class GameScene(Scene):
 
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
-        self.screen = screen
         self.falling_pieces = {}
         self.tile_size = TILE_SIZE
         self.board_bottom_left = board_bl
@@ -32,8 +31,10 @@ class GameScene(Scene):
         self.can_move = False
         self.current_hover_col = -1
 
-        self.coin_frame = pygame.image.load("assets/coin_frame3.png").convert_alpha()
-        self.coin_frame = pygame.transform.scale(self.coin_frame, (self.tile_size, self.tile_size))
+        self.coin_frame = pygame.image.load(
+            "assets/coin_frame3.png").convert_alpha()
+        self.coin_frame = pygame.transform.scale(
+            self.coin_frame, (self.tile_size, self.tile_size))
 
     def get_col_from_x(self, x: int) -> int:
         return (x - self.board_bottom_left[0]) // self.tile_size
