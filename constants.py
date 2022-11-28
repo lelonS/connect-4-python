@@ -1,3 +1,11 @@
+import os
+
+# Root path
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+# Assets path
+ASSETS_PATH = os.path.join(ROOT_PATH, 'assets')
+
 # Screen Size
 WIDTH = 900
 HEIGHT = 600
@@ -24,4 +32,5 @@ BOARD_BOTTOM_LEFT = (0, 600)
 TILE_SIZE = 80
 
 # Font
-GAME_FONT = "assets\RobotoMono-Regular.ttf"
+GAME_FONT = "RobotoMono-Regular.ttf"
+FONT_PATH = os.path.join(ASSETS_PATH, GAME_FONT)
