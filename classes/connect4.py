@@ -3,11 +3,10 @@ class ConnectFour:
     turn: int = 0
     total_cols: int
     total_rows: int
-    number_of_players: int = 2  # Max 5
+    number_of_players: int = 2  # Max 4
     is_won: bool = False
     is_tied: bool = False
     winner: int = -1
-    # (coln : row)
     winner_tile_1: tuple[int, int]
     winner_tile_2: tuple[int, int]
 
