@@ -6,7 +6,7 @@ from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE
 from drawer import draw_text
 
 
-class GameScreen:
+class GameScene:
     screen: pygame.Surface
     game: ConnectFour
     falling_pieces: dict[tuple, FallingPoint]
@@ -213,5 +213,5 @@ class GameScreen:
 if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
-    game_screen = GameScreen(s, (0, 600), 7, 6, [])
+    game_screen = GameScene(s, (0, 600), 7, 6, [])
     game_screen.run_game()
