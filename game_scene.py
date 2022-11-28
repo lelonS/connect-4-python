@@ -32,6 +32,9 @@ class GameScene(Scene):
         self.can_move = False
         self.current_hover_col = -1
 
+        self.coin_frame = pygame.image.load("assets/coin_frame3.png").convert_alpha()
+        self.coin_frame = pygame.transform.scale(self.coin_frame, (self.tile_size, self.tile_size))
+
     def get_col_from_x(self, x: int) -> int:
         return (x - self.board_bottom_left[0]) // self.tile_size
 
@@ -75,6 +78,7 @@ class GameScene(Scene):
         # Draw piece
         pygame.draw.circle(
             self.screen, plr_color, (x_mid, y_mid), half_tile)
+        self.screen.blit(self.coin_frame, (x_pos, y_pos))
 
     def draw_piece_at_tile(self, col: int, row: int, plr: int):
         pos = self.get_tile_pos(col, row)
