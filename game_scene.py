@@ -2,12 +2,12 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE
+from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT
 from drawer import draw_text
+from classes.scene import Scene, SceneManager
 
 
-class GameScene:
-    screen: pygame.Surface
+class GameScene(Scene):
     game: ConnectFour
     falling_pieces: dict[tuple, FallingPoint]
 
@@ -16,7 +16,11 @@ class GameScene:
     players: list[Player]
     player_colors = list[tuple[int, int, int]]
 
+    can_move: bool
+    current_hover_col: int
+
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
+        super().__init__(screen)
         self.screen = screen
         self.falling_pieces = {}
         self.tile_size = TILE_SIZE
@@ -24,6 +28,9 @@ class GameScene:
         self.players = plrs
         self.player_colors = PLR_COLORS
         self.game = ConnectFour(cols, rows)
+
+        self.can_move = False
+        self.current_hover_col = -1
 
     def get_col_from_x(self, x: int) -> int:
         return (x - self.board_bottom_left[0]) // self.tile_size
@@ -109,25 +116,6 @@ class GameScene:
                 return False
         return True
 
-    def handle_event(self, event: pygame.event.Event, mouse_col: int, can_move: bool):
-        """Checks event type and handles it"""
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and can_move:
-            move_success = self.game.make_move(mouse_col)
-            if move_success:
-                landed_row = len(self.game.board[mouse_col]) - 1
-                top_pos = self.get_tile_pos(
-                    mouse_col, self.game.total_rows)
-                landed_pos = self.get_tile_pos(mouse_col, landed_row)
-
-                # Create animated piece and add to dictionary
-                self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(
-                    top_pos, 0, 2300, landed_pos[1])
-
-        elif event.type == pygame.KEYDOWN:
-            if self.game.is_won or self.game.is_tied and event.key == pygame.K_r:
-                # Reset game
-                self.game.reset_game()
-
     def draw_win_line(self):
 
         # Check if all pieces has fallen
@@ -160,58 +148,70 @@ class GameScene:
             draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
 
-    def run_game(self):
+    def draw(self):
+        self.screen.fill(BLACK)
+        if self.can_move:
+            # Draw column mouse hovers over if user can move
+            self.draw_piece_at_tile(
+                self.current_hover_col, self.game.total_rows, self.game.turn)
+        self.draw_pieces()
+        self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
+        self.draw_result_info()
+        pygame.display.update()
 
-        # Create caption
-        pygame.display.set_caption("Connect4")
+    def update(self, events: list[pygame.event.Event], dt: float, sceneManager: SceneManager):
+        # Get clock info
+        self.update_all_falling(dt)
 
-        # Dictionary (col, row):FallingPoint
-        clock = pygame.time.Clock()
+        # Get mouse info
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_col = self.get_col_from_x(mouse_pos[0])
 
-        # Loop
-        running = True
-        while running:
-            self.screen.fill(BLACK)
+        # Check if all falling pieces past or in top row
+        all_past = self.check_all_past(
+            self.get_tile_pos(0, self.game.total_rows - 1)[1])
+        self.can_move = all_past and not self.game.is_won and not self.game.is_tied
 
-            # Get clock info
-            ms = clock.tick()
-            seconds = ms / 1000
-            self.update_all_falling(seconds)
+        # Handle pygame events
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.can_move:
+                # Attempt move
+                print("Attempting move...", mouse_col)
+                move_success = self.game.make_move(mouse_col)
+                if move_success:
+                    # Get move info
+                    landed_row = len(self.game.board[mouse_col]) - 1
+                    landed_pos = self.get_tile_pos(mouse_col, landed_row)
+                    top_pos = self.get_tile_pos(
+                        mouse_col, self.game.total_rows)
+                    # Create animated piece and add to dictionary
+                    self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(
+                        top_pos, 0, 2300, landed_pos[1])
 
-            # Get mouse info
-            mouse_pos = pygame.mouse.get_pos()
-            mouse_col = self.get_col_from_x(mouse_pos[0])
-
-            # Check if all falling pieces past or in top row
-            all_past = self.check_all_past(
-                self.get_tile_pos(0, self.game.total_rows - 1)[1])
-            can_move = all_past and not self.game.is_won and not self.game.is_tied
-
-            # Drawing
-            if can_move:
-                # Draw column mouse hovers over if user can move
-                self.draw_piece_at_tile(
-                    mouse_col, self.game.total_rows, self.game.turn)
-
-            self.draw_pieces()
-            self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
-            self.draw_result_info()
-            pygame.display.update()
-
-            # Handle pygame events
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+            elif event.type == pygame.KEYDOWN:
+                if self.game.is_won or self.game.is_tied and event.key == pygame.K_r:
+                    # Reset game
+                    self.game.reset_game()
+                elif event.key == pygame.K_m:
                     # Go to menu
-                    running = False
-                else:
-                    self.handle_event(event, mouse_col, can_move)
+                    sceneManager.go_to_origin_scene()
+        self.current_hover_col = mouse_col
 
 
 if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
-    game_screen = GameScene(s, (0, 600), 7, 6, [Player("name", (255, 0, 0))])
-    game_screen.run_game()
+    pygame.font.init()
+    clock = pygame.time.Clock()
+    sceneManager = SceneManager()
+    sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
+                           Player("test", (255, 0, 0))]))
+    while True:
+        dt = clock.tick() / 1000
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        sceneManager.update(events, dt)
+        sceneManager.draw()
