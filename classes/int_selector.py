@@ -128,9 +128,9 @@ class IntSelector(Selector):
 
 class ColorSelector(Selector):
 
-    def __init__(self, x: int, y: int, height: int, btn_width: int, default_value: tuple[int, int, int], options: list):
+    def __init__(self, x: int, y: int, height: int, btn_width: int, options: list):
         super().__init__(x, y, height, btn_width, options)
-        self.current_index = options.index(default_value)
+        self.current_index = 0
 
     def draw(self, surface: pygame.Surface):
         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y,
@@ -153,10 +153,8 @@ if __name__ == "__main__":
     int_selector2 = IntSelector(200, 100, 36, 36, 3, 0, 10)
     selector_group2 = SelectorGroup(
         [int_selector, int_selector2], list(range(0, 50)))
-    color_selector = ColorSelector(100, 200, 36, 36, (0, 0, 0), [(
-        0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
-    color_selector2 = ColorSelector(100, 300, 36, 36, (0, 0, 0), [(
-        0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    color_selector = ColorSelector(100, 200, 36, 36, [])
+    color_selector2 = ColorSelector(100, 300, 36, 36, [])
     selector_group = SelectorGroup([color_selector, color_selector2], [(
         0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
 
