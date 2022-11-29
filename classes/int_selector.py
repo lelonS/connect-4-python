@@ -1,5 +1,6 @@
 import pygame
-from button import Button
+from classes.button import Button
+from constants import FONT_PATH
 
 
 class IntSelector:
@@ -25,7 +26,7 @@ class IntSelector:
         self.value = default_value
         self.min_value = min_value
         self.max_value = max_value
-        self.font = pygame.font.SysFont('consolas', height)
+        self.font = pygame.font.Font(FONT_PATH, height)
         self.font_color = (255, 255, 255)
         self.background_color = (0, 0, 0)
 
@@ -58,7 +59,7 @@ class IntSelector:
         value_text = self.font.render(str(self.value), True, self.font_color)
         text_size = value_text.get_size()
         surface.blit(value_text, (self.x + self.button_width *
-                                  1.5 - text_size[0] / 2, self.y))
+                                  1.5 - text_size[0] / 2, self.y + self.height / 2 - text_size[1] / 2))
 
     def update(self, event: pygame.event.Event):
         self.increase_button.update(event)

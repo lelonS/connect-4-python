@@ -21,7 +21,6 @@ class GameScene(Scene):
 
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
-        self.screen = screen
         self.falling_pieces = {}
         self.tile_size = TILE_SIZE
         self.board_bottom_left = board_bl
@@ -29,10 +28,13 @@ class GameScene(Scene):
         self.player_colors = PLR_COLORS
         self.game = ConnectFour(cols, rows)
 
-
-
         self.can_move = False
         self.current_hover_col = -1
+
+        self.coin_frame = pygame.image.load(
+            "assets/coin_frame3.png").convert_alpha()
+        self.coin_frame = pygame.transform.scale(
+            self.coin_frame, (self.tile_size, self.tile_size))
 
         self.different_boards(cols, rows)
     def different_boards(self, cols: int, rows: int) -> int:
@@ -84,6 +86,7 @@ class GameScene(Scene):
         # Draw piece
         pygame.draw.circle(
             self.screen, plr_color, (x_mid, y_mid), half_tile)
+        self.screen.blit(self.coin_frame, (x_pos, y_pos))
 
     def draw_piece_at_tile(self, col: int, row: int, plr: int):
         pos = self.get_tile_pos(col, row)
@@ -197,7 +200,7 @@ class GameScene(Scene):
                         top_pos, 0, 2300, landed_pos[1])
 
             elif event.type == pygame.KEYDOWN:
-                if self.game.is_won or self.game.is_tied and event.key == pygame.K_r:
+                if (self.game.is_won or self.game.is_tied) and event.key == pygame.K_r:
                     # Reset game
                     self.game.reset_game()
                 elif event.key == pygame.K_m:
@@ -209,7 +212,6 @@ class GameScene(Scene):
 if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
-    pygame.font.init()
     clock = pygame.time.Clock()
     sceneManager = SceneManager()
     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [

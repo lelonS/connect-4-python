@@ -1,4 +1,5 @@
 import pygame
+from constants import FONT_PATH
 
 
 class Button:
@@ -22,9 +23,9 @@ class Button:
         self.border_color = (0, 0, 0)
         self.border_width = 2
         self.font_size = int(height * 0.8)
-        self.font = pygame.font.SysFont("consolas", self.font_size)
-        self.hover_font = pygame.font.SysFont(
-            "consolas", int(self.font_size * 1.2))
+        self.font = pygame.font.Font(FONT_PATH, self.font_size)
+        self.hover_font = pygame.font.Font(
+            FONT_PATH, int(self.font_size * 1.2))
         self.hover = False
         self.on_click = on_click
 
