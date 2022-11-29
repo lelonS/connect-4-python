@@ -75,6 +75,7 @@ class Selector:
 
 
 class SelectorGroup:
+    # In a SelectorGroup all Selectors have different values
     all_options: list
     selectors: list[Selector]
     previous_selected: list
