@@ -2,7 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT
+from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH
 from drawer import draw_text
 from classes.scene import Scene, SceneManager
 
@@ -29,8 +29,17 @@ class GameScene(Scene):
         self.player_colors = PLR_COLORS
         self.game = ConnectFour(cols, rows)
 
+
+
         self.can_move = False
         self.current_hover_col = -1
+
+        self.different_boards(cols, rows)
+    def different_boards(self, cols: int, rows: int) -> int:
+        max_tile_width = MAX_BOARD_WIDTH // cols
+        max_tile_height = MAX_BOARD_HEIGHT // rows
+
+        self.tile_size = min(max_tile_width, max_tile_height)
 
     def get_col_from_x(self, x: int) -> int:
         return (x - self.board_bottom_left[0]) // self.tile_size

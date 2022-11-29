@@ -13,7 +13,7 @@ pygame.display.set_caption("Connect4")
 def main():
     # Create scene manager
     scene_manager = SceneManager()
-    scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
+    scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 21, 18, []))
 
     # Create clock
     clock = pygame.time.Clock()

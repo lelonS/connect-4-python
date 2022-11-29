@@ -2,6 +2,10 @@
 WIDTH = 900
 HEIGHT = 600
 
+# Board size
+MAX_BOARD_WIDTH = 560
+MAX_BOARD_HEIGHT = 480
+
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
