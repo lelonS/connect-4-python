@@ -10,7 +10,8 @@ class Selector:
     button_width: int
     options: list
     current_index: int = 0
-    value = property(lambda self: self.options[self.current_index])
+    last_change: int  # -1 is previous, 1 is next, 0 is none
+
     font: pygame.font.Font
     font_color: tuple[int, int, int]
     background_color: tuple[int, int, int]
@@ -24,6 +25,8 @@ class Selector:
         self.height = height
         self.button_width = button_width
         self.options = options
+        self.current_index = 0
+        self.last_change = 0
 
         self.font = pygame.font.Font(FONT_PATH, height)
         self.font_color = (255, 255, 255)
@@ -41,9 +44,15 @@ class Selector:
 
     def next_option(self):
         self.current_index = (self.current_index + 1) % len(self.options)
+        self.last_change = 1
 
     def previous_option(self):
         self.current_index = (self.current_index - 1) % len(self.options)
+        self.last_change = -1
+
+    @property
+    def value(self):
+        return self.options[self.current_index]
 
     def draw(self, surface: pygame.Surface):
         # Draw the background
@@ -59,8 +68,45 @@ class Selector:
         #                           1.5 - text_size[0] / 2, self.y + self.height / 2 - text_size[1] / 2))
 
     def update(self, event: pygame.event.Event):
+        # Set last change to none and then update the buttons
+        self.last_change = 0
         self.next_button.update(event)
         self.previous_button.update(event)
+
+
+class SelectorGroup:
+    all_options: list
+    selectors: list[Selector]
+    previous_selected: list
+
+    def __init__(self, selectors, all_options):
+        self.selectors = selectors
+        self.all_options = all_options
+        for n, selector in enumerate(self.selectors):
+            selector.options = all_options
+            selector.current_index = n
+
+    def _change_duplicates(self):
+        # Get the last changed selectors
+        changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
+        for selector in changed_selectors:
+            # Current indexes taken by other selectors
+            current_indexes = [s.current_index for s in self.selectors if s != selector]
+            # Find a new index that is not taken
+            while current_indexes.count(selector.current_index) > 0:
+                if selector.last_change == 1:
+                    selector.next_option()
+                elif selector.last_change == -1:
+                    selector.previous_option()
+
+    def draw(self, surface: pygame.Surface):
+        for selector in self.selectors:
+            selector.draw(surface)
+
+    def update(self, event: pygame.event.Event):
+        for selector in self.selectors:
+            selector.update(event)
+        self._change_duplicates()
 
 
 class IntSelector(Selector):
@@ -103,7 +149,14 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     int_selector = IntSelector(100, 100, 36, 36, 3, 0, 10)
+    int_selector2 = IntSelector(200, 100, 36, 36, 3, 0, 10)
+    selector_group2 = SelectorGroup(
+        [int_selector, int_selector2], list(range(0, 50)))
     color_selector = ColorSelector(100, 200, 36, 36, (0, 0, 0), [(
+        0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    color_selector2 = ColorSelector(100, 300, 36, 36, (0, 0, 0), [(
+        0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    selector_group = SelectorGroup([color_selector, color_selector2], [(
         0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
 
     while True:
@@ -112,10 +165,10 @@ if __name__ == "__main__":
             if e.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            int_selector.update(e)
-            color_selector.update(e)
+            selector_group2.update(e)
+            selector_group.update(e)
 
         s.fill((0, 0, 0))
-        int_selector.draw(s)
-        color_selector.draw(s)
+        selector_group2.draw(s)
+        selector_group.draw(s)
         pygame.display.update()
