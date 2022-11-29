@@ -136,7 +136,7 @@ class ColorSelector(Selector):
         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y,
                          self.button_width, self.height))
         # Draw the border
-        pygame.draw.rect(surface, (255, 255, 255), (self.x + self.button_width, self.y,
+        pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y,
                          self.button_width, self.height), 2)
         # Draw the buttons
         self.next_button.draw(surface)
