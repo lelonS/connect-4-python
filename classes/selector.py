@@ -88,14 +88,16 @@ class SelectorGroup:
         # Get the last changed selectors
         changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
         for selector in changed_selectors:
-            # Current indexes taken by other selectors
+            total_checks = 0  # Makes sure it doesn't get stuck in an infinite loop
+            # Current values taken by other selectors
             current_values = [s.value for s in self.selectors if s != selector]
-            # Find a new index that is not taken
-            while selector.value in current_values:
+            # Find a new value that is not taken
+            while selector.value in current_values and total_checks < len(selector.options):
                 if selector.last_change == 1:
                     selector.next_option()
                 elif selector.last_change == -1:
                     selector.previous_option()
+                total_checks += 1
 
     def draw(self, surface: pygame.Surface):
         for selector in self.selectors:
@@ -149,12 +151,9 @@ if __name__ == "__main__":
     int_selector = IntSelector(100, 100, 36, 36, 3, 0, 50)
     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
     selector_group2 = SelectorGroup([int_selector, int_selector2])
-    color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255),
-                                   (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
-    color_selector2 = ColorSelector(
-        100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
-    color_selector3 = ColorSelector(
-        100, 400, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
+    color_selector2 = ColorSelector(100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
+    color_selector3 = ColorSelector(100, 400, 36, 36, [(255, 255, 255), (0, 0, 0)])
     selector_group = SelectorGroup([color_selector, color_selector2, color_selector3])
 
     while True:
