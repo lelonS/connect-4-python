@@ -5,6 +5,7 @@ from classes.scene import SceneManager
 from main_menu import MainMenu
 
 pygame.init()
+pygame.key.set_repeat(500, 50)
 
 # Create screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
