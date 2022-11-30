@@ -71,25 +71,27 @@ class Selector:
 
 class SelectorGroup:
     # In a SelectorGroup all Selectors have different values
-    all_options: list
     selectors: list[Selector]
     previous_selected: list
 
-    def __init__(self, selectors, all_options):
+    def __init__(self, selectors: list[Selector], all_options: list = None):
         self.selectors = selectors
-        self.all_options = all_options
-        for n, selector in enumerate(self.selectors):
-            selector.options = all_options
-            selector.current_index = n
+        for selector in self.selectors:
+            if all_options is not None:
+                selector.options = all_options
+            # Set last_change to 1 to change duplicated forwards
+            selector.last_change = 1
+        self._change_duplicates()
 
     def _change_duplicates(self):
         # Get the last changed selectors
         changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
-        for selector in changed_selectors:
+        # Loop in reverse to change the last selectors this is useful from __init__
+        for selector in changed_selectors[::-1]:
             # Current indexes taken by other selectors
-            current_indexes = [s.current_index for s in self.selectors if s != selector]
+            current_values = [s.value for s in self.selectors if s != selector]
             # Find a new index that is not taken
-            while current_indexes.count(selector.current_index) > 0:
+            while selector.value in current_values:
                 if selector.last_change == 1:
                     selector.next_option()
                 elif selector.last_change == -1:
@@ -144,10 +146,9 @@ if __name__ == "__main__":
     s = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 10)
-    int_selector2 = IntSelector(200, 100, 36, 36, 3, 0, 10)
-    selector_group2 = SelectorGroup(
-        [int_selector, int_selector2], list(range(0, 50)))
+    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 100)
+    int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
+    selector_group2 = SelectorGroup([int_selector, int_selector2])
     color_selector = ColorSelector(100, 200, 36, 36, [])
     color_selector2 = ColorSelector(100, 300, 36, 36, [])
     selector_group = SelectorGroup([color_selector, color_selector2], [(
