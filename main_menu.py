@@ -34,7 +34,8 @@ class MainMenu(Scene):
             self.col_buttons.update(event)
             self.row_buttons.update(event)
             self.player_number_buttons.update(event)
-            self.player_text_boxes[self.player_number_buttons.value - 1].update(event)
+            for i in range(self.player_number_buttons.value):
+                self.player_text_boxes[i].update(event)
             self.play_button.update(event)
 
     def draw(self):
