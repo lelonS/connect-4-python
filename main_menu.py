@@ -4,6 +4,7 @@ from game_scene import GameScene
 from classes.int_selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
+from constants import BOARD_BOTTOM_LEFT
 
 
 class MainMenu(Scene):
@@ -22,7 +23,7 @@ class MainMenu(Scene):
         self.play_button = Button(100, 500, 200, 50, 'Play', self.play)
 
     def play(self):
-        game_scene = GameScene(self.screen, (0, 600), self.col_buttons.value, self.row_buttons.value, [])
+        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, [])
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
