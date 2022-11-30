@@ -76,18 +76,18 @@ class SelectorGroup:
 
     def __init__(self, selectors: list[Selector], all_options: list = None):
         self.selectors = selectors
-        for selector in self.selectors:
+        for n, selector in enumerate(self.selectors):
             if all_options is not None:
                 selector.options = all_options
-            # Set last_change to 1 to change duplicated forwards
-            selector.last_change = 1
+            # Set last_change to 1 to change duplicated forwards the first selector doesn't change
+            if n != 0:
+                selector.last_change = 1
         self._change_duplicates()
 
     def _change_duplicates(self):
         # Get the last changed selectors
         changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
-        # Loop in reverse to change the last selectors this is useful from __init__
-        for selector in changed_selectors[::-1]:
+        for selector in changed_selectors:
             # Current indexes taken by other selectors
             current_values = [s.value for s in self.selectors if s != selector]
             # Find a new index that is not taken
@@ -153,7 +153,9 @@ if __name__ == "__main__":
                                    (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
     color_selector2 = ColorSelector(
         100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
-    selector_group = SelectorGroup([color_selector, color_selector2, int_selector])
+    color_selector3 = ColorSelector(
+        100, 400, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    selector_group = SelectorGroup([color_selector, color_selector2, color_selector3])
 
     while True:
         clock.tick(60)
