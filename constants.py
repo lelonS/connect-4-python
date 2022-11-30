@@ -1,6 +1,18 @@
+import os
+
+# Root path
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+
+# Assets path
+ASSETS_PATH = os.path.join(ROOT_PATH, 'assets')
+
 # Screen Size
 WIDTH = 900
 HEIGHT = 600
+
+# Board size
+MAX_BOARD_WIDTH = 560
+MAX_BOARD_HEIGHT = 480
 
 # Colors
 BLACK = (0, 0, 0)
@@ -22,3 +34,7 @@ SEABLUE = (40, 60, 245)
 # Variables
 BOARD_BOTTOM_LEFT = (0, 600)
 TILE_SIZE = 80
+
+# Font
+GAME_FONT = "RobotoMono-Regular.ttf"
+FONT_PATH = os.path.join(ASSETS_PATH, GAME_FONT)
