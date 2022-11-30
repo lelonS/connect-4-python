@@ -54,6 +54,11 @@ class Selector:
     def value(self):
         return self.options[self.current_index]
 
+    @value.setter
+    def value(self, new_value):
+        if new_value in self.options:
+            self.current_index = self.options.index(new_value)
+
     def draw(self, surface: pygame.Surface):
         # Draw the background
         pygame.draw.rect(surface, self.background_color, (self.x,
@@ -114,7 +119,7 @@ class IntSelector(Selector):
     def __init__(self, x: int, y: int, height: int, btn_width: int, default_value: int, min_value: int, max_value: int):
         nums = list(range(min_value, max_value + 1))
         super().__init__(x, y, height, btn_width, nums)
-        self.current_index = nums.index(default_value)
+        self.value = default_value
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
@@ -148,7 +153,7 @@ if __name__ == "__main__":
     s = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 50)
+    int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
     selector_group2 = SelectorGroup([int_selector, int_selector2])
     color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
