@@ -1,5 +1,6 @@
 import pygame
 from constants import FONT_PATH
+
 COLOR_INACTIVE = (141, 182, 205)  # LightSkyBlue3
 COLOR_ACTIVE = (28, 134, 238)  # DodgerBlue2
 
@@ -30,7 +31,7 @@ class TextBox:
         self.max_chars = max_chars
         self.is_focused = False
         self.default_text = default_text
-        self.default_text_color = (150, 150, 150)
+        self.default_text_color = (75, 75, 75)
 
     def draw(self, screen: pygame.Surface):
         # Draw background
