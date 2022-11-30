@@ -21,6 +21,7 @@ class MainMenu(Scene):
         self.player_number_buttons = IntSelector(100, 300, 50, 50, 2, 2, 4)
         self.player_text_boxes = [TextBox(100, 400 + i * 50, 200, 50, f'Player {i + 1}', 7) for i in range(4)]
         self.play_button = Button(100, 500, 200, 50, 'Play', self.play)
+        self.scene_manager = None
 
     def play(self):
         game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, [])
