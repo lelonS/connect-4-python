@@ -146,13 +146,14 @@ if __name__ == "__main__":
     s = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 100)
+    int_selector = IntSelector(100, 100, 36, 36, 3, 0, 50)
     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
     selector_group2 = SelectorGroup([int_selector, int_selector2])
-    color_selector = ColorSelector(100, 200, 36, 36, [])
-    color_selector2 = ColorSelector(100, 300, 36, 36, [])
-    selector_group = SelectorGroup([color_selector, color_selector2], [(
-        0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255),
+                                   (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    color_selector2 = ColorSelector(
+        100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)])
+    selector_group = SelectorGroup([color_selector, color_selector2, int_selector])
 
     while True:
         clock.tick(60)
