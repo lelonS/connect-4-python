@@ -62,7 +62,12 @@ class GameScene(Scene):
         return x_coord, y_coord
 
     def draw_board_overlay(self, cols: int, rows: int):
-        """Draws the board overlay with circle cutouts"""
+        """Draw the board overlay
+
+        Args:
+            cols (int): All columns
+            rows (int): All rows
+        """
         # Create surface to use for each tile
         tile_surface = pygame.Surface(
             (self.tile_size, self.tile_size), pygame.SRCALPHA)
