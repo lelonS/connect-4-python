@@ -158,7 +158,10 @@ class GameScene(Scene):
             # Draw tie text
             draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
-
+    def draw_player_names(self):
+        for plr in self.players:
+                draw_text(self.screen, plr.name, 32, 200, 50,
+                        self.player_colors[plr.num])
     def draw(self):
         self.screen.fill(BLACK)
         if self.can_move:
