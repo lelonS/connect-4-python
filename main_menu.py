@@ -7,6 +7,7 @@ from classes.button import Button
 # from constants import BOARD_BOTTOM_LEFT, WHITE
 from constants import *
 from drawer import draw_text
+from classes.player import Player
 
 
 class MainMenu(Scene):
@@ -26,7 +27,17 @@ class MainMenu(Scene):
         self.scene_manager = None
 
     def play(self):
-        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, [])
+        players = []
+        selected_names = []
+        for i in range(self.player_number_buttons.value):
+            name = self.player_text_boxes[i].value
+            if name in selected_names:
+                return
+            selected_names.append(name)
+            new_player = Player(name, PLR_COLORS[i])
+            players.append(new_player)
+
+        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, players)
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
