@@ -7,8 +7,8 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 ASSETS_PATH = os.path.join(ROOT_PATH, 'assets')
 
 # Screen Size
-WIDTH = 900
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 800
 
 # Board size
 MAX_BOARD_WIDTH = 560
@@ -21,6 +21,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 GRAY = (127, 127, 127)
+BG_COLOR_MAIN_MENU = (5, 10, 50)
 
 # Player colors
 BANANA = (229, 162, 17)
@@ -32,7 +33,7 @@ BLIND_COLORS = ((127, 127, 127), (127, 127, 127))
 SEABLUE = (40, 60, 245)
 
 # Variables
-BOARD_BOTTOM_LEFT = (0, 600)
+BOARD_BOTTOM_LEFT = (0, HEIGHT)
 TILE_SIZE = 80
 
 # Font

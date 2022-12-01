@@ -2,8 +2,10 @@ import pygame
 from constants import WIDTH, HEIGHT, BOARD_BOTTOM_LEFT
 from game_scene import GameScene
 from classes.scene import SceneManager
+from main_menu import MainMenu
 
 pygame.init()
+pygame.key.set_repeat(500, 50)
 
 # Create screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -13,7 +15,8 @@ pygame.display.set_caption("Connect4")
 def main():
     # Create scene manager
     scene_manager = SceneManager()
-    scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
+    # scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
+    scene_manager.add_scene(MainMenu(screen))
 
     # Create clock
     clock = pygame.time.Clock()
