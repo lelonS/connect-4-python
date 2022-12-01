@@ -46,7 +46,15 @@ class GameScene(Scene):
         return (x - self.board_bottom_left[0]) // self.tile_size
 
     def get_tile_pos(self, col: int, row: int) -> tuple[float, float]:
-        """Returns top left point of tile"""
+        """Get the top left position of a tile
+
+        Args:
+            col (int): Column number
+            row (int): Row number
+
+        Returns:
+            tuple[float, float]: Top left position of tile
+        """
         # Col
         x_coord = self.board_bottom_left[0] + col * self.tile_size
         # Row
