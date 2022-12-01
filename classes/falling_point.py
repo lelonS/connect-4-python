@@ -14,7 +14,11 @@ class FallingPoint:
         self.is_past_max = False
 
     def update(self, dt: float):
-        """dt is seconds since last update"""
+        """Adds acceleration to velocity, and velocity to position
+
+        Args:
+            dt (float): Seconds since last update
+        """
         self.vel_y += self.acc_y * dt
         self.y += self.vel_y * dt
         if self.y >= self.max_y:
