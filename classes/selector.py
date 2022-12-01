@@ -5,13 +5,29 @@ from constants import PLR_COLORS
 
 
 class Selector:
-    """A class that represent a selector for a list of options"""
+    """A class that represent a selector for a list of options
+
+    Attributes:
+        x (int): x position
+        y (int): y position
+        height (int): height of the selector
+        button_width (int): width of the 'next' and 'previous' buttons
+        options (list): List of options
+        last_change (int): 1 if the last change was to the next option, 
+                          -1 if the last change was to the previous option, 0 if there was no change
+
+        font_color (tuple[int, int, int]): Color of the text
+        background_color (tuple[int, int, int]): Color of the background
+
+        next_button (Button): Button to change to the next option
+        previous_button (Button): Button to change to the previous option
+    """
     x: int
     y: int
     height: int
     button_width: int
     options: list
-    current_index: int = 0
+    _current_index: int = 0
     last_change: int  # -1 is previous, 1 is next, 0 is none
 
     font: pygame.font.Font
@@ -27,7 +43,7 @@ class Selector:
         self.height = height
         self.button_width = button_width
         self.options = options
-        self.current_index = 0
+        self._current_index = 0
         self.last_change = 0
 
         self.font = pygame.font.Font(FONT_PATH, height)
@@ -47,13 +63,13 @@ class Selector:
     def next_option(self):
         """Change the current option to the next one
         """
-        self.current_index = (self.current_index + 1) % len(self.options)
+        self._current_index = (self._current_index + 1) % len(self.options)
         self.last_change = 1
 
     def previous_option(self):
         """Change the current option to the previous one
         """
-        self.current_index = (self.current_index - 1) % len(self.options)
+        self._current_index = (self._current_index - 1) % len(self.options)
         self.last_change = -1
 
     @property
@@ -63,12 +79,12 @@ class Selector:
         Returns:
             _type_: The value of the currently selected option
         """
-        return self.options[self.current_index]
+        return self.options[self._current_index]
 
     @value.setter
     def value(self, new_value):
         if new_value in self.options:
-            self.current_index = self.options.index(new_value)
+            self._current_index = self.options.index(new_value)
 
     def draw(self, surface: pygame.Surface):
         """Draws the selector
@@ -97,9 +113,10 @@ class Selector:
 
 class SelectorGroup:
     """A class that represents a group of selectors which can't have the same value
+    Attributes:
+        selectors (list[Selector]): List of selectors that can't have the same value
     """
     selectors: list[Selector]
-    previous_selected: list
 
     def __init__(self, selectors: list[Selector], all_options: list = None):
         self.selectors = selectors
@@ -157,7 +174,7 @@ class ColorSelector(Selector):
 
     def __init__(self, x: int, y: int, height: int, btn_width: int, options: list):
         super().__init__(x, y, height, btn_width, options)
-        self.current_index = 0
+        self._current_index = 0
 
     def draw(self, surface: pygame.Surface):
         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y,

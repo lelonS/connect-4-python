@@ -1,5 +1,16 @@
 class ConnectFour:
     """Represent a game of Connect Four
+
+    Attributes:
+        board (list[list[int]]): The board, to get a tile use board[col][row]
+        turn (int): The current turn, begins at 0
+        total_cols (int): The total number of columns
+        total_rows (int): The total number of rows
+        is_won (bool): True if the game is won, False if not
+        is_tied (bool): True if the game is tied, False if not
+        winner (int): The player who won the game, -1 if no one has won
+        winner_tile_1 (tuple[int, int]): The position of the first tile in a row
+        winner_tile_2 (tuple[int, int]): The position of the last tile in a row
     """
     board: list[list[int]]  # board[col][row]
     turn: int = 0
