@@ -1,6 +1,7 @@
 import pygame
 from classes.button import Button
 from constants import FONT_PATH
+from constants import PLR_COLORS
 
 
 class Selector:
@@ -91,7 +92,8 @@ class SelectorGroup:
 
     def _change_duplicates(self):
         # Get the last changed selectors
-        changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
+        changed_selectors = [
+            selector for selector in self.selectors if selector.last_change != 0]
         for selector in changed_selectors:
             total_checks = 0  # Makes sure it doesn't get stuck in an infinite loop
             # Current values taken by other selectors
@@ -156,10 +158,11 @@ if __name__ == "__main__":
     int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
     selector_group2 = SelectorGroup([int_selector, int_selector2])
-    color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
-    color_selector2 = ColorSelector(100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
-    color_selector3 = ColorSelector(100, 400, 36, 36, [(255, 255, 255), (0, 0, 0)])
-    selector_group = SelectorGroup([color_selector, color_selector2, color_selector3])
+    color_selector = ColorSelector(100, 200, 36, 36, [])
+    color_selector2 = ColorSelector(100, 300, 36, 36, [])
+    color_selector3 = ColorSelector(100, 400, 36, 36, [])
+    selector_group = SelectorGroup(
+        [color_selector, color_selector2, color_selector3], PLR_COLORS)
 
     while True:
         clock.tick(60)
