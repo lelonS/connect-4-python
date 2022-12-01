@@ -1,6 +1,5 @@
 import pygame
-from constants import WIDTH, HEIGHT, BOARD_BOTTOM_LEFT
-from game_scene import GameScene
+from constants import WIDTH, HEIGHT
 from classes.scene import SceneManager
 from main_menu import MainMenu
 
