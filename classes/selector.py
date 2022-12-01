@@ -5,6 +5,7 @@ from constants import PLR_COLORS
 
 
 class Selector:
+    """A class that represent a selector for a list of options"""
     x: int
     y: int
     height: int
@@ -44,15 +45,24 @@ class Selector:
         self.previous_button.bg_color = self.background_color
 
     def next_option(self):
+        """Change the current option to the next one
+        """
         self.current_index = (self.current_index + 1) % len(self.options)
         self.last_change = 1
 
     def previous_option(self):
+        """Change the current option to the previous one
+        """
         self.current_index = (self.current_index - 1) % len(self.options)
         self.last_change = -1
 
     @property
     def value(self):
+        """The currently selected option
+
+        Returns:
+            _type_: The value of the currently selected option
+        """
         return self.options[self.current_index]
 
     @value.setter
@@ -61,6 +71,11 @@ class Selector:
             self.current_index = self.options.index(new_value)
 
     def draw(self, surface: pygame.Surface):
+        """Draws the selector
+
+        Args:
+            surface (pygame.Surface): The surface to draw on
+        """
         # Draw the background
         pygame.draw.rect(surface, self.background_color, (self.x,
                                                           self.y, self.button_width * 3, self.height))
@@ -69,6 +84,11 @@ class Selector:
         self.previous_button.draw(surface)
 
     def update(self, event: pygame.event.Event):
+        """Updates the selector
+
+        Args:
+            event (pygame.event.Event): Current event
+        """
         # Set last change to none and then update the buttons
         self.last_change = 0
         self.next_button.update(event)
@@ -76,7 +96,8 @@ class Selector:
 
 
 class SelectorGroup:
-    # In a SelectorGroup all Selectors have different values
+    """A class that represents a group of selectors which can't have the same value
+    """
     selectors: list[Selector]
     previous_selected: list
 
