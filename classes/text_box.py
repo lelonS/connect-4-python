@@ -16,7 +16,7 @@ class TextBox:
     font_size: int
     max_chars: int
     is_focused: bool
-    default_text: str = "player1"
+    default_text: str
     default_text_color: tuple[int, int, int]
 
     def __init__(self, x: int, y: int, width: int, height: int, default_text: str, max_chars: int):
@@ -32,6 +32,12 @@ class TextBox:
         self.is_focused = False
         self.default_text = default_text
         self.default_text_color = (75, 75, 75)
+
+    @property
+    def value(self):
+        if self.text == "":
+            return self.default_text
+        return self.text
 
     def draw(self, screen: pygame.Surface):
         # Draw background
