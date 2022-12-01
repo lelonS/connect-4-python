@@ -8,9 +8,24 @@ class Scene:
         self.screen = screen
 
     def update(self, events: list[pygame.event.Event], dt: float, scene_manager: 'SceneManager'):
+        """Updates the scene
+
+        Args:
+            events (list[pygame.event.Event]): All events that have happened since the last update excluding quit events
+            dt (float): Time since last update in seconds
+            scene_manager (SceneManager): The scene manager that is managing this scene
+
+        Raises:
+            NotImplementedError: If update is not implemented
+        """
         raise NotImplementedError
 
     def draw(self):
+        """Draws the scene
+
+        Raises:
+            NotImplementedError: If draw is not implemented
+        """
         raise NotImplementedError
 
 
