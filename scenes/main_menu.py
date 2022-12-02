@@ -58,6 +58,14 @@ class MainMenu(Scene):
             return pos[0], pos[1], width, height
         return int(new_x), int(new_y), width, height
 
+    def check_duplicate_names(self):
+        all_names = [t.value for t in self.player_text_boxes]
+        for textbox in self.player_text_boxes:
+            if all_names.count(textbox.value) > 1:
+                textbox.error = True
+            else:
+                textbox.error = False
+
     def play(self):
         """Starts the game with the selected settings
 
@@ -97,6 +105,7 @@ class MainMenu(Scene):
             for i in range(self.player_number_buttons.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
+        self.check_duplicate_names()
 
     def draw(self):
         """Draws the scene to the screen
