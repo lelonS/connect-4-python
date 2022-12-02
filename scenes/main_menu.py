@@ -1,6 +1,6 @@
 import pygame
 from classes.scene import Scene, SceneManager
-from game_scene import GameScene
+from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
