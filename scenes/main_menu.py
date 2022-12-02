@@ -59,8 +59,12 @@ class MainMenu(Scene):
         return int(new_x), int(new_y), width, height
 
     def check_duplicate_names(self):
-        all_names = [t.value for t in self.player_text_boxes]
-        for textbox in self.player_text_boxes:
+        all_names = []
+        for i in range(self.player_number_buttons.value):
+            all_names.append(self.player_text_boxes[i].value)
+
+        for i in range(self.player_number_buttons.value):
+            textbox = self.player_text_boxes[i]
             if all_names.count(textbox.value) > 1:
                 textbox.error = True
             else:
