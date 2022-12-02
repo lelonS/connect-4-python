@@ -34,10 +34,8 @@ class GameScene(Scene):
         self.can_move = False
         self.current_hover_col = -1
         self.different_boards(cols, rows)
-        self.coin_frame = pygame.image.load(
-            "assets/coin_frame3.png").convert_alpha()
-        self.coin_frame = pygame.transform.smoothscale(
-            self.coin_frame, (self.tile_size, self.tile_size))
+        self.coin_frame = pygame.image.load("assets/coin_frame_fix3.png").convert_alpha()
+        self.coin_frame = pygame.transform.smoothscale(self.coin_frame, (self.tile_size, self.tile_size))
 
     def different_boards(self, cols: int, rows: int):
         max_tile_width = MAX_BOARD_WIDTH // cols
