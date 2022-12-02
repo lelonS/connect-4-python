@@ -21,6 +21,7 @@ class GameScene(Scene):
     current_hover_col: int
 
     coin_frame: pygame.Surface
+    game_over: bool
 
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
@@ -30,6 +31,7 @@ class GameScene(Scene):
         self.players = plrs
         self.player_colors = PLR_COLORS
         self.game = ConnectFour(cols, rows, total_players=len(plrs))
+        self.game_over = False
 
         self.can_move = False
         self.current_hover_col = -1
@@ -157,6 +159,20 @@ class GameScene(Scene):
                 return False
         return True
 
+    def on_game_over(self):
+        """Called ONCE when game is over
+        """
+        if self.game_over:
+            return
+        self.game_over = True
+        # Add scores to players
+        for plr_num, plr in enumerate(self.players):
+            plr.games += 1
+            if self.game.is_tied:
+                plr.ties += 1
+            if self.game.winner == plr_num:
+                plr.wins += 1
+
     def draw_win_line(self):
 
         # Check if all pieces has fallen
@@ -194,7 +210,8 @@ class GameScene(Scene):
         start_x = self.tile_size * self.game.total_cols + 20
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
-            draw_text(self.screen, plr.name, 32, start_x, start_y+dif,
+            text = f"{plr.name}: {plr.wins}"
+            draw_text(self.screen, text, 32, start_x, start_y+dif,
                       plr.color)
             dif = dif + 36
 
@@ -242,9 +259,13 @@ class GameScene(Scene):
                 if (self.game.is_won or self.game.is_tied) and event.key == pygame.K_r:
                     # Reset game
                     self.game.reset_game()
+                    self.game_over = False
                 elif event.key == pygame.K_m:
                     # Go to menu
                     scene_manager.go_to_origin_scene()
+
+        if self.game.is_won or self.game.is_tied and not self.game_over:
+            self.on_game_over()
         self.current_hover_col = mouse_col
 
 
