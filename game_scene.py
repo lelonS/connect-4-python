@@ -3,6 +3,7 @@ from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
 from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH
+from constants import HEIGHT
 from drawer import draw_text
 from classes.scene import Scene, SceneManager
 
@@ -187,6 +188,14 @@ class GameScene(Scene):
             # Draw tie text
             draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
+    def draw_player_names(self):
+        dif = 0
+        start_x = MAX_BOARD_WIDTH + 5
+        start_y = HEIGHT - len(self.players) * 40
+        for plr in self.players:
+            draw_text(self.screen, plr.name, 32, start_x, start_y+dif,
+               plr.color)
+            dif = dif + 36
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -194,6 +203,7 @@ class GameScene(Scene):
             # Draw column mouse hovers over if user can move
             self.draw_piece_at_tile(
                 self.current_hover_col, self.game.total_rows, self.game.turn)
+        self.draw_player_names()
         self.draw_pieces()
         self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
         self.draw_result_info()
