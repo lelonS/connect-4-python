@@ -9,6 +9,8 @@ pygame.key.set_repeat(500, 50)
 # Create screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Connect4")
+logo = pygame.image.load("assets/logo.png").convert_alpha()
+pygame.display.set_icon(logo)
 
 
 def main():
