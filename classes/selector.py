@@ -37,7 +37,7 @@ class Selector:
     next_button: Button
     previous_button: Button
 
-    def __init__(self, x: int, y: int, height: int, button_width: int, options: list):
+    def __init__(self, x: int, y: int, height: int, button_width: int, options: list, **kwargs):
         self.x = x
         self.y = y
         self.height = height
@@ -47,8 +47,8 @@ class Selector:
         self.last_change = 0
 
         self.font = pygame.font.Font(FONT_PATH, height)
-        self.font_color = (255, 255, 255)
-        self.background_color = (0, 0, 0)
+        self.font_color = kwargs.get("font_color", (255, 255, 255))
+        self.background_color = kwargs.get("background_color", (0, 0, 0))
 
         self.next_button = Button(
             x + button_width * 2, y, button_width, height, ">", self.next_option)
@@ -59,6 +59,8 @@ class Selector:
         self.previous_button.text_color = self.font_color
         self.next_button.bg_color = self.background_color
         self.previous_button.bg_color = self.background_color
+        self.next_button.border_color = self.background_color
+        self.previous_button.border_color = self.background_color
 
     def next_option(self):
         """Change the current option to the next one
@@ -156,10 +158,10 @@ class SelectorGroup:
 
 class IntSelector(Selector):
 
-    def __init__(self, x: int, y: int, height: int, btn_width: int, default_value: int, min_value: int, max_value: int):
-        nums = list(range(min_value, max_value + 1))
-        super().__init__(x, y, height, btn_width, nums)
-        self.value = default_value
+    def __init__(self, x: int, y: int, h: int, btn_width: int, default_val: int, min_val: int, max_val: int, **kwargs):
+        nums = list(range(min_val, max_val + 1))
+        super().__init__(x, y, h, btn_width, nums, **kwargs)
+        self.value = default_val
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
