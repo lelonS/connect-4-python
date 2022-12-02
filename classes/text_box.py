@@ -35,11 +35,22 @@ class TextBox:
 
     @property
     def value(self):
+        """
+
+        Returns: The text in the textbox or default text if the textbox is empty
+
+        """
         if self.text == "":
             return self.default_text
         return self.text
 
     def draw(self, screen: pygame.Surface):
+        """Draw the textbox on the screen
+
+        Args:
+            screen: The screen to draw on
+
+        """
         # Draw background
         pygame.draw.rect(screen, self.bg_color, self.rect)
         # Draw border
@@ -59,6 +70,12 @@ class TextBox:
         screen.blit(text, text.get_rect(center=self.rect.center))
 
     def update(self, event: pygame.event.Event):
+        """Update the textbox based on the event
+
+        Args:
+            event: Events excluding QUIT
+
+        """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(event.pos):
                 self.is_focused = True

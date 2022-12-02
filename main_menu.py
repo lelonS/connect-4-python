@@ -22,10 +22,15 @@ class MainMenu(Scene):
         self.row_buttons = IntSelector(655, 300, 50, 50, 6, 6, 10)
         self.player_number_buttons = IntSelector(655, 400, 50, 50, 2, 2, 4)
         self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
-        self.play_button = Button(540, 600, 200, 50, 'Play', self.play)
+        self.play_button = Button(540, 600, 200, 50, 'PLAY', self.play)
         self.scene_manager = None
 
     def play(self):
+        """Starts the game with the selected settings
+
+        Returns: None
+
+        """
         players = []
         selected_names = []
         for i in range(self.player_number_buttons.value):
@@ -40,6 +45,16 @@ class MainMenu(Scene):
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
+        """Updates the scene and handles events
+
+        Args:
+            events: A list of pygame events
+            seconds: The number of seconds since the last update
+            scene_manager: The scene manager that is managing this scene
+
+        Returns:
+
+        """
         self.scene_manager = scene_manager
         for event in events:
             self.col_buttons.update(event)
@@ -51,6 +66,8 @@ class MainMenu(Scene):
             self.play_button.update(event)
 
     def draw(self):
+        """Draws the scene to the screen
+        """
         # Draw background
         self.screen.fill(BG_COLOR_MAIN_MENU)
         # Draw title
