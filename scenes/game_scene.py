@@ -170,7 +170,7 @@ class GameScene(Scene):
             plr.games += 1
             if self.game.is_tied:
                 plr.ties += 1
-            if self.game.winner == plr_num:
+            elif self.game.winner == plr_num:
                 plr.wins += 1
 
     def draw_win_line(self):
