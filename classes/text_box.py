@@ -3,6 +3,7 @@ from constants import FONT_PATH
 
 COLOR_INACTIVE = (141, 182, 205)  # LightSkyBlue3
 COLOR_ACTIVE = (28, 134, 238)  # DodgerBlue2
+ERROR_COLOR = (255, 0, 0)
 
 
 class TextBox:
@@ -18,6 +19,7 @@ class TextBox:
     is_focused: bool
     default_text: str
     default_text_color: tuple[int, int, int]
+    error: bool
 
     def __init__(self, x: int, y: int, width: int, height: int, default_text: str, max_chars: int):
         self.text = ""
@@ -32,6 +34,7 @@ class TextBox:
         self.is_focused = False
         self.default_text = default_text
         self.default_text_color = (75, 75, 75)
+        self.error = False
 
     @property
     def value(self):
@@ -52,7 +55,10 @@ class TextBox:
 
         """
         # Draw background
-        pygame.draw.rect(screen, self.bg_color, self.rect)
+        if self.error:
+            pygame.draw.rect(screen, ERROR_COLOR, self.rect)
+        else:
+            pygame.draw.rect(screen, self.bg_color, self.rect)
         # Draw border
         pygame.draw.rect(screen, self.border_color,
                          self.rect, self.border_width)
