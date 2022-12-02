@@ -1,15 +1,33 @@
 import pygame
 from classes.button import Button
 from constants import FONT_PATH
+from constants import PLR_COLORS
 
 
 class Selector:
+    """A class that represent a selector for a list of options
+
+    Attributes:
+        x (int): x position
+        y (int): y position
+        height (int): height of the selector
+        button_width (int): width of the 'next' and 'previous' buttons
+        options (list): List of options
+        last_change (int): 1 if the last change was to the next option, 
+                          -1 if the last change was to the previous option, 0 if there was no change
+
+        font_color (tuple[int, int, int]): Color of the text
+        background_color (tuple[int, int, int]): Color of the background
+
+        next_button (Button): Button to change to the next option
+        previous_button (Button): Button to change to the previous option
+    """
     x: int
     y: int
     height: int
     button_width: int
     options: list
-    current_index: int = 0
+    _current_index: int = 0
     last_change: int  # -1 is previous, 1 is next, 0 is none
 
     font: pygame.font.Font
@@ -25,7 +43,7 @@ class Selector:
         self.height = height
         self.button_width = button_width
         self.options = options
-        self.current_index = 0
+        self._current_index = 0
         self.last_change = 0
 
         self.font = pygame.font.Font(FONT_PATH, height)
@@ -43,23 +61,37 @@ class Selector:
         self.previous_button.bg_color = self.background_color
 
     def next_option(self):
-        self.current_index = (self.current_index + 1) % len(self.options)
+        """Change the current option to the next one
+        """
+        self._current_index = (self._current_index + 1) % len(self.options)
         self.last_change = 1
 
     def previous_option(self):
-        self.current_index = (self.current_index - 1) % len(self.options)
+        """Change the current option to the previous one
+        """
+        self._current_index = (self._current_index - 1) % len(self.options)
         self.last_change = -1
 
     @property
     def value(self):
-        return self.options[self.current_index]
+        """The currently selected option
+
+        Returns:
+            _type_: The value of the currently selected option
+        """
+        return self.options[self._current_index]
 
     @value.setter
     def value(self, new_value):
         if new_value in self.options:
-            self.current_index = self.options.index(new_value)
+            self._current_index = self.options.index(new_value)
 
     def draw(self, surface: pygame.Surface):
+        """Draws the selector
+
+        Args:
+            surface (pygame.Surface): The surface to draw on
+        """
         # Draw the background
         pygame.draw.rect(surface, self.background_color, (self.x,
                                                           self.y, self.button_width * 3, self.height))
@@ -68,6 +100,11 @@ class Selector:
         self.previous_button.draw(surface)
 
     def update(self, event: pygame.event.Event):
+        """Updates the selector
+
+        Args:
+            event (pygame.event.Event): Current event
+        """
         # Set last change to none and then update the buttons
         self.last_change = 0
         self.next_button.update(event)
@@ -75,9 +112,11 @@ class Selector:
 
 
 class SelectorGroup:
-    # In a SelectorGroup all Selectors have different values
+    """A class that represents a group of selectors which can't have the same value
+    Attributes:
+        selectors (list[Selector]): List of selectors that can't have the same value
+    """
     selectors: list[Selector]
-    previous_selected: list
 
     def __init__(self, selectors: list[Selector], all_options: list = None):
         self.selectors = selectors
@@ -91,7 +130,8 @@ class SelectorGroup:
 
     def _change_duplicates(self):
         # Get the last changed selectors
-        changed_selectors = [selector for selector in self.selectors if selector.last_change != 0]
+        changed_selectors = [
+            selector for selector in self.selectors if selector.last_change != 0]
         for selector in changed_selectors:
             total_checks = 0  # Makes sure it doesn't get stuck in an infinite loop
             # Current values taken by other selectors
@@ -134,7 +174,7 @@ class ColorSelector(Selector):
 
     def __init__(self, x: int, y: int, height: int, btn_width: int, options: list):
         super().__init__(x, y, height, btn_width, options)
-        self.current_index = 0
+        self._current_index = 0
 
     def draw(self, surface: pygame.Surface):
         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y,
@@ -156,10 +196,11 @@ if __name__ == "__main__":
     int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
     selector_group2 = SelectorGroup([int_selector, int_selector2])
-    color_selector = ColorSelector(100, 200, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
-    color_selector2 = ColorSelector(100, 300, 36, 36, [(255, 255, 255), (0, 0, 0), (255, 0, 0)])
-    color_selector3 = ColorSelector(100, 400, 36, 36, [(255, 255, 255), (0, 0, 0)])
-    selector_group = SelectorGroup([color_selector, color_selector2, color_selector3])
+    color_selector = ColorSelector(100, 200, 36, 36, [])
+    color_selector2 = ColorSelector(100, 300, 36, 36, [])
+    color_selector3 = ColorSelector(100, 400, 36, 36, [])
+    selector_group = SelectorGroup(
+        [color_selector, color_selector2, color_selector3], PLR_COLORS)
 
     while True:
         clock.tick(60)

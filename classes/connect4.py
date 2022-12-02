@@ -1,4 +1,17 @@
 class ConnectFour:
+    """Represent a game of Connect Four
+
+    Attributes:
+        board (list[list[int]]): The board, to get a tile use board[col][row]
+        turn (int): The current turn, begins at 0
+        total_cols (int): The total number of columns
+        total_rows (int): The total number of rows
+        is_won (bool): True if the game is won, False if not
+        is_tied (bool): True if the game is tied, False if not
+        winner (int): The player who won the game, -1 if no one has won
+        winner_tile_1 (tuple[int, int]): The position of the first tile in a row
+        winner_tile_2 (tuple[int, int]): The position of the last tile in a row
+    """
     board: list[list[int]]  # board[col][row]
     turn: int = 0
     total_cols: int
@@ -16,10 +29,26 @@ class ConnectFour:
         self.board = [[] for _ in range(total_cols)]
 
     def is_legal_move(self, col: int) -> bool:
+        """Checks if move is possible
+
+        Args:
+            col (int): The column to check
+
+        Returns:
+            bool: True if move is possible, False if not
+        """
         # Check if col is out of bounds and if col is full
         return 0 <= col < self.total_cols and len(self.board[col]) < self.total_rows
 
     def make_move(self, col: int) -> bool:
+        """Attempts to make a move at col and checks if the game is won or tied.
+
+        Args:
+            col (int): The column to make a move at
+
+        Returns:
+            bool: True if move was made, False if not
+        """
         # Check if move is legal
         if self.is_legal_move(col):
             # Append turn to column
@@ -39,9 +68,17 @@ class ConnectFour:
         return False  # Move not made
 
     def check_win_dir(self, col: int, row: int, direction: tuple[int, int]) -> tuple[int, tuple[int, int]]:
-        """From the col and row a piece is placed, the function takes
-        a direction and returns the number of pieces that share the same
-        value in a direction (not including the placed piece)."""
+        """Checks how many pieces are in a row in a direction from a piece at col and row.
+
+        Args:
+            col (int): Origin column
+            row (int): Origin row
+            direction (tuple[int, int]): Direction to check (x increase per step, y increase per step)
+
+        Returns:
+            tuple[int, tuple[int, int]]: Returns the number of pieces in a row (excluding the origin piece)
+             and the position of the last piece in a row
+        """
         current_plr_pos = self.board[col][row]
         counter = 0
         furthest_tile = (col, row)
@@ -62,7 +99,15 @@ class ConnectFour:
         return counter, furthest_tile
 
     def check_win_at(self, col: int, row: int) -> bool:
-        """Checks if a piece at col and row is part of a winning combination."""
+        """Checks if the piece at col and row has won the game.
+
+        Args:
+            col (int): Origin column
+            row (int): Origin row
+
+        Returns:
+            bool: True if the piece at col and row has won the game, False if not
+        """
         direction_list = [(-1, 0), (-1, -1), (0, -1), (1, -1)]  # ← ↙ ↓ ↘
         direction_list_opp = [(1, 0), (1, 1), (0, 1), (-1, 1)]  # → ↗ ↑ ↖
 
@@ -86,6 +131,11 @@ class ConnectFour:
         self.winner = -1
 
     def check_board_full(self) -> bool:
+        """Checks if the board is full.
+
+        Returns:
+            bool: True if the board is full, False if not
+        """
         # Check if any legal move exists
         for col in range(self.total_cols):
             if self.is_legal_move(col):

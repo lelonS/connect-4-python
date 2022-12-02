@@ -1,4 +1,14 @@
 class FallingPoint:
+    """A point that accelerates downwards
+
+    Attributes:
+        x (float): x position
+        y (float): y position
+        vel_y (float): y velocity
+        acc_y (float): y acceleration
+        max_y (float): The maximum y position before the point is considered 'past max'
+        is_past_max (bool): True if the point is past the max_y
+    """
     x: float
     y: float
     vel_y: float
@@ -14,7 +24,11 @@ class FallingPoint:
         self.is_past_max = False
 
     def update(self, dt: float):
-        """dt is seconds since last update"""
+        """Adds acceleration to velocity, and velocity to position
+
+        Args:
+            dt (float): Seconds since last update
+        """
         self.vel_y += self.acc_y * dt
         self.y += self.vel_y * dt
         if self.y >= self.max_y:

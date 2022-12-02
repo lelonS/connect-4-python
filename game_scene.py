@@ -47,7 +47,15 @@ class GameScene(Scene):
         return (x - self.board_bottom_left[0]) // self.tile_size
 
     def get_tile_pos(self, col: int, row: int) -> tuple[float, float]:
-        """Returns top left point of tile"""
+        """Get the top left position of a tile
+
+        Args:
+            col (int): Column number
+            row (int): Row number
+
+        Returns:
+            tuple[float, float]: Top left position of tile
+        """
         # Col
         x_coord = self.board_bottom_left[0] + col * self.tile_size
         # Row
@@ -55,7 +63,12 @@ class GameScene(Scene):
         return x_coord, y_coord
 
     def draw_board_overlay(self, cols: int, rows: int):
-        """Draws the board overlay with circle cutouts"""
+        """Draw the board overlay
+
+        Args:
+            cols (int): All columns
+            rows (int): All rows
+        """
         # Create surface to use for each tile
         tile_surface = pygame.Surface(
             (self.tile_size, self.tile_size), pygame.SRCALPHA)
@@ -72,7 +85,12 @@ class GameScene(Scene):
                 self.screen.blit(tile_surface, pos)
 
     def draw_piece(self, pos: tuple[float, float], plr: int):
-        """Variable pos is top left of the rect the circle is inside"""
+        """Draw a piece at a position
+
+        Args:
+            pos (tuple[float, float]): Top left position of piece rect
+            plr (int): Player index
+        """
         # Variables
         half_tile = self.tile_size / 2
 
@@ -93,7 +111,7 @@ class GameScene(Scene):
         self.draw_piece(pos, plr)
 
     def draw_pieces(self):
-        """Draw all pieces in board"""
+        """Draws all pieces in the game board, including falling pieces"""
         board = self.game.board
         for col_num in range(len(board)):
             for row_num in range(len(board[col_num])):
@@ -107,7 +125,11 @@ class GameScene(Scene):
                                             board[col_num][row_num])
 
     def update_all_falling(self, dt: float):
-        """Updates all falling pieces"""
+        """Updates all falling pieces
+
+        Args:
+            dt (float): Seconds since last update
+        """
         # Pieces past max_y to remove
         keys_to_remove = []
 
@@ -122,7 +144,14 @@ class GameScene(Scene):
             del self.falling_pieces[key]
 
     def check_all_past(self, past_y: float) -> bool:
-        """Checks if all falling pieces are past a certain y value"""
+        """Checks if all falling pieces are past a certain y value
+
+        Args:
+            past_y (float): The y value all pieces must be past
+
+        Returns:
+            bool: all_past
+        """
         for piece in self.falling_pieces.values():
             if piece.y <= past_y:
                 return False
