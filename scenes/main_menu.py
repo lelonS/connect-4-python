@@ -18,8 +18,8 @@ class MainMenu(Scene):
 
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
-        self.col_buttons = IntSelector(655, 200, 50, 50, 7, 2, 10)
-        self.row_buttons = IntSelector(655, 300, 50, 50, 6, 2, 10)
+        self.col_buttons = IntSelector(655, 200, 50, 50, 7, 5, 12)
+        self.row_buttons = IntSelector(655, 300, 50, 50, 6, 5, 12)
         self.player_number_buttons = IntSelector(655, 400, 50, 50, 2, 2, 4)
         self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
         self.play_button = Button(540, 600, 200, 50, 'PLAY', self.play)
