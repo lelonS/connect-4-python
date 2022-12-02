@@ -23,9 +23,10 @@ class ConnectFour:
     winner_tile_1: tuple[int, int]
     winner_tile_2: tuple[int, int]
 
-    def __init__(self, total_cols: int, total_rows: int) -> None:
+    def __init__(self, total_cols: int, total_rows: int, total_players: int = 2) -> None:
         self.total_cols = total_cols
         self.total_rows = total_rows
+        self.number_of_players = total_players
         self.board = [[] for _ in range(total_cols)]
 
     def is_legal_move(self, col: int) -> bool:

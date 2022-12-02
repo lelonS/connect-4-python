@@ -20,6 +20,8 @@ class GameScene(Scene):
     can_move: bool
     current_hover_col: int
 
+    coin_frame: pygame.Surface
+
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
         self.falling_pieces = {}
@@ -27,7 +29,7 @@ class GameScene(Scene):
         self.board_bottom_left = board_bl
         self.players = plrs
         self.player_colors = PLR_COLORS
-        self.game = ConnectFour(cols, rows)
+        self.game = ConnectFour(cols, rows, total_players=len(plrs))
 
         self.can_move = False
         self.current_hover_col = -1
@@ -188,13 +190,14 @@ class GameScene(Scene):
             # Draw tie text
             draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
+
     def draw_player_names(self):
         dif = 0
         start_x = MAX_BOARD_WIDTH + 5
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
             draw_text(self.screen, plr.name, 32, start_x, start_y+dif,
-               plr.color)
+                      plr.color)
             dif = dif + 36
 
     def draw(self):
