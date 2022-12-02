@@ -18,12 +18,45 @@ class MainMenu(Scene):
 
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
-        self.col_buttons = IntSelector(655, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.row_buttons = IntSelector(655, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.player_number_buttons = IntSelector(655, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
+        mid_x = int(screen.get_size()[0] / 2)
+        px, py, pw, ph = self.get_rect(350, 175, 'top-center', (mid_x, 575))
+
+        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
+        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
+        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
         self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
-        self.play_button = Button(540, 600, 200, 50, 'PLAY', self.play)
+        self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
+
+    @staticmethod
+    def get_rect(width: int, height: int, align: str, pos: tuple[int, int]) -> tuple[int, int, int, int]:
+        """
+
+        Args:
+            width: The width
+            height: The height
+            align: String of value(center, top-left, top-right)
+            pos: Position to align to
+
+        Returns: Rectangle with the new position
+
+        """
+        x = pos[0]
+        y = pos[1]
+        if align == 'center':
+            new_x = x - width / 2
+            new_y = y - height / 2
+        elif align == 'top-center':
+            new_x = x - width / 2
+            new_y = y
+        elif align == 'top-left':
+            return pos[0], pos[1], width, height
+        elif align == 'top-right':
+            new_x = x - width
+            new_y = y
+        else:
+            return pos[0], pos[1], width, height
+        return int(new_x), int(new_y), width, height
 
     def play(self):
         """Starts the game with the selected settings
@@ -68,19 +101,20 @@ class MainMenu(Scene):
     def draw(self):
         """Draws the scene to the screen
         """
+
         # Draw background
         self.screen.fill(BG_COLOR_MAIN_MENU)
         # Draw title
         draw_text(self.screen, 'Connect4', 100, 375, 25, WHITE)
         # Draw column buttons
         self.col_buttons.draw(self.screen)
-        draw_text(self.screen, 'Columns: ', 40, 455, 200, WHITE)
+        draw_text(self.screen, 'Columns: ', 40, 445, 200, WHITE)
         # Draw row buttons
         self.row_buttons.draw(self.screen)
-        draw_text(self.screen, 'Rows: ', 40, 530, 300, WHITE)
+        draw_text(self.screen, 'Rows: ', 40, 518, 300, WHITE)
         # Draw player number buttons
         self.player_number_buttons.draw(self.screen)
-        draw_text(self.screen, 'Players: ', 40, 460, 400, WHITE)
+        draw_text(self.screen, 'Players: ', 40, 446, 400, WHITE)
         # Draw player text boxes
         for i in range(self.player_number_buttons.value):  # Only draw the number of players selected
             self.player_text_boxes[i].draw(self.screen)
