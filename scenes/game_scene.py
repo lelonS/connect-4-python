@@ -218,7 +218,7 @@ class GameScene(Scene):
 
     def draw(self):
         self.screen.fill(BLACK)
-        if self.can_move:
+        if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
             # Draw column mouse hovers over if user can move
             self.draw_piece_at_tile(
                 self.current_hover_col, self.game.total_rows, self.game.turn)
