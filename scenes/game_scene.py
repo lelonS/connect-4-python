@@ -196,14 +196,14 @@ class GameScene(Scene):
         if self.game.is_won:
             plr = self.players[self.game.winner]
             # Draw win text
-            draw_text(self.screen, f"{plr.name} won!! [R]estart, [M]enu", 32, 200, 50,
+            draw_text(self.screen, f"{plr.name} WON!! [R]ESTART, [M]ENU", 32, 200, 50,
                       plr.color)
             # Draw win line
             self.draw_win_line()
 
         elif self.game.is_tied:
             # Draw tie text
-            draw_text(self.screen, "Tie... [R]estart, [M]enu",
+            draw_text(self.screen, "TIE... [R]ESTART, [M]ENU",
                       32, 200, 50, (125, 125, 125))
 
     def draw_player_names(self):
