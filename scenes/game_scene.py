@@ -194,9 +194,10 @@ class GameScene(Scene):
 
     def draw_result_info(self):
         if self.game.is_won:
+            plr = self.players[self.game.winner]
             # Draw win text
-            draw_text(self.screen, f"Player {self.game.winner + 1} won!! [R]estart, [M]enu", 32, 200, 50,
-                      self.player_colors[self.game.winner])
+            draw_text(self.screen, f"{plr.name} won!! [R]estart, [M]enu", 32, 200, 50,
+                      plr.color)
             # Draw win line
             self.draw_win_line()
 
@@ -211,7 +212,7 @@ class GameScene(Scene):
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
             text = f"{plr.name}: {plr.wins}"
-            draw_text(self.screen, text, 32, start_x, start_y+dif,
+            draw_text(self.screen, text, 32, start_x, start_y + dif,
                       plr.color)
             dif = dif + 36
 
