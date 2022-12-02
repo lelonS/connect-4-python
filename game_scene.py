@@ -41,7 +41,7 @@ class GameScene(Scene):
 
     def different_boards(self, cols: int, rows: int):
         max_tile_width = MAX_BOARD_WIDTH // cols
-        max_tile_height = MAX_BOARD_HEIGHT // rows
+        max_tile_height = MAX_BOARD_HEIGHT // (rows + 1)
 
         self.tile_size = min(max_tile_width, max_tile_height)
 
@@ -102,7 +102,7 @@ class GameScene(Scene):
         x_mid = x_pos + half_tile
         y_mid = y_pos + half_tile
 
-        plr_color = self.player_colors[plr]  # self.players[plr].color
+        plr_color = self.players[plr].color  # self.players[plr].color
         # Draw piece
         pygame.draw.circle(
             self.screen, plr_color, (x_mid, y_mid), half_tile)
@@ -176,7 +176,7 @@ class GameScene(Scene):
         h_tile = self.tile_size / 2
         pos_1 = (x_1 + h_tile, y_1 + h_tile)
         pos_2 = (x_2 + h_tile, y_2 + h_tile)
-        pygame.draw.line(self.screen, WHITE, pos_1, pos_2, width=10)
+        pygame.draw.line(self.screen, WHITE, pos_1, pos_2, width=int(self.tile_size / 10))
 
     def draw_result_info(self):
         if self.game.is_won:
@@ -193,7 +193,7 @@ class GameScene(Scene):
 
     def draw_player_names(self):
         dif = 0
-        start_x = MAX_BOARD_WIDTH + 5
+        start_x = self.tile_size * self.game.total_cols + 20
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
             draw_text(self.screen, plr.name, 32, start_x, start_y+dif,
