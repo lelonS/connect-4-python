@@ -174,8 +174,8 @@ class IntSelector(Selector):
 
 class ColorSelector(Selector):
 
-    def __init__(self, x: int, y: int, height: int, btn_width: int, options: list):
-        super().__init__(x, y, height, btn_width, options)
+    def __init__(self, x: int, y: int, height: int, btn_width: int, options: list, **kwargs):
+        super().__init__(x, y, height, btn_width, options, **kwargs)
         self._current_index = 0
 
     def draw(self, surface: pygame.Surface):
