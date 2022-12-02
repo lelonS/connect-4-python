@@ -33,7 +33,7 @@ class GameScene(Scene):
         self.current_hover_col = -1
         self.different_boards(cols, rows)
         self.coin_frame = pygame.image.load(
-            "assets/coin_frame3.png").convert_alpha()
+            "assets/coin_frame_fix3.png").convert_alpha()
         self.coin_frame = pygame.transform.scale(
             self.coin_frame, (self.tile_size, self.tile_size))
 
@@ -188,13 +188,14 @@ class GameScene(Scene):
             # Draw tie text
             draw_text(self.screen, "Tie... [R]estart, [M]enu",
                       32, 200, 50, (125, 125, 125))
+
     def draw_player_names(self):
         dif = 0
         start_x = MAX_BOARD_WIDTH + 5
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
-            draw_text(self.screen, plr.name, 32, start_x, start_y+dif,
-               plr.color)
+            draw_text(self.screen, plr.name, 32, start_x, start_y + dif,
+                      plr.color)
             dif = dif + 36
 
     def draw(self):
