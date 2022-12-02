@@ -13,7 +13,7 @@ class Selector:
         height (int): height of the selector
         button_width (int): width of the 'next' and 'previous' buttons
         options (list): List of options
-        last_change (int): 1 if the last change was to the next option, 
+        last_change (int): 1 if the last change was to the next option,
                           -1 if the last change was to the previous option, 0 if there was no change
 
         font_color (tuple[int, int, int]): Color of the text
