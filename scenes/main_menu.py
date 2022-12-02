@@ -18,9 +18,9 @@ class MainMenu(Scene):
 
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
-        self.col_buttons = IntSelector(655, 200, 50, 50, 7, 5, 12)
-        self.row_buttons = IntSelector(655, 300, 50, 50, 6, 5, 12)
-        self.player_number_buttons = IntSelector(655, 400, 50, 50, 2, 2, 4)
+        self.col_buttons = IntSelector(655, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
+        self.row_buttons = IntSelector(655, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
+        self.player_number_buttons = IntSelector(655, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
         self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
         self.play_button = Button(540, 600, 200, 50, 'PLAY', self.play)
         self.scene_manager = None
@@ -73,27 +73,12 @@ class MainMenu(Scene):
         # Draw title
         draw_text(self.screen, 'Connect4', 100, 375, 25, WHITE)
         # Draw column buttons
-        self.col_buttons.background_color = BG_COLOR_MAIN_MENU
-        self.col_buttons.next_button.bg_color = BG_COLOR_MAIN_MENU
-        self.col_buttons.previous_button.bg_color = BG_COLOR_MAIN_MENU
-        self.col_buttons.next_button.border_color = BG_COLOR_MAIN_MENU
-        self.col_buttons.previous_button.border_color = BG_COLOR_MAIN_MENU
         self.col_buttons.draw(self.screen)
         draw_text(self.screen, 'Columns: ', 40, 455, 200, WHITE)
         # Draw row buttons
-        self.row_buttons.background_color = BG_COLOR_MAIN_MENU
-        self.row_buttons.next_button.bg_color = BG_COLOR_MAIN_MENU
-        self.row_buttons.previous_button.bg_color = BG_COLOR_MAIN_MENU
-        self.row_buttons.next_button.border_color = BG_COLOR_MAIN_MENU
-        self.row_buttons.previous_button.border_color = BG_COLOR_MAIN_MENU
         self.row_buttons.draw(self.screen)
         draw_text(self.screen, 'Rows: ', 40, 530, 300, WHITE)
         # Draw player number buttons
-        self.player_number_buttons.background_color = BG_COLOR_MAIN_MENU
-        self.player_number_buttons.next_button.bg_color = BG_COLOR_MAIN_MENU
-        self.player_number_buttons.previous_button.bg_color = BG_COLOR_MAIN_MENU
-        self.player_number_buttons.next_button.border_color = BG_COLOR_MAIN_MENU
-        self.player_number_buttons.previous_button.border_color = BG_COLOR_MAIN_MENU
         self.player_number_buttons.draw(self.screen)
         draw_text(self.screen, 'Players: ', 40, 460, 400, WHITE)
         # Draw player text boxes
