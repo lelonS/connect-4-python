@@ -1,9 +1,11 @@
 import pygame
 from constants import FONT_PATH
 
-COLOR_INACTIVE = (141, 182, 205)  # LightSkyBlue3
-COLOR_ACTIVE = (28, 134, 238)  # DodgerBlue2
-ERROR_COLOR = (255, 0, 0)
+# COLOR_INACTIVE = (141, 182, 205)  # LightSkyBlue3
+# COLOR_ACTIVE = (28, 134, 238)  # DodgerBlue2
+COLOR_INACTIVE = (185, 185, 185)
+COLOR_ACTIVE = (105, 105, 105)
+ERROR_COLOR = (200, 20, 20)
 
 
 class TextBox:
@@ -27,7 +29,7 @@ class TextBox:
         self.text_color = (0, 0, 0)
         self.bg_color = COLOR_INACTIVE
         self.border_color = (0, 0, 0)
-        self.border_width = 2
+        self.border_width = 3
         self.font_size = height - 10
         self.font = pygame.font.Font(FONT_PATH, self.font_size)
         self.max_chars = max_chars
