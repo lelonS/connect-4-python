@@ -218,18 +218,25 @@ class GameScene(Scene):
             dif = dif + 36
 
     def draw(self):
-        self.screen.fill(BLACK)
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
             # Draw column mouse hovers over if user can move
             self.draw_piece_at_tile(
                 self.current_hover_col, self.game.total_rows, self.game.turn)
         self.draw_player_names()
+        # Draw a black background to the board
+        board_height = self.tile_size * self.game.total_rows
+        board_width = self.tile_size * self.game.total_cols
+        board_rect = (BOARD_BOTTOM_LEFT[0], BOARD_BOTTOM_LEFT[1] - board_height, board_width, board_height)
+        pygame.draw.rect(self.screen, BLACK, board_rect)
+        # Draw board
         self.draw_pieces()
         self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
         self.draw_result_info()
         pygame.display.update()
 
     def update(self, events: list[pygame.event.Event], dt: float, scene_manager: SceneManager):
+        scene_manager.grid_background.active_falling = False
+        scene_manager.grid_background.amount_players = len(self.players)
         # Get clock info
         self.update_all_falling(dt)
 
@@ -275,7 +282,7 @@ if __name__ == "__main__":
     pygame.init()
     s = pygame.display.set_mode((900, 600))
     clock = pygame.time.Clock()
-    sceneManager = SceneManager()
+    sceneManager = SceneManager(s)
     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
         Player("test", (255, 0, 0))]))
     while True:
