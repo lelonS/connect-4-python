@@ -2,7 +2,8 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import SEABLUE, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH
+from constants import BOARD_COLOR, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, \
+    MAX_BOARD_WIDTH
 from constants import HEIGHT
 from drawer import draw_text
 from classes.scene import Scene, SceneManager
@@ -75,7 +76,7 @@ class GameScene(Scene):
         tile_surface = pygame.Surface(
             (self.tile_size, self.tile_size), pygame.SRCALPHA)
         # Fill with blue background
-        tile_surface.fill(SEABLUE)
+        tile_surface.fill(BOARD_COLOR)
         # Draw circle cutout
         pygame.draw.circle(tile_surface, (0, 0, 0, 0),
                            (self.tile_size / 2, self.tile_size / 2), self.tile_size * 0.45)
