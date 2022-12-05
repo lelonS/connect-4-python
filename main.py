@@ -15,7 +15,7 @@ pygame.display.set_icon(logo)
 
 def main():
     # Create scene manager
-    scene_manager = SceneManager()
+    scene_manager = SceneManager(screen)
     # scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
     scene_manager.add_scene(MainMenu(screen))
 
