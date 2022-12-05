@@ -6,9 +6,6 @@ class Button:
     text: str
     rect: pygame.Rect
     text_color: tuple[int, int, int]
-    bg_color: tuple[int, int, int]
-    border_color: tuple[int, int, int]
-    border_width: int
     font: pygame.font.Font
     hover_font: pygame.font.Font
     font_size: int
@@ -19,9 +16,6 @@ class Button:
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
         self.text_color = (0, 0, 0)
-        self.bg_color = (255, 255, 255)
-        self.border_color = (0, 0, 0)
-        self.border_width = 2
         self.font_size = int(height * 0.8)
         self.font = pygame.font.Font(FONT_PATH, self.font_size)
         self.hover_font = pygame.font.Font(
@@ -30,11 +24,6 @@ class Button:
         self.on_click = on_click
 
     def draw(self, screen: pygame.Surface):
-        # Draw background
-        pygame.draw.rect(screen, self.bg_color, self.rect)
-        # Draw border
-        pygame.draw.rect(screen, self.border_color,
-                         self.rect, self.border_width)
         # draw text in center
         if self.hover:
             text = self.hover_font.render(self.text, True, self.text_color)
