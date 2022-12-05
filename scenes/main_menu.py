@@ -31,7 +31,6 @@ class MainMenu(Scene):
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
-        self.falling_pieces = {}
 
     @staticmethod
     def get_rect(width: int, height: int, align: str, pos: tuple[int, int]) -> tuple[int, int, int, int]:
@@ -94,59 +93,6 @@ class MainMenu(Scene):
         game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, players)
         self.scene_manager.add_scene(game_scene)
 
-    def draw_grid(self):
-        """Draws the grid of the board
-
-        Returns: None
-
-        """
-        surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-        surface.fill(BG_COLOR_MAIN_MENU)
-
-        width = 100
-        height = 100
-        screen_width = self.screen.get_size()[0]
-        screen_height = self.screen.get_size()[1]
-        amount_x = screen_width // width + 1
-        amount_y = screen_height // height + 1
-        x = screen_width / 2 - (amount_x * width) / 2
-        y = screen_height / 2 - (amount_y * height) / 2
-
-        for i in range(amount_x):
-            pygame.draw.line(surface, (0, 0, 0, 0), (x + i * width, y), (x + i * width, screen_height), 1)
-        for i in range(amount_y):
-            pygame.draw.line(surface, (0, 0, 0, 0), (x, y + i * height), (screen_width, y + i * height), 1)
-        self.screen.blit(surface, (0, 0))
-
-    def update_all_falling(self, dt: float):
-        """Updates all falling pieces
-
-        Args:
-            dt (float): Seconds since last update
-        """
-        # Pieces past max_y to remove
-        keys_to_remove = []
-
-        # Update all falling pieces
-        for key in self.falling_pieces:
-            self.falling_pieces[key].update(dt)
-            if self.falling_pieces[key].is_past_max:
-                keys_to_remove.append(key)
-
-        # Remove pieces past max_y
-        for key in keys_to_remove:
-            del self.falling_pieces[key]
-
-    def draw_all_falling(self):
-        """Draws all falling pieces
-
-        Returns: None
-
-        """
-        for key in self.falling_pieces:
-            pygame.draw.circle(self.screen, PLR_COLORS[key], (self.falling_pieces[key].x, self.falling_pieces[key].y),
-                               150)
-
     def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
         """Updates the scene and handles events
 
@@ -159,6 +105,8 @@ class MainMenu(Scene):
 
         """
         self.scene_manager = scene_manager
+        self.scene_manager.grid_background.active_falling = True
+        self.scene_manager.grid_background.amount_players = self.player_number_buttons.value
         for event in events:
             self.col_buttons.update(event)
             self.row_buttons.update(event)
@@ -168,27 +116,13 @@ class MainMenu(Scene):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
         self.check_duplicate_names()
-        self.update_all_falling(seconds)
-
-        if len(self.falling_pieces) < 1:
-            self.falling_pieces[random.randint(0, self.player_number_buttons.value - 1)] = FallingPoint(
-                (random.randint(0, self.screen.get_width()), -150),
-                650, 0,
-                2 * self.screen.get_size()[1])
 
     def draw(self):
         """Draws the scene to the screen
         """
 
-        # Draw background
-        self.screen.fill((20, 20, 20))
-        # Draw falling pieces
-        self.draw_all_falling()
         # draw a circle at mouse position
         # pygame.draw.circle(self.screen, (255, 0, 0), pygame.mouse.get_pos(), 70)
-
-        # Draw background-grid
-        self.draw_grid()
         # Draw title
         draw_text(self.screen, 'Connect4', 100, 375, 25, WHITE)
         # Draw column buttons
