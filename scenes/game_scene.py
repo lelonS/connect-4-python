@@ -220,8 +220,8 @@ class GameScene(Scene):
     def draw_player_names(self):
         for n, plr in enumerate(self.players):
             # Draw player name
-            self.player_labels[n].set_text(f"{plr.name}: {plr.wins}")  # Make sure label is updated
-            self.player_labels[n].draw(self.screen)
+            self.plr_labels[n].set_text(f"{plr.name}: {plr.wins}")  # Make sure label is updated
+            self.plr_labels[n].draw(self.screen)
 
     def draw(self):
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
