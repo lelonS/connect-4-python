@@ -1,7 +1,9 @@
 import pygame
 from classes.button import Button
 from constants import FONT_PATH
-from constants import PLR_COLORS
+
+
+# from constants import PLR_COLORS
 
 
 class Selector:
@@ -17,7 +19,6 @@ class Selector:
                           -1 if the last change was to the previous option, 0 if there was no change
 
         font_color (tuple[int, int, int]): Color of the text
-        background_color (tuple[int, int, int]): Color of the background
 
         next_button (Button): Button to change to the next option
         previous_button (Button): Button to change to the previous option
@@ -179,32 +180,31 @@ class ColorSelector(Selector):
         self.next_button.draw(surface)
         self.previous_button.draw(surface)
 
-
-if __name__ == "__main__":
-    pygame.init()
-    pygame.display.set_caption('IntSelector')
-    s = pygame.display.set_mode((800, 600))
-    clock = pygame.time.Clock()
-
-    int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
-    int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
-    selector_group2 = SelectorGroup([int_selector, int_selector2])
-    color_selector = ColorSelector(100, 200, 36, 36, [])
-    color_selector2 = ColorSelector(100, 300, 36, 36, [])
-    color_selector3 = ColorSelector(100, 400, 36, 36, [])
-    selector_group = SelectorGroup(
-        [color_selector, color_selector2, color_selector3], PLR_COLORS)
-
-    while True:
-        clock.tick(60)
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            selector_group2.update(e)
-            selector_group.update(e)
-
-        s.fill((0, 0, 0))
-        selector_group2.draw(s)
-        selector_group.draw(s)
-        pygame.display.update()
+# if __name__ == "__main__":
+#     pygame.init()
+#     pygame.display.set_caption('IntSelector')
+#     s = pygame.display.set_mode((800, 600))
+#     clock = pygame.time.Clock()
+#
+#     int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
+#     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
+#     selector_group2 = SelectorGroup([int_selector, int_selector2])
+#     color_selector = ColorSelector(100, 200, 36, 36, [])
+#     color_selector2 = ColorSelector(100, 300, 36, 36, [])
+#     color_selector3 = ColorSelector(100, 400, 36, 36, [])
+#     selector_group = SelectorGroup(
+#         [color_selector, color_selector2, color_selector3], PLR_COLORS)
+#
+#     while True:
+#         clock.tick(60)
+#         for e in pygame.event.get():
+#             if e.type == pygame.QUIT:
+#                 pygame.quit()
+#                 exit()
+#             selector_group2.update(e)
+#             selector_group.update(e)
+#
+#         s.fill((0, 0, 0))
+#         selector_group2.draw(s)
+#         selector_group.draw(s)
+#         pygame.display.update()
