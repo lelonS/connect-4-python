@@ -26,7 +26,7 @@ def main():
     while True:
 
         # Get clock info
-        ms = clock.tick()
+        ms = clock.tick(60)
         seconds = ms / 1000
 
         # Check events
