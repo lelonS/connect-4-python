@@ -78,5 +78,17 @@ class Label:
     def get_size(self) -> tuple[int, int]:
         return self._rendered_text.get_size()
 
+    def get_rect(self) -> pygame.Rect:
+        if self.align == CENTER:
+            return self._rendered_text.get_rect(center=(self.x, self.y))
+        elif self.align == TOP_CENTER:
+            return self._rendered_text.get_rect(midtop=(self.x, self.y))
+        elif self.align == TOP_LEFT:
+            return self._rendered_text.get_rect(topleft=(self.x, self.y))
+        elif self.align == TOP_RIGHT:
+            return self._rendered_text.get_rect(topright=(self.x, self.y))
+        else:
+            return self._rendered_text.get_rect(topleft=(self.x, self.y))
+
     def draw(self, screen: pygame.Surface, x: int = None, y: int = None):
         screen.blit(self._rendered_text, self.get_pos_aligned(x, y))
