@@ -1,4 +1,5 @@
 import pygame
+from classes.label import Label, CENTER, TOP_CENTER, TOP_LEFT, TOP_RIGHT
 from classes.scene import Scene, SceneManager
 from scenes.game_scene import GameScene
 from classes.selector import IntSelector
@@ -15,6 +16,7 @@ class MainMenu(Scene):
     player_number_buttons: IntSelector
     player_text_boxes: list[TextBox]
     play_button: Button
+    labels: list[Label]
 
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
@@ -32,6 +34,13 @@ class MainMenu(Scene):
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
+
+        # Create labels        draw_text(self.screen, 'Columns: ', 40, 445, 200, WHITE)
+        self.labels = []
+        self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
+        self.labels.append(Label('Columns:', 40, mid_x, 200, WHITE, align=TOP_RIGHT))
+        self.labels.append(Label('Rows:', 40, mid_x, 300, WHITE, align=TOP_RIGHT))
+        self.labels.append(Label('Players:', 40, mid_x, 400, WHITE, align=TOP_RIGHT))
 
     def center_textboxes(self):
         """Centers the text boxes in the middle of the screen
@@ -136,17 +145,12 @@ class MainMenu(Scene):
         # draw a circle at mouse position
         # pygame.draw.circle(self.screen, (255, 0, 0), pygame.mouse.get_pos(), 70)
         # Draw title
-        draw_text(self.screen, 'Connect4', 100, 375, 25, WHITE)
+        for label in self.labels:
+            label.draw(self.screen)
         # Draw column buttons
         self.col_buttons.draw(self.screen)
-        draw_text(self.screen, 'Columns: ', 40, 445, 200, WHITE)
-        # Draw row buttons
         self.row_buttons.draw(self.screen)
-        draw_text(self.screen, 'Rows: ', 40, 518, 300, WHITE)
-        # Draw player number buttons
         self.player_number_buttons.draw(self.screen)
-        draw_text(self.screen, 'Players: ', 40, 446, 400, WHITE)
-        # Draw player text boxes
         for i in range(self.player_number_buttons.value):  # Only draw the number of players selected
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
