@@ -4,11 +4,9 @@ from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import BOARD_BOTTOM_LEFT, WHITE, BG_COLOR_MAIN_MENU, PLR_COLORS, BOARD_COLOR, BANANA
+from constants import BOARD_BOTTOM_LEFT, WHITE, BG_COLOR_MAIN_MENU, PLR_COLORS
 from drawer import draw_text
 from classes.player import Player
-from classes.falling_point import FallingPoint
-import random
 
 
 class MainMenu(Scene):
@@ -26,11 +24,24 @@ class MainMenu(Scene):
         self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
         self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
         self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
-        self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
+        text_box_width = 200
+        text_box_spacing = 50
+        self.player_text_boxes = [TextBox(0, 500, text_box_width, 50, f'PLAYER{i + 1}', 7) for i in
+                                  range(4)]
         for i in range(4):  # TODO fix this
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
+
+    def center_textboxes(self):
+        """Centers the text boxes in the middle of the screen
+        """
+        value = self.player_number_buttons.value
+        tw = 200 * value + 50 * (value - 1)
+        mid_x = int(self.screen.get_size()[0] / 2)
+        start_x = mid_x - int(tw / 2)
+        for i in range(4):
+            self.player_text_boxes[i].rect.x = start_x + i * 250
 
     @staticmethod
     def get_rect(width: int, height: int, align: str, pos: tuple[int, int]) -> tuple[int, int, int, int]:
@@ -107,6 +118,7 @@ class MainMenu(Scene):
         self.scene_manager = scene_manager
         self.scene_manager.grid_background.active_falling = True
         self.scene_manager.grid_background.amount_players = self.player_number_buttons.value
+        self.center_textboxes()
         for event in events:
             self.col_buttons.update(event)
             self.row_buttons.update(event)
