@@ -4,11 +4,13 @@ from classes.grid_background import GridBackground
 
 class Scene:
     screen: pygame.Surface
+    scene_manager: 'SceneManager'
 
-    def __init__(self, screen: pygame.Surface) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager: 'SceneManager') -> None:
         self.screen = screen
+        self.scene_manager = scene_manager
 
-    def update(self, events: list[pygame.event.Event], dt: float, scene_manager: 'SceneManager'):
+    def update(self, events: list[pygame.event.Event], dt: float):
         """Updates the scene
 
         Args:
@@ -67,7 +69,7 @@ class SceneManager:
         """
         if len(self.scenes) > 0:
             self.grid_background.update(dt)
-            self.scenes[-1].update(events, dt, self)
+            self.scenes[-1].update(events, dt)
 
     def draw(self):
         """Draws the current scene

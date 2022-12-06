@@ -26,8 +26,8 @@ class GameScene(Scene):
     plr_labels: list[Label]
     result_label: Label
 
-    def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
-        super().__init__(screen)
+    def __init__(self, screen: pygame.Surface, scene_manager: SceneManager, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
+        super().__init__(screen, scene_manager)
         self.falling_pieces = {}
         self.tile_size = 0
         self.board_bottom_left = board_bl
@@ -251,9 +251,10 @@ class GameScene(Scene):
         self.draw_result_info()
         pygame.display.update()
 
-    def update(self, events: list[pygame.event.Event], dt: float, scene_manager: SceneManager):
-        scene_manager.grid_background.active_falling = False
-        scene_manager.grid_background.amount_players = len(self.players)
+    def update(self, events: list[pygame.event.Event], dt: float):
+        # Update scene manager in case of scene change changing these settings
+        self.scene_manager.grid_background.active_falling = False
+        self.scene_manager.grid_background.amount_players = len(self.players)
 
         # Get mouse info
         mouse_pos = pygame.mouse.get_pos()
@@ -276,7 +277,7 @@ class GameScene(Scene):
                     self.game_over = False
                 elif event.key == pygame.K_m:
                     # Go to menu
-                    scene_manager.go_to_origin_scene()
+                    self.scene_manager.go_to_origin_scene()
 
         if self.game.is_won or self.game.is_tied and not self.game_over:
             self.on_game_over()

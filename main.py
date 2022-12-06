@@ -17,7 +17,7 @@ def main():
     # Create scene manager
     scene_manager = SceneManager(screen)
     # scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
-    scene_manager.add_scene(MainMenu(screen))
+    scene_manager.add_scene(MainMenu(screen, scene_manager))
 
     # Create clock
     clock = pygame.time.Clock()

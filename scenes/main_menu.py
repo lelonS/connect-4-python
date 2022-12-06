@@ -17,10 +17,9 @@ class MainMenu(Scene):
     play_button: Button
     labels: list[Label]
 
-    def __init__(self, screen: pygame.Surface):
-        super().__init__(screen)
+    def __init__(self, screen: pygame.Surface, scene_manager: SceneManager):
+        super().__init__(screen, scene_manager)
         mid_x = int(screen.get_size()[0] / 2)
-        self.scene_manager = None
 
         # Create selectors
         self.col_selector = IntSelector(mid_x, 200, 50, 50, 7, 5, 12)
@@ -114,11 +113,11 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_selector.value,
-                               self.row_selector.value, players)
+        game_scene = GameScene(self.screen, self.scene_manager, BOARD_BOTTOM_LEFT,
+                               self.col_selector.value, self.row_selector.value, players)
         self.scene_manager.add_scene(game_scene)
 
-    def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
+    def update(self, events: list[pygame.event.Event], seconds: float):
         """Updates the scene and handles events
 
         Args:
@@ -129,7 +128,6 @@ class MainMenu(Scene):
         Returns:
 
         """
-        self.scene_manager = scene_manager
         self.scene_manager.grid_background.active_falling = True
         self.scene_manager.grid_background.amount_players = self.plr_count_selector.value
         for event in events:
