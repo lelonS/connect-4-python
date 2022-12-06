@@ -220,7 +220,7 @@ class GameScene(Scene):
     def draw_player_names(self):
         for n, plr in enumerate(self.players):
             # Draw player name
-            self.plr_labels[n].set_text(f"{plr.name}: {plr.wins}")  # Make sure label is updated
+            self.plr_labels[n].set_text(f"{plr.name:>7}: {plr.wins}")  # Make sure label is updated
             self.plr_labels[n].draw(self.screen)
 
     def draw(self):
