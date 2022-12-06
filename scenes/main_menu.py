@@ -21,16 +21,18 @@ class MainMenu(Scene):
         mid_x = int(screen.get_size()[0] / 2)
         px, py, pw, ph = self.get_rect(350, 175, 'top-center', (mid_x, 575))
 
-        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
+        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12)
+        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
+        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
         self.tb_width = 220
         self.tb_spacing = 50
-        self.player_text_boxes = [TextBox(0, 500, self.tb_width, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
-        for i in range(4):  # TODO fix this
+        self.player_text_boxes = []
+        for i in range(4):
+            self.player_text_boxes.append(TextBox(0, 500, self.tb_width, 50, f'PLAYER{i + 1}', 7))
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
+        self.play_button.text_color = WHITE
 
     def center_textboxes(self):
         """Centers the text boxes in the middle of the screen
@@ -149,9 +151,6 @@ class MainMenu(Scene):
         for i in range(self.player_number_buttons.value):  # Only draw the number of players selected
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
-        self.play_button.bg_color = BG_COLOR_MAIN_MENU
-        self.play_button.text_color = WHITE
-        self.play_button.border_color = BG_COLOR_MAIN_MENU
         self.play_button.draw(self.screen)
 
         pygame.display.update()
