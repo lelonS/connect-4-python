@@ -2,8 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, BLACK, PLR_COLORS, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, \
-    MAX_BOARD_WIDTH, GRAY
+from constants import BOARD_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT
 from classes.scene import Scene, SceneManager
 from classes.label import Label, TOP_LEFT, CENTER
 
@@ -15,7 +14,6 @@ class GameScene(Scene):
     tile_size: int
     board_bottom_left: tuple[int, int]
     players: list[Player]
-    player_colors = list[tuple[int, int, int]]
 
     can_move: bool
     current_hover_col: int
@@ -26,13 +24,12 @@ class GameScene(Scene):
     plr_labels: list[Label]
     result_label: Label
 
-    def __init__(self, screen: pygame.Surface, scene_manager: SceneManager, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
+    def __init__(self, screen: pygame.Surface, scene_manager: SceneManager, cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen, scene_manager)
         self.falling_pieces = {}
         self.tile_size = 0
-        self.board_bottom_left = board_bl
+        self.board_bottom_left = BOARD_BOTTOM_LEFT
         self.players = plrs
-        self.player_colors = PLR_COLORS
         self.game = ConnectFour(cols, rows, total_players=len(plrs))
         self.game_over = False
 
@@ -242,7 +239,7 @@ class GameScene(Scene):
         # Draw a black background to the board
         board_height = self.tile_size * self.game.total_rows
         board_width = self.tile_size * self.game.total_cols
-        board_rect = (BOARD_BOTTOM_LEFT[0], BOARD_BOTTOM_LEFT[1] - board_height, board_width, board_height)
+        board_rect = (self.board_bottom_left[0], self.board_bottom_left[1] - board_height, board_width, board_height)
         pygame.draw.rect(self.screen, BLACK, board_rect)
 
         # Draw board
