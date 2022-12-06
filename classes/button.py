@@ -5,8 +5,8 @@ from classes.label import Label
 
 
 class Button:
-    text: Label
-    hover_text: Label
+    text_label: Label
+    hover_label: Label
 
     rect: pygame.Rect
     text_color: tuple[int, int, int]
@@ -19,17 +19,17 @@ class Button:
         self.rect = pygame.Rect(x, y, width, height)
         cx = self.rect.centerx
         cy = self.rect.centery
-        self.text = Label(text, font_size, cx, cy, text_color, align=label.CENTER)
-        self.hover_text = Label(text, int(font_size * 1.2), cx, cy, text_color, align=label.CENTER)
+        self.text_label = Label(text, font_size, cx, cy, text_color, align=label.CENTER)
+        self.hover_label = Label(text, int(font_size * 1.2), cx, cy, text_color, align=label.CENTER)
         self.hover = False
         self.on_click = on_click
 
     def draw(self, screen: pygame.Surface):
         # draw text in center
         if self.hover:
-            self.hover_text.draw(screen)
+            self.hover_label.draw(screen)
         else:
-            self.text.draw(screen)
+            self.text_label.draw(screen)
 
     def update(self, event):
         pos = pygame.mouse.get_pos()
