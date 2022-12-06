@@ -15,15 +15,19 @@ class Label:
     _font_size: int
     _font_color: tuple[int, int, int]
 
-    # rect: pygame.Rect
+    x: int
+    y: int
     align: int
 
-    def __init__(self, text: str, font_size: int, x: int, y: int, color: tuple[int, int, int], align: str = 'top-left'):
+    def __init__(self, text: str, font_size: int, x: int, y: int, color: tuple[int, int, int], align: int = 1):
         self._text = text
         self._font_size = font_size
         self._font_color = color
         self._font = pygame.font.Font(FONT_PATH, self._font_size)
-        self._rendered_text = self._font.render(self._text, True, self._font_color)
+        self.render_font()
+        self.align = align
+        self.x = x
+        self.y = y
 
     def render_font(self):
         self._rendered_text = self._font.render(self._text, True, self._font_color)

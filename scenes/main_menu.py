@@ -32,7 +32,6 @@ class MainMenu(Scene):
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
-        self.play_button.text_color = WHITE
 
     def center_textboxes(self):
         """Centers the text boxes in the middle of the screen
