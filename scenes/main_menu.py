@@ -4,7 +4,7 @@ from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import BOARD_BOTTOM_LEFT, WHITE, BG_COLOR_MAIN_MENU, PLR_COLORS
+from constants import BOARD_BOTTOM_LEFT, WHITE, PLR_COLORS
 from drawer import draw_text
 from classes.player import Player
 
@@ -21,12 +21,28 @@ class MainMenu(Scene):
         mid_x = int(screen.get_size()[0] / 2)
         px, py, pw, ph = self.get_rect(350, 175, 'top-center', (mid_x, 575))
 
-        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12, background_color=BG_COLOR_MAIN_MENU)
-        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4, background_color=BG_COLOR_MAIN_MENU)
-        self.player_text_boxes = [TextBox(165 + i * 250, 500, 200, 50, f'PLAYER{i + 1}', 7) for i in range(4)]
+        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12)
+        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
+        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
+        self.tb_width = 220
+        self.tb_spacing = 50
+        self.player_text_boxes = []
+        for i in range(4):
+            self.player_text_boxes.append(TextBox(0, 500, self.tb_width, 50, f'PLAYER{i + 1}', 7))
+            self.player_text_boxes[i].border_color = PLR_COLORS[i]
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.scene_manager = None
+        self.play_button.text_color = WHITE
+
+    def center_textboxes(self):
+        """Centers the text boxes in the middle of the screen
+        """
+        value = self.player_number_buttons.value
+        tw = self.tb_width * value + self.tb_spacing * (value - 1)
+        mid_x = int(self.screen.get_size()[0] / 2)
+        start_x = mid_x - int(tw / 2)
+        for i in range(4):
+            self.player_text_boxes[i].rect.x = start_x + i * (self.tb_width + self.tb_spacing)
 
     @staticmethod
     def get_rect(width: int, height: int, align: str, pos: tuple[int, int]) -> tuple[int, int, int, int]:
@@ -101,6 +117,8 @@ class MainMenu(Scene):
 
         """
         self.scene_manager = scene_manager
+        self.scene_manager.grid_background.active_falling = True
+        self.scene_manager.grid_background.amount_players = self.player_number_buttons.value
         for event in events:
             self.col_buttons.update(event)
             self.row_buttons.update(event)
@@ -110,13 +128,14 @@ class MainMenu(Scene):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
         self.check_duplicate_names()
+        self.center_textboxes()
 
     def draw(self):
         """Draws the scene to the screen
         """
 
-        # Draw background
-        self.screen.fill(BG_COLOR_MAIN_MENU)
+        # draw a circle at mouse position
+        # pygame.draw.circle(self.screen, (255, 0, 0), pygame.mouse.get_pos(), 70)
         # Draw title
         draw_text(self.screen, 'Connect4', 100, 375, 25, WHITE)
         # Draw column buttons
@@ -132,9 +151,6 @@ class MainMenu(Scene):
         for i in range(self.player_number_buttons.value):  # Only draw the number of players selected
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
-        self.play_button.bg_color = BG_COLOR_MAIN_MENU
-        self.play_button.text_color = WHITE
-        self.play_button.border_color = BG_COLOR_MAIN_MENU
         self.play_button.draw(self.screen)
 
         pygame.display.update()

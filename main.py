@@ -15,7 +15,7 @@ pygame.display.set_icon(logo)
 
 def main():
     # Create scene manager
-    scene_manager = SceneManager()
+    scene_manager = SceneManager(screen)
     # scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
     scene_manager.add_scene(MainMenu(screen))
 
@@ -26,7 +26,7 @@ def main():
     while True:
 
         # Get clock info
-        ms = clock.tick()
+        ms = clock.tick(60)
         seconds = ms / 1000
 
         # Check events
@@ -39,10 +39,6 @@ def main():
 
         # Draw
         scene_manager.draw()
-
-    # Open game screen
-    # game_screen = GameScreen(screen, (0, 600), 7, 6, [])
-    # game_screen.run_game()
 
 
 if __name__ == '__main__':
