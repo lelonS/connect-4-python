@@ -39,7 +39,6 @@ class TextBox:
         cx = self.rect.centerx
         cy = self.rect.centery
         default_text_color = (75, 75, 75)  # LightGray
-        print(cx, cy)
 
         self.default_label = Label(self.default_text, font_size, cx, cy, default_text_color, CENTER)
         self.text_label = Label(self.text, font_size, cx, cy, self.text_color, CENTER)
