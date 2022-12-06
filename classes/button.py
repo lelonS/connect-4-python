@@ -14,7 +14,7 @@ class Button:
     on_click: callable
 
     def __init__(self, x: int, y: int, width: int, height: int, text: str, on_click: callable):
-        font_size = int(height * 0.8)
+        font_size = height
         text_color = WHITE
         self.rect = pygame.Rect(x, y, width, height)
         cx = self.rect.centerx
