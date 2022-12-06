@@ -48,9 +48,7 @@ class GameScene(Scene):
         start_x = self.board_bottom_left[0] + self.tile_size * cols + 10
         start_y = self.screen.get_height() - len(self.players) * 40
         for i in range(len(self.players)):
-            plr = self.players[i]
-            text = f"{plr.name}: {plr.wins}"
-            self.plr_labels.append(Label(text, 32, start_x, start_y + i * 36, plr.color, TOP_LEFT))
+            self.plr_labels.append(Label("PLAYER NAME HERE", 32, start_x, start_y + i * 36, plrs[i].color, TOP_LEFT))
 
     def different_boards(self, cols: int, rows: int):
         max_tile_width = MAX_BOARD_WIDTH // cols
@@ -182,6 +180,17 @@ class GameScene(Scene):
             elif self.game.winner == plr_num:
                 plr.wins += 1
 
+    def attempt_move(self, col: int):
+        move_success = self.game.make_move(col)
+        if move_success:
+            # Get move info
+            landed_row = len(self.game.board[col]) - 1
+            landed_pos = self.get_tile_pos(col, landed_row)
+            top_pos = self.get_tile_pos(col, self.game.total_rows)
+
+            # Create animated piece and add to dictionary
+            self.falling_pieces[(col, landed_row)] = FallingPoint(top_pos, 0, 2300, landed_pos[1])
+
     def draw_win_line(self):
 
         # Check if all pieces has fallen
@@ -205,7 +214,7 @@ class GameScene(Scene):
         if self.game.is_won:
             plr = self.players[self.game.winner]
             # Draw win text
-            self.result_label.set_text(f"{plr.name} wins!!! [R]ESTART, [M]ENU")
+            self.result_label.set_text(f"{plr.name} WINS!!! [R]ESTART, [M]ENU")
             self.result_label.set_color(plr.color)
             self.result_label.draw(self.screen)
             # Draw win line
@@ -227,12 +236,15 @@ class GameScene(Scene):
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
             # Draw column mouse hovers over if user can move
             self.draw_piece_at_tile(self.current_hover_col, self.game.total_rows, self.game.turn)
+
         self.draw_player_names()
+
         # Draw a black background to the board
         board_height = self.tile_size * self.game.total_rows
         board_width = self.tile_size * self.game.total_cols
         board_rect = (BOARD_BOTTOM_LEFT[0], BOARD_BOTTOM_LEFT[1] - board_height, board_width, board_height)
         pygame.draw.rect(self.screen, BLACK, board_rect)
+
         # Draw board
         self.draw_pieces()
         self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
@@ -242,8 +254,6 @@ class GameScene(Scene):
     def update(self, events: list[pygame.event.Event], dt: float, scene_manager: SceneManager):
         scene_manager.grid_background.active_falling = False
         scene_manager.grid_background.amount_players = len(self.players)
-        # Update all falling pieces
-        self.update_all_falling(dt)
 
         # Get mouse info
         mouse_pos = pygame.mouse.get_pos()
@@ -257,16 +267,9 @@ class GameScene(Scene):
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.can_move:
                 # Attempt move
-                move_success = self.game.make_move(mouse_col)
-                if move_success:
-                    # Get move info
-                    landed_row = len(self.game.board[mouse_col]) - 1
-                    landed_pos = self.get_tile_pos(mouse_col, landed_row)
-                    top_pos = self.get_tile_pos(mouse_col, self.game.total_rows)
-                    # Create animated piece and add to dictionary
-                    self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(top_pos, 0, 2300, landed_pos[1])
-
+                self.attempt_move(mouse_col)
             elif event.type == pygame.KEYDOWN:
+                # A key was pressed
                 if (self.game.is_won or self.game.is_tied) and event.key == pygame.K_r:
                     # Reset game
                     self.game.reset_game()
@@ -277,6 +280,9 @@ class GameScene(Scene):
 
         if self.game.is_won or self.game.is_tied and not self.game_over:
             self.on_game_over()
+
+        # Update all falling pieces
+        self.update_all_falling(dt)
         self.current_hover_col = mouse_col
 
 # if __name__ == "__main__":
