@@ -4,9 +4,8 @@ from classes.connect4 import ConnectFour
 from classes.player import Player
 from constants import BOARD_COLOR, BLACK, PLR_COLORS, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, \
     MAX_BOARD_WIDTH, GRAY
-from constants import HEIGHT
-from drawer import draw_text
 from classes.scene import Scene, SceneManager
+from classes.label import Label, TOP_LEFT, CENTER
 
 
 class GameScene(Scene):
@@ -24,6 +23,9 @@ class GameScene(Scene):
     coin_frame: pygame.Surface
     game_over: bool
 
+    plr_labels: list[Label]
+    result_label: Label
+
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
         self.falling_pieces = {}
@@ -39,6 +41,16 @@ class GameScene(Scene):
         self.different_boards(cols, rows)
         self.coin_frame = pygame.image.load("assets/coin_frame_fix3.png").convert_alpha()
         self.coin_frame = pygame.transform.smoothscale(self.coin_frame, (self.tile_size, self.tile_size))
+
+        # Create labels
+        self.result_label = Label("RESULT HERE", 32, screen.get_width() // 2, 50, WHITE, CENTER)
+        self.plr_labels = []
+        start_x = self.board_bottom_left[0] + self.tile_size * cols + 10
+        start_y = self.screen.get_height() - len(self.players) * 40
+        for i in range(len(self.players)):
+            plr = self.players[i]
+            text = f"{plr.name}: {plr.wins}"
+            self.plr_labels.append(Label(text, 32, start_x, start_y + i * 36, plr.color, TOP_LEFT))
 
     def different_boards(self, cols: int, rows: int):
         max_tile_width = MAX_BOARD_WIDTH // cols
@@ -193,22 +205,23 @@ class GameScene(Scene):
         if self.game.is_won:
             plr = self.players[self.game.winner]
             # Draw win text
-            draw_text(self.screen, f"{plr.name} WON!! [R]ESTART, [M]ENU", 32, 200, 50, plr.color)
+            self.result_label.set_text(f"{plr.name} wins!!! [R]ESTART, [M]ENU")
+            self.result_label.set_color(plr.color)
+            self.result_label.draw(self.screen)
             # Draw win line
             self.draw_win_line()
 
         elif self.game.is_tied:
             # Draw tie text
-            draw_text(self.screen, "TIE... [R]ESTART, [M]ENU", 32, 200, 50, GRAY)
+            self.result_label.set_text("TIE... [R]ESTART, [M]ENU")
+            self.result_label.set_color(GRAY)
+            self.result_label.draw(self.screen)
 
     def draw_player_names(self):
-        dif = 0
-        start_x = BOARD_BOTTOM_LEFT[0] + self.tile_size * self.game.total_cols + 20
-        start_y = HEIGHT - len(self.players) * 40
-        for plr in self.players:
-            text = f"{plr.name}: {plr.wins}"
-            draw_text(self.screen, text, 32, start_x, start_y + dif, plr.color)
-            dif = dif + 36
+        for n, plr in enumerate(self.players):
+            # Draw player name
+            self.player_labels[n].set_text(f"{plr.name}: {plr.wins}")  # Make sure label is updated
+            self.player_labels[n].draw(self.screen)
 
     def draw(self):
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
