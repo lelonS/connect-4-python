@@ -54,24 +54,29 @@ class Label:
         self._font_color = color
         self.render_font()
 
-    def get_pos_aligned(self) -> tuple[int, int]:
+    def get_pos_aligned(self, x: int, y: int) -> tuple[int, int]:
+
+        if x is None:
+            x = self.x
+        if y is None:
+            y = self.y
         if self.align == CENTER:
-            new_x = self.x - self._rendered_text.get_width() / 2
-            new_y = self.y - self._rendered_text.get_height() / 2
+            new_x = x - self._rendered_text.get_width() / 2
+            new_y = y - self._rendered_text.get_height() / 2
         elif self.align == TOP_CENTER:
-            new_x = self.x - self._rendered_text.get_width() / 2
-            new_y = self.y
+            new_x = x - self._rendered_text.get_width() / 2
+            new_y = y
         elif self.align == TOP_LEFT:
-            return self.x, self.y
+            return x, y
         elif self.align == TOP_RIGHT:
-            new_x = self.x - self._rendered_text.get_width()
-            new_y = self.y
+            new_x = x - self._rendered_text.get_width()
+            new_y = y
         else:
-            return self.x, self.y
+            return x, y
         return int(new_x), int(new_y)
 
     def get_size(self) -> tuple[int, int]:
         return self._rendered_text.get_size()
 
-    def draw(self, screen: pygame.Surface):
-        screen.blit(self._rendered_text, self.get_pos_aligned())
+    def draw(self, screen: pygame.Surface, x: int = None, y: int = None):
+        screen.blit(self._rendered_text, self.get_pos_aligned(x, y))

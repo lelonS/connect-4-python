@@ -1,5 +1,6 @@
 import pygame
-from constants import FONT_PATH, BLACK
+from constants import BLACK
+from classes.label import Label, CENTER
 
 COLOR_INACTIVE = (185, 185, 185)
 COLOR_ACTIVE = (105, 105, 105)
@@ -13,13 +14,13 @@ class TextBox:
     bg_color: tuple[int, int, int]
     border_color: tuple[int, int, int]
     border_width: int
-    font: pygame.font.Font
-    font_size: int
     max_chars: int
     is_focused: bool
     default_text: str
-    default_text_color: tuple[int, int, int]
     error: bool
+
+    default_label: Label
+    text_label: Label
 
     def __init__(self, x: int, y: int, width: int, height: int, default_text: str, max_chars: int):
         self.text = ""
@@ -28,13 +29,20 @@ class TextBox:
         self.bg_color = COLOR_INACTIVE
         self.border_color = BLACK
         self.border_width = 3
-        self.font_size = height - 10
-        self.font = pygame.font.Font(FONT_PATH, self.font_size)
         self.max_chars = max_chars
         self.is_focused = False
         self.default_text = default_text
-        self.default_text_color = (75, 75, 75)  # LightGray
         self.error = False
+
+        font_size = height - 10
+
+        cx = self.rect.centerx
+        cy = self.rect.centery
+        default_text_color = (75, 75, 75)  # LightGray
+        print(cx, cy)
+
+        self.default_label = Label(self.default_text, font_size, cx, cy, default_text_color, CENTER)
+        self.text_label = Label(self.text, font_size, cx, cy, self.text_color, CENTER)
 
     @property
     def value(self):
@@ -63,13 +71,13 @@ class TextBox:
         pygame.draw.rect(screen, self.border_color, self.rect, self.border_width)
         # Draw text
         if self.text == "" and not self.is_focused:
-            text = self.font.render(self.default_text, True, self.default_text_color)
+            self.default_label.draw(screen, self.rect.centerx, self.rect.centery)
         else:
             if self.is_focused:
-                text = self.font.render(">" + self.text + "<", True, self.text_color)
+                self.text_label.set_text(">" + self.text + "<")
             else:
-                text = self.font.render(self.text, True, self.text_color)
-        screen.blit(text, text.get_rect(center=self.rect.center))
+                self.text_label.set_text(self.text)
+            self.text_label.draw(screen, self.rect.centerx, self.rect.centery)
 
     def update(self, event: pygame.event.Event):
         """Update the textbox based on the event
@@ -94,6 +102,7 @@ class TextBox:
             elif len(self.text) < self.max_chars:
                 if event.unicode.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789":
                     self.text += event.unicode.upper()
+        self.text_label.set_text(self.text)
 
 # if __name__ == '__main__':
 #     pygame.init()

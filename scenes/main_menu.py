@@ -1,12 +1,11 @@
 import pygame
-from classes.label import Label, CENTER, TOP_CENTER, TOP_LEFT, TOP_RIGHT
+from classes.label import Label, TOP_CENTER, TOP_RIGHT
 from classes.scene import Scene, SceneManager
 from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
 from constants import BOARD_BOTTOM_LEFT, WHITE, PLR_COLORS
-from drawer import draw_text
 from classes.player import Player
 
 
