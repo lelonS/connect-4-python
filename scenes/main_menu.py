@@ -1,5 +1,5 @@
 import pygame
-from classes.label import Label, TOP_CENTER, TOP_RIGHT
+from classes.text_label import Label, TOP_CENTER, TOP_RIGHT
 from classes.scene import Scene, SceneManager
 from scenes.game_scene import GameScene
 from classes.selector import IntSelector

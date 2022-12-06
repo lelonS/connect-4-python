@@ -1,7 +1,6 @@
 import pygame
 from constants import WHITE
-import classes.label as label
-from classes.label import Label
+from classes.text_label import Label, CENTER
 
 
 class Button:
@@ -19,8 +18,8 @@ class Button:
         self.rect = pygame.Rect(x, y, width, height)
         cx = self.rect.centerx
         cy = self.rect.centery
-        self.text_label = Label(text, font_size, cx, cy, text_color, align=label.CENTER)
-        self.hover_label = Label(text, int(font_size * 1.2), cx, cy, text_color, align=label.CENTER)
+        self.text_label = Label(text, font_size, cx, cy, text_color, align=CENTER)
+        self.hover_label = Label(text, int(font_size * 1.2), cx, cy, text_color, align=CENTER)
         self.hover = False
         self.on_click = on_click
 

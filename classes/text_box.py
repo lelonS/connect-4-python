@@ -1,6 +1,6 @@
 import pygame
 from constants import BLACK
-from classes.label import Label, CENTER
+from classes.text_label import Label, CENTER
 
 COLOR_INACTIVE = (185, 185, 185)
 COLOR_ACTIVE = (105, 105, 105)

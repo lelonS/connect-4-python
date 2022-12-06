@@ -1,7 +1,7 @@
 import pygame
 from constants import WHITE
 from classes.button import Button
-from classes.label import Label, CENTER
+from classes.text_label import Label, CENTER
 
 # from constants import PLR_COLORS
 
