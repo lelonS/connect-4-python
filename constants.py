@@ -21,7 +21,8 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 GRAY = (127, 127, 127)
-BG_COLOR_MAIN_MENU = BLACK
+BG_COLOR = BLACK
+GRID_COLOR = (20, 20, 20)
 
 # Player colors
 BANANA = (229, 162, 17)

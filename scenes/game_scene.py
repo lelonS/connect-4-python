@@ -2,8 +2,8 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, BLACK, PLR_COLORS, TILE_SIZE, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, \
-    MAX_BOARD_WIDTH
+from constants import BOARD_COLOR, BLACK, PLR_COLORS, WHITE, BOARD_BOTTOM_LEFT, MAX_BOARD_HEIGHT, \
+    MAX_BOARD_WIDTH, GRAY
 from constants import HEIGHT
 from drawer import draw_text
 from classes.scene import Scene, SceneManager
@@ -27,7 +27,7 @@ class GameScene(Scene):
     def __init__(self, screen: pygame.Surface, board_bl: tuple[int, int], cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen)
         self.falling_pieces = {}
-        self.tile_size = TILE_SIZE
+        self.tile_size = 0
         self.board_bottom_left = board_bl
         self.players = plrs
         self.player_colors = PLR_COLORS
@@ -78,8 +78,7 @@ class GameScene(Scene):
         # Fill with blue background
         tile_surface.fill(BOARD_COLOR)
         # Draw circle cutout
-        pygame.draw.circle(tile_surface, (0, 0, 0, 0),
-                           (self.tile_size / 2, self.tile_size / 2), self.tile_size * 0.45)
+        pygame.draw.circle(tile_surface, (0, 0, 0, 0), (self.tile_size / 2, self.tile_size / 2), self.tile_size * 0.45)
 
         for col_num in range(cols):
             for row_num in range(rows):
@@ -105,8 +104,7 @@ class GameScene(Scene):
 
         plr_color = self.players[plr].color  # self.players[plr].color
         # Draw piece
-        pygame.draw.circle(
-            self.screen, plr_color, (x_mid, y_mid), half_tile)
+        pygame.draw.circle(self.screen, plr_color, (x_mid, y_mid), half_tile)
         self.screen.blit(self.coin_frame, (x_pos, y_pos))
 
     def draw_piece_at_tile(self, col: int, row: int, plr: int):
@@ -121,11 +119,9 @@ class GameScene(Scene):
                 # Check if piece animated
                 if (col_num, row_num) in self.falling_pieces:
                     piece = self.falling_pieces[(col_num, row_num)]
-                    self.draw_piece((piece.x, piece.y),
-                                    board[col_num][row_num])
+                    self.draw_piece((piece.x, piece.y), board[col_num][row_num])
                 else:
-                    self.draw_piece_at_tile(col_num, row_num,
-                                            board[col_num][row_num])
+                    self.draw_piece_at_tile(col_num, row_num, board[col_num][row_num])
 
     def update_all_falling(self, dt: float):
         """Updates all falling pieces
@@ -179,8 +175,8 @@ class GameScene(Scene):
         # Check if all pieces has fallen
         if len(self.falling_pieces) > 0:
             return
-
         # All pieces have fallen
+
         # Get winning line tiles
         col_1, row_1 = self.game.winner_tile_1
         col_2, row_2 = self.game.winner_tile_2
@@ -197,31 +193,27 @@ class GameScene(Scene):
         if self.game.is_won:
             plr = self.players[self.game.winner]
             # Draw win text
-            draw_text(self.screen, f"{plr.name} WON!! [R]ESTART, [M]ENU", 32, 200, 50,
-                      plr.color)
+            draw_text(self.screen, f"{plr.name} WON!! [R]ESTART, [M]ENU", 32, 200, 50, plr.color)
             # Draw win line
             self.draw_win_line()
 
         elif self.game.is_tied:
             # Draw tie text
-            draw_text(self.screen, "TIE... [R]ESTART, [M]ENU",
-                      32, 200, 50, (125, 125, 125))
+            draw_text(self.screen, "TIE... [R]ESTART, [M]ENU", 32, 200, 50, GRAY)
 
     def draw_player_names(self):
         dif = 0
-        start_x = self.tile_size * self.game.total_cols + 20
+        start_x = BOARD_BOTTOM_LEFT[0] + self.tile_size * self.game.total_cols + 20
         start_y = HEIGHT - len(self.players) * 40
         for plr in self.players:
             text = f"{plr.name}: {plr.wins}"
-            draw_text(self.screen, text, 32, start_x, start_y + dif,
-                      plr.color)
+            draw_text(self.screen, text, 32, start_x, start_y + dif, plr.color)
             dif = dif + 36
 
     def draw(self):
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
             # Draw column mouse hovers over if user can move
-            self.draw_piece_at_tile(
-                self.current_hover_col, self.game.total_rows, self.game.turn)
+            self.draw_piece_at_tile(self.current_hover_col, self.game.total_rows, self.game.turn)
         self.draw_player_names()
         # Draw a black background to the board
         board_height = self.tile_size * self.game.total_rows
@@ -237,7 +229,7 @@ class GameScene(Scene):
     def update(self, events: list[pygame.event.Event], dt: float, scene_manager: SceneManager):
         scene_manager.grid_background.active_falling = False
         scene_manager.grid_background.amount_players = len(self.players)
-        # Get clock info
+        # Update all falling pieces
         self.update_all_falling(dt)
 
         # Get mouse info
@@ -245,8 +237,7 @@ class GameScene(Scene):
         mouse_col = self.get_col_from_x(mouse_pos[0])
 
         # Check if all falling pieces past or in top row
-        all_past = self.check_all_past(
-            self.get_tile_pos(0, self.game.total_rows - 1)[1])
+        all_past = self.check_all_past(self.get_tile_pos(0, self.game.total_rows - 1)[1])
         self.can_move = all_past and not self.game.is_won and not self.game.is_tied
 
         # Handle pygame events
@@ -258,11 +249,9 @@ class GameScene(Scene):
                     # Get move info
                     landed_row = len(self.game.board[mouse_col]) - 1
                     landed_pos = self.get_tile_pos(mouse_col, landed_row)
-                    top_pos = self.get_tile_pos(
-                        mouse_col, self.game.total_rows)
+                    top_pos = self.get_tile_pos(mouse_col, self.game.total_rows)
                     # Create animated piece and add to dictionary
-                    self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(
-                        top_pos, 0, 2300, landed_pos[1])
+                    self.falling_pieces[(mouse_col, landed_row)] = FallingPoint(top_pos, 0, 2300, landed_pos[1])
 
             elif event.type == pygame.KEYDOWN:
                 if (self.game.is_won or self.game.is_tied) and event.key == pygame.K_r:
@@ -277,20 +266,19 @@ class GameScene(Scene):
             self.on_game_over()
         self.current_hover_col = mouse_col
 
-
-if __name__ == "__main__":
-    pygame.init()
-    s = pygame.display.set_mode((900, 600))
-    clock = pygame.time.Clock()
-    sceneManager = SceneManager(s)
-    sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
-        Player("test", (255, 0, 0))]))
-    while True:
-        seconds = clock.tick() / 1000
-        evs = pygame.event.get()
-        for e in evs:
-            if e.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-        sceneManager.update(evs, seconds)
-        sceneManager.draw()
+# if __name__ == "__main__":
+#     pygame.init()
+#     s = pygame.display.set_mode((900, 600))
+#     clock = pygame.time.Clock()
+#     sceneManager = SceneManager(s)
+#     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
+#         Player("test", (255, 0, 0))]))
+#     while True:
+#         seconds = clock.tick() / 1000
+#         evs = pygame.event.get()
+#         for e in evs:
+#             if e.type == pygame.QUIT:
+#                 pygame.quit()
+#                 exit()
+#         sceneManager.update(evs, seconds)
+#         sceneManager.draw()

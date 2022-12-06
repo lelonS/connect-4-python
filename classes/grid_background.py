@@ -1,6 +1,6 @@
 import pygame
 from classes.falling_point import FallingPoint
-from constants import PLR_COLORS, BG_COLOR_MAIN_MENU
+from constants import PLR_COLORS, BG_COLOR, GRID_COLOR
 import random
 
 
@@ -26,7 +26,7 @@ class GridBackground:
 
         """
         surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-        surface.fill(BG_COLOR_MAIN_MENU)
+        surface.fill(BG_COLOR)
 
         width = 100
         height = 100
@@ -44,20 +44,23 @@ class GridBackground:
         self.surface = surface
 
     def draw(self):
-        self.screen.fill((20, 20, 20))
+        self.screen.fill(GRID_COLOR)
+        circle_radius = 150
         for key in self.falling_pieces:
-            pygame.draw.circle(self.screen, PLR_COLORS[key], (self.falling_pieces[key].x, self.falling_pieces[key].y),
-                               150)
+            piece = self.falling_pieces[key]
+            pygame.draw.circle(self.screen, PLR_COLORS[key], (piece.x, piece.y), circle_radius)
         self.screen.blit(self.surface, (0, 0))
 
     def update(self, dt: float):
 
         if len(self.falling_pieces) < 1 and self.active_falling:
-            self.falling_pieces[random.randint(0, self.amount_players - 1)] = FallingPoint(
-                (random.randint(0, self.screen.get_width()), -150),
-                650, 0,
-                2 * self.screen.get_size()[1])
-
+            plr_num = random.randint(0, self.amount_players - 1)
+            random_x = random.randint(0, self.screen.get_width())
+            start_y = -150
+            fall_speed = 650
+            acc_y = 0
+            max_y = 2 * self.screen.get_size()[1]
+            self.falling_pieces[plr_num] = FallingPoint((random_x, start_y), fall_speed, acc_y, max_y)
         keys_to_remove = []
 
         # Update all falling pieces

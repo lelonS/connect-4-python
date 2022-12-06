@@ -4,7 +4,7 @@ from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import BOARD_BOTTOM_LEFT, WHITE, BG_COLOR_MAIN_MENU, PLR_COLORS
+from constants import BOARD_BOTTOM_LEFT, WHITE, PLR_COLORS
 from drawer import draw_text
 from classes.player import Player
 

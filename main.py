@@ -40,10 +40,6 @@ def main():
         # Draw
         scene_manager.draw()
 
-    # Open game screen
-    # game_screen = GameScreen(screen, (0, 600), 7, 6, [])
-    # game_screen.run_game()
-
 
 if __name__ == '__main__':
     main()

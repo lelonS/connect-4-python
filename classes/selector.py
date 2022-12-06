@@ -1,6 +1,6 @@
 import pygame
 from classes.button import Button
-from constants import FONT_PATH
+from constants import FONT_PATH, WHITE
 
 
 # from constants import PLR_COLORS
@@ -47,7 +47,7 @@ class Selector:
         self.last_change = 0
 
         self.font = pygame.font.Font(FONT_PATH, height)
-        self.font_color = kwargs.get("font_color", (255, 255, 255))
+        self.font_color = kwargs.get("font_color", WHITE)
 
         self.next_button = Button(
             x + button_width * 2, y, button_width, height, ">", self.next_option)
@@ -160,8 +160,10 @@ class IntSelector(Selector):
         # Draw the value
         value_text = self.font.render(str(self.value), True, self.font_color)
         text_size = value_text.get_size()
-        surface.blit(value_text, (self.x + self.button_width *
-                                  1.5 - text_size[0] / 2, self.y + self.height / 2 - text_size[1] / 2))
+        half_w = text_size[0] / 2
+        half_h = text_size[1] / 2
+        surface.blit(value_text, (self.x + self.button_width * 1.5 - half_w, self.y + self.height / 2 - half_h))
+        # surface.blit(value_text, value_text.get_rect(center=(self.x + self.button_width * 1.5, self.y + self.height / 2)))
 
 
 class ColorSelector(Selector):
@@ -171,11 +173,10 @@ class ColorSelector(Selector):
         self._current_index = 0
 
     def draw(self, surface: pygame.Surface):
-        pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y,
-                                               self.button_width, self.height))
+        pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y, self.button_width, self.height))
         # Draw the border
-        pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y,
-                                                    self.button_width, self.height), 2)
+        pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y, self.button_width, self.height),
+                         2)
         # Draw the buttons
         self.next_button.draw(surface)
         self.previous_button.draw(surface)
