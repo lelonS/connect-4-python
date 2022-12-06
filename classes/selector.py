@@ -1,7 +1,7 @@
 import pygame
+from constants import WHITE
 from classes.button import Button
-from constants import FONT_PATH, WHITE
-
+from classes.label import Label, CENTER
 
 # from constants import PLR_COLORS
 
@@ -31,9 +31,6 @@ class Selector:
     _current_index: int = 0
     last_change: int  # -1 is previous, 1 is next, 0 is none
 
-    font: pygame.font.Font
-    font_color: tuple[int, int, int]
-
     next_button: Button
     previous_button: Button
 
@@ -46,16 +43,8 @@ class Selector:
         self._current_index = 0
         self.last_change = 0
 
-        self.font = pygame.font.Font(FONT_PATH, height)
-        self.font_color = kwargs.get("font_color", WHITE)
-
-        self.next_button = Button(
-            x + button_width * 2, y, button_width, height, ">", self.next_option)
-        self.previous_button = Button(
-            x, y, button_width, height, "<", self.previous_option)
-
-        self.next_button.text_color = self.font_color
-        self.previous_button.text_color = self.font_color
+        self.next_button = Button(x + button_width * 2, y, button_width, height, ">", self.next_option)
+        self.previous_button = Button(x, y, button_width, height, "<", self.previous_option)
 
     def next_option(self):
         """Change the current option to the next one
@@ -150,20 +139,22 @@ class SelectorGroup:
 
 class IntSelector(Selector):
 
+    label: Label
+
     def __init__(self, x: int, y: int, h: int, btn_width: int, default_val: int, min_val: int, max_val: int, **kwargs):
         nums = list(range(min_val, max_val + 1))
         super().__init__(x, y, h, btn_width, nums, **kwargs)
         self.value = default_val
+        self.label = Label(str(self.value), h, x + btn_width * 1.5, y + h / 2, WHITE, CENTER)
+
+    def update(self, event: pygame.event.Event):
+        super().update(event)
+        self.label.set_text(str(self.value))
 
     def draw(self, surface: pygame.Surface):
         super().draw(surface)
         # Draw the value
-        value_text = self.font.render(str(self.value), True, self.font_color)
-        text_size = value_text.get_size()
-        half_w = text_size[0] / 2
-        half_h = text_size[1] / 2
-        surface.blit(value_text, (self.x + self.button_width * 1.5 - half_w, self.y + self.height / 2 - half_h))
-        # surface.blit(value_text, value_text.get_rect(center=(self.x + self.button_width * 1.5, self.y + self.height / 2)))
+        self.label.draw(surface)
 
 
 class ColorSelector(Selector):
