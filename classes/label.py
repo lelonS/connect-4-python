@@ -66,5 +66,8 @@ class Label:
             return self.x, self.y
         return int(new_x), int(new_y)
 
+    def get_size(self) -> tuple[int, int]:
+        return self._rendered_text.get_size()
+
     def draw(self, screen: pygame.Surface):
         screen.blit(self._rendered_text, self.get_pos_aligned())
