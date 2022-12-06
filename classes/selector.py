@@ -94,49 +94,6 @@ class Selector:
         self.previous_button.update(event)
 
 
-class SelectorGroup:
-    """A class that represents a group of selectors which can't have the same value
-    Attributes:
-        selectors (list[Selector]): List of selectors that can't have the same value
-    """
-    selectors: list[Selector]
-
-    def __init__(self, selectors: list[Selector], all_options: list = None):
-        self.selectors = selectors
-        for n, selector in enumerate(self.selectors):
-            if all_options is not None:
-                selector.options = all_options
-            # Set last_change to 1 to change duplicated forwards the first selector doesn't change
-            if n != 0:
-                selector.last_change = 1
-        self._change_duplicates()
-
-    def _change_duplicates(self):
-        # Get the last changed selectors
-        changed_selectors = [
-            selector for selector in self.selectors if selector.last_change != 0]
-        for selector in changed_selectors:
-            total_checks = 0  # Makes sure it doesn't get stuck in an infinite loop
-            # Current values taken by other selectors
-            current_values = [s.value for s in self.selectors if s != selector]
-            # Find a new value that is not taken
-            while selector.value in current_values and total_checks < len(selector.options):
-                if selector.last_change == 1:
-                    selector.next_option()
-                elif selector.last_change == -1:
-                    selector.previous_option()
-                total_checks += 1
-
-    def draw(self, surface: pygame.Surface):
-        for selector in self.selectors:
-            selector.draw(surface)
-
-    def update(self, event: pygame.event.Event):
-        for selector in self.selectors:
-            selector.update(event)
-        self._change_duplicates()
-
-
 class IntSelector(Selector):
 
     label: Label
@@ -157,20 +114,63 @@ class IntSelector(Selector):
         self.label.draw(surface)
 
 
-class ColorSelector(Selector):
+# class SelectorGroup:
+#     """A class that represents a group of selectors which can't have the same value
+#     Attributes:
+#         selectors (list[Selector]): List of selectors that can't have the same value
+#     """
+#     selectors: list[Selector]
 
-    def __init__(self, x: int, y: int, height: int, btn_width: int, options: list, **kwargs):
-        super().__init__(x, y, height, btn_width, options, **kwargs)
-        self._current_index = 0
+#     def __init__(self, selectors: list[Selector], all_options: list = None):
+#         self.selectors = selectors
+#         for n, selector in enumerate(self.selectors):
+#             if all_options is not None:
+#                 selector.options = all_options
+#             # Set last_change to 1 to change duplicated forwards the first selector doesn't change
+#             if n != 0:
+#                 selector.last_change = 1
+#         self._change_duplicates()
 
-    def draw(self, surface: pygame.Surface):
-        pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y, self.button_width, self.height))
-        # Draw the border
-        pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y, self.button_width, self.height),
-                         2)
-        # Draw the buttons
-        self.next_button.draw(surface)
-        self.previous_button.draw(surface)
+#     def _change_duplicates(self):
+#         # Get the last changed selectors
+#         changed_selectors = [
+#             selector for selector in self.selectors if selector.last_change != 0]
+#         for selector in changed_selectors:
+#             total_checks = 0  # Makes sure it doesn't get stuck in an infinite loop
+#             # Current values taken by other selectors
+#             current_values = [s.value for s in self.selectors if s != selector]
+#             # Find a new value that is not taken
+#             while selector.value in current_values and total_checks < len(selector.options):
+#                 if selector.last_change == 1:
+#                     selector.next_option()
+#                 elif selector.last_change == -1:
+#                     selector.previous_option()
+#                 total_checks += 1
+
+#     def draw(self, surface: pygame.Surface):
+#         for selector in self.selectors:
+#             selector.draw(surface)
+
+#     def update(self, event: pygame.event.Event):
+#         for selector in self.selectors:
+#             selector.update(event)
+#         self._change_duplicates()
+
+
+# class ColorSelector(Selector):
+
+#     def __init__(self, x: int, y: int, height: int, btn_width: int, options: list, **kwargs):
+#         super().__init__(x, y, height, btn_width, options, **kwargs)
+#         self._current_index = 0
+
+#     def draw(self, surface: pygame.Surface):
+#         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y, self.button_width, self.height))
+#         # Draw the border
+#         pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y, self.button_width, self.height),
+#                          2)
+#         # Draw the buttons
+#         self.next_button.draw(surface)
+#         self.previous_button.draw(surface)
 
 # if __name__ == "__main__":
 #     pygame.init()
