@@ -10,9 +10,9 @@ from classes.player import Player
 
 
 class MainMenu(Scene):
-    col_buttons: IntSelector
-    row_buttons: IntSelector
-    player_number_buttons: IntSelector
+    col_selector: IntSelector
+    row_selector: IntSelector
+    plr_count_selector: IntSelector
     player_text_boxes: list[TextBox]
     play_button: Button
     labels: list[Label]
@@ -20,21 +20,26 @@ class MainMenu(Scene):
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
         mid_x = int(screen.get_size()[0] / 2)
-        px, py, pw, ph = self.get_rect(350, 175, 'top-center', (mid_x, 575))
+        self.scene_manager = None
 
-        self.col_buttons = IntSelector(mid_x, 200, 50, 50, 7, 5, 12)
-        self.row_buttons = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
-        self.player_number_buttons = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
+        # Create selectors
+        self.col_selector = IntSelector(mid_x, 200, 50, 50, 7, 5, 12)
+        self.row_selector = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
+        self.plr_count_selector = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
+
+        # Create text boxes
         self.tb_width = 220
         self.tb_spacing = 50
         self.player_text_boxes = []
         for i in range(4):
             self.player_text_boxes.append(TextBox(0, 500, self.tb_width, 50, f'PLAYER{i + 1}', 7))
             self.player_text_boxes[i].border_color = PLR_COLORS[i]
-        self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
-        self.scene_manager = None
+        px, py, pw, ph = self.get_rect(300, 150, 'top-center', (mid_x, 575))
 
-        # Create labels        draw_text(self.screen, 'Columns: ', 40, 445, 200, WHITE)
+        # Create play button
+        self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
+
+        # Create labels
         self.labels = []
         self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
         self.labels.append(Label('Columns:', 40, mid_x, 200, WHITE, align=TOP_RIGHT))
@@ -44,7 +49,7 @@ class MainMenu(Scene):
     def center_textboxes(self):
         """Centers the text boxes in the middle of the screen
         """
-        value = self.player_number_buttons.value
+        value = self.plr_count_selector.value
         tw = self.tb_width * value + self.tb_spacing * (value - 1)
         mid_x = int(self.screen.get_size()[0] / 2)
         start_x = mid_x - int(tw / 2)
@@ -83,10 +88,10 @@ class MainMenu(Scene):
 
     def check_duplicate_names(self):
         all_names = []
-        for i in range(self.player_number_buttons.value):
+        for i in range(self.plr_count_selector.value):
             all_names.append(self.player_text_boxes[i].value)
 
-        for i in range(self.player_number_buttons.value):
+        for i in range(self.plr_count_selector.value):
             textbox = self.player_text_boxes[i]
             if all_names.count(textbox.value) > 1:
                 textbox.error = True
@@ -101,7 +106,7 @@ class MainMenu(Scene):
         """
         players = []
         selected_names = []
-        for i in range(self.player_number_buttons.value):
+        for i in range(self.plr_count_selector.value):
             name = self.player_text_boxes[i].value
             if name in selected_names:
                 return
@@ -109,7 +114,8 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_buttons.value, self.row_buttons.value, players)
+        game_scene = GameScene(self.screen, BOARD_BOTTOM_LEFT, self.col_selector.value,
+                               self.row_selector.value, players)
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float, scene_manager: SceneManager):
@@ -125,13 +131,13 @@ class MainMenu(Scene):
         """
         self.scene_manager = scene_manager
         self.scene_manager.grid_background.active_falling = True
-        self.scene_manager.grid_background.amount_players = self.player_number_buttons.value
+        self.scene_manager.grid_background.amount_players = self.plr_count_selector.value
         for event in events:
-            self.col_buttons.update(event)
-            self.row_buttons.update(event)
-            self.player_number_buttons.update(event)
+            self.col_selector.update(event)
+            self.row_selector.update(event)
+            self.plr_count_selector.update(event)
             # Only update the selected player
-            for i in range(self.player_number_buttons.value):
+            for i in range(self.plr_count_selector.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
         self.check_duplicate_names()
@@ -147,10 +153,10 @@ class MainMenu(Scene):
         for label in self.labels:
             label.draw(self.screen)
         # Draw column buttons
-        self.col_buttons.draw(self.screen)
-        self.row_buttons.draw(self.screen)
-        self.player_number_buttons.draw(self.screen)
-        for i in range(self.player_number_buttons.value):  # Only draw the number of players selected
+        self.col_selector.draw(self.screen)
+        self.row_selector.draw(self.screen)
+        self.plr_count_selector.draw(self.screen)
+        for i in range(self.plr_count_selector.value):  # Only draw the number of players selected
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
         self.play_button.draw(self.screen)
