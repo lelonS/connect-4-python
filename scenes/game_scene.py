@@ -2,7 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT
+from constants import BOARD_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT, BLIND_COLOR
 from classes.scene import Scene, SceneManager
 from classes.text_label import Label, TOP_LEFT, CENTER
 
@@ -300,6 +300,34 @@ class GameScene(Scene):
         # Update all falling pieces
         self.update_all_falling(dt)
         self.current_hover_col = mouse_col
+
+
+class GameSceneBlind(GameScene):
+
+    def draw_piece(self, pos: tuple[float, float], plr: int):
+        """Draw a piece at a position
+
+        Args:
+            pos (tuple[float, float]): Top left position of piece rect
+            plr (int): Player index
+        """
+        # Variables
+        half_tile = self.tile_size / 2
+
+        x_pos, y_pos = pos
+
+        # Get middle of tile
+        x_mid = x_pos + half_tile
+        y_mid = y_pos + half_tile
+
+        if self.game_over:
+            plr_color = self.players[plr].color
+        else:
+            plr_color = BLIND_COLOR
+        # Draw piece
+        pygame.draw.circle(self.screen, plr_color, (x_mid, y_mid), half_tile)
+        self.screen.blit(self.coin_frame, (x_pos, y_pos))
+
 
 # if __name__ == "__main__":
 #     pygame.init()
