@@ -6,6 +6,7 @@ CENTER = 0
 TOP_LEFT = 1
 TOP_RIGHT = 2
 TOP_CENTER = 3
+BOTTOM_CENTER = 4
 
 
 class Label:
@@ -71,6 +72,9 @@ class Label:
         elif self.align == TOP_RIGHT:
             new_x = x - self._rendered_text.get_width()
             new_y = y
+        elif self.align == BOTTOM_CENTER:
+            new_x = x - self._rendered_text.get_width() / 2
+            new_y = y - self._rendered_text.get_height()
         else:
             return x, y
         return int(new_x), int(new_y)
@@ -87,6 +91,8 @@ class Label:
             return self._rendered_text.get_rect(topleft=(self.x, self.y))
         elif self.align == TOP_RIGHT:
             return self._rendered_text.get_rect(topright=(self.x, self.y))
+        elif self.align == BOTTOM_CENTER:
+            return self._rendered_text.get_rect(midbottom=(self.x, self.y))
         else:
             return self._rendered_text.get_rect(topleft=(self.x, self.y))
 

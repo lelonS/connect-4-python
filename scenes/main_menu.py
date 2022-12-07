@@ -1,7 +1,7 @@
 import pygame
 from classes.text_label import Label, TOP_CENTER, TOP_RIGHT
 from classes.scene import Scene, SceneManager
-from scenes.game_scene import GameScene
+from scenes.game_scene import GameScene, GameSceneBlind
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
@@ -131,8 +131,8 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        game_scene = GameScene(self.screen, self.scene_manager, self.col_selector.value,
-                               self.row_selector.value, players)
+        game_scene = GameSceneBlind(self.screen, self.scene_manager, self.col_selector.value,
+                                    self.row_selector.value, players)
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float):
