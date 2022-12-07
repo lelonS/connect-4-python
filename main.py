@@ -1,4 +1,5 @@
 import pygame
+import json
 from constants import WIDTH, HEIGHT
 from classes.scene import SceneManager
 from scenes.main_menu import MainMenu
@@ -13,10 +14,22 @@ logo = pygame.image.load("assets/logo.png").convert_alpha()
 pygame.display.set_icon(logo)
 
 
+def load_data():
+    try:
+        with open("highscores/high_score.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+
+def save_data(data):
+    with open("highscores/high_score.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+
 def main():
     # Create scene manager
-    scene_manager = SceneManager(screen)
-    # scene_manager.add_scene(GameScene(screen, BOARD_BOTTOM_LEFT, 7, 6, []))
+    scene_manager = SceneManager(screen, load_data())
     scene_manager.add_scene(MainMenu(screen, scene_manager))
 
     # Create clock
@@ -33,6 +46,7 @@ def main():
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
+                save_data(scene_manager.highscores)
                 pygame.quit()
                 exit()
         scene_manager.update(events, seconds)
