@@ -134,7 +134,7 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        if self.mode_selector.value[0] == 'blind4':
+        if self.mode_selector.value[0].lower() == 'blind4':
             game_scene = GameSceneBlind(self.screen, self.scene_manager,
                                         self.col_selector.value, self.row_selector.value, players)
         else:
