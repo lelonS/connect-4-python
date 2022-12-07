@@ -2,10 +2,10 @@ import pygame
 from classes.text_label import Label, TOP_CENTER, TOP_RIGHT
 from classes.scene import Scene, SceneManager
 from scenes.game_scene import GameScene, GameSceneBlind
-from classes.selector import IntSelector
+from classes.selector import IntSelector, ModeSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import WHITE, PLR_COLORS
+from constants import WHITE, PLR_COLORS, BLIND_COLOR
 from classes.player import Player
 
 
@@ -26,6 +26,9 @@ class MainMenu(Scene):
         self.row_selector = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
         self.plr_count_selector = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
 
+        px, py, pw, ph = self.get_rect(700, 100, 'top-center', (mid_x, 25))
+        self.mode_selector = ModeSelector(px, py, 100, 100, 500)
+
         # Create text boxes
         self.tb_width = 220
         self.tb_spacing = 50
@@ -40,7 +43,7 @@ class MainMenu(Scene):
 
         # Create labels
         self.labels = []
-        self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
+        # self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
         self.labels.append(Label('Columns:', 40, mid_x, 200, WHITE, align=TOP_RIGHT))
         self.labels.append(Label('Rows:', 40, mid_x, 300, WHITE, align=TOP_RIGHT))
         self.labels.append(Label('Players:', 40, mid_x, 400, WHITE, align=TOP_RIGHT))
@@ -148,6 +151,7 @@ class MainMenu(Scene):
         self.scene_manager.grid_background.active_falling = True
         self.scene_manager.grid_background.amount_players = self.plr_count_selector.value
         for event in events:
+            self.mode_selector.update(event)
             self.col_selector.update(event)
             self.row_selector.update(event)
             self.plr_count_selector.update(event)
@@ -176,10 +180,15 @@ class MainMenu(Scene):
         for label in self.labels:
             label.draw(self.screen)
         # Draw column buttons
+        self.mode_selector.draw(self.screen)
         self.col_selector.draw(self.screen)
         self.row_selector.draw(self.screen)
         self.plr_count_selector.draw(self.screen)
         for i in range(self.plr_count_selector.value):  # Only draw the number of players selected
+            if self.mode_selector.value[0].lower() == 'blind4':
+                self.player_text_boxes[i].border_color = BLIND_COLOR
+            else:
+                self.player_text_boxes[i].border_color = PLR_COLORS[i]
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
         self.play_button.draw(self.screen)
