@@ -134,8 +134,13 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        game_scene = GameSceneBlind(self.screen, self.scene_manager, self.col_selector.value,
-                                    self.row_selector.value, players)
+        if self.mode_selector.value[0] == 'blind4':
+            game_scene = GameSceneBlind(self.screen, self.scene_manager,
+                                        self.col_selector.value, self.row_selector.value, players)
+        else:
+            game_scene = GameScene(self.screen, self.scene_manager, self.col_selector.value,
+                                   self.row_selector.value, players)
+
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float):
