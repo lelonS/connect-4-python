@@ -35,10 +35,12 @@ class Scene:
 class SceneManager:
     scenes: list[Scene]
     grid_background: GridBackground
+    highscores: dict[str, dict[str, int]]
 
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: pygame.Surface, highscores: dict[str, dict[str, int]]):
         self.scenes = []
         self.grid_background = GridBackground(screen)
+        self.highscores = highscores
 
     def add_scene(self, scene: Scene):
         """Adds a scene, and goes to it
