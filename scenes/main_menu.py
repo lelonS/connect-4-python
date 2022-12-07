@@ -5,7 +5,7 @@ from scenes.game_scene import GameScene
 from classes.selector import IntSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import BOARD_BOTTOM_LEFT, WHITE, PLR_COLORS
+from constants import WHITE, PLR_COLORS
 from classes.player import Player
 
 
@@ -97,6 +97,24 @@ class MainMenu(Scene):
             else:
                 textbox.error = False
 
+    def tab_to_next(self, direction: int):
+        """Tab to the next text box
+
+        Returns: None
+
+        """
+        plr_count = self.plr_count_selector.value
+        for i in range(plr_count):
+            if self.player_text_boxes[i].is_focused:
+                self.player_text_boxes[i].is_focused = False
+                self.player_text_boxes[(i + direction) % plr_count].is_focused = True
+                return
+        # If no text box is focused, focus the first one unless the direction is negative
+        if direction > 0:
+            self.player_text_boxes[0].is_focused = True
+        else:
+            self.player_text_boxes[plr_count - 1].is_focused = True
+
     def play(self):
         """Starts the game with the selected settings
 
@@ -123,7 +141,6 @@ class MainMenu(Scene):
         Args:
             events: A list of pygame events
             seconds: The number of seconds since the last update
-            scene_manager: The scene manager that is managing this scene
 
         Returns:
 
@@ -138,6 +155,14 @@ class MainMenu(Scene):
             for i in range(self.plr_count_selector.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_TAB:
+                    keys_pressed = pygame.key.get_pressed()
+                    if keys_pressed[pygame.K_LSHIFT] or keys_pressed[pygame.K_RSHIFT]:
+                        self.tab_to_next(-1)  # Shift is pressed, go backwards
+                    else:  # Tab to the next text box
+                        self.tab_to_next(1)
+
         self.check_duplicate_names()
         self.center_textboxes()
 
