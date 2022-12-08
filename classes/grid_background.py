@@ -1,6 +1,6 @@
 import pygame
 from classes.falling_point import FallingPoint
-from constants import PLR_COLORS, BG_COLOR, GRID_COLOR
+from constants import PLR_COLORS, BG_COLOR, GRID_COLOR, BLIND_COLOR
 import random
 
 
@@ -10,6 +10,7 @@ class GridBackground:
     active_falling: bool
     surface: pygame.Surface
     amount_players: int
+    use_blind: bool
 
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
@@ -18,6 +19,7 @@ class GridBackground:
         self.surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.draw_grid()
         self.amount_players = 4
+        self.use_blind = False
 
     def draw_grid(self):
         """Draws the grid of the board
@@ -48,7 +50,10 @@ class GridBackground:
         circle_radius = 150
         for key in self.falling_pieces:
             piece = self.falling_pieces[key]
-            pygame.draw.circle(self.screen, PLR_COLORS[key], (piece.x, piece.y), circle_radius)
+            if self.use_blind:
+                pygame.draw.circle(self.screen, BLIND_COLOR, (piece.x, piece.y), circle_radius)
+            else:
+                pygame.draw.circle(self.screen, PLR_COLORS[key], (piece.x, piece.y), circle_radius)
         self.screen.blit(self.surface, (0, 0))
 
     def update(self, dt: float):

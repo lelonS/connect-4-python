@@ -155,6 +155,8 @@ class MainMenu(Scene):
         """
         self.scene_manager.grid_background.active_falling = True
         self.scene_manager.grid_background.amount_players = self.plr_count_selector.value
+        self.scene_manager.grid_background.use_blind = self.mode_selector.value[0].lower() == 'blind4'
+
         for event in events:
             self.mode_selector.update(event)
             self.col_selector.update(event)
