@@ -6,7 +6,7 @@ import random
 
 class GridBackground:
     screen: pygame.Surface
-    falling_pieces: dict[int, FallingPoint]
+    falling_pieces: list[tuple[int, FallingPoint]]
     active_falling: bool
     surface: pygame.Surface
     amount_players: int
@@ -15,7 +15,7 @@ class GridBackground:
 
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
-        self.falling_pieces = {}
+        self.falling_pieces = []
         self.active_falling = True
         self.surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.draw_grid()
@@ -50,12 +50,11 @@ class GridBackground:
     def draw(self):
         self.screen.fill(GRID_COLOR)
         circle_radius = 150
-        for key in self.falling_pieces:
-            piece = self.falling_pieces[key]
+        for plr, piece in self.falling_pieces:
             if self.use_blind:
                 pygame.draw.circle(self.screen, BLIND_COLOR, (piece.x, piece.y), circle_radius)
             else:
-                pygame.draw.circle(self.screen, PLR_COLORS[key], (piece.x, piece.y), circle_radius)
+                pygame.draw.circle(self.screen, PLR_COLORS[plr], (piece.x, piece.y), circle_radius)
         self.screen.blit(self.surface, (0, 0))
 
     def update(self, dt: float):
@@ -67,18 +66,17 @@ class GridBackground:
             fall_speed = 650
             acc_y = 0
             max_y = 2 * self.screen.get_size()[1]
-            self.falling_pieces[plr_num] = FallingPoint((random_x, start_y), fall_speed, acc_y, max_y)
+            self.falling_pieces.append((plr_num, FallingPoint((random_x, start_y), fall_speed, acc_y, max_y)))
 
             self.current_plr = (self.current_plr + 1) % self.amount_players
 
-        keys_to_remove = []
-
+        pieces_to_remove = []
         # Update all falling pieces
-        for key in self.falling_pieces:
-            self.falling_pieces[key].update(dt)
-            if self.falling_pieces[key].is_past_max:
-                keys_to_remove.append(key)
+        for plr, piece in self.falling_pieces:
+            piece.update(dt)
+            if piece.is_past_max:
+                pieces_to_remove.append((plr, piece))
 
         # Remove pieces past max_y
-        for key in keys_to_remove:
-            del self.falling_pieces[key]
+        for val in pieces_to_remove:
+            self.falling_pieces.remove(val)
