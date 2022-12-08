@@ -11,7 +11,7 @@ WIDTH = 1280
 HEIGHT = 800
 
 # Board size
-MAX_BOARD_WIDTH = int(WIDTH * 0.8)
+MAX_BOARD_WIDTH = int(WIDTH * 0.7)
 MAX_BOARD_HEIGHT = int(HEIGHT * 0.9)
 
 # Colors
