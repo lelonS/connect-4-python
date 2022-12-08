@@ -2,6 +2,7 @@ import pygame
 from constants import WIDTH, HEIGHT
 from classes.scene import SceneManager
 from scenes.main_menu import MainMenu
+from scenes.Credit_scen import Credits
 
 pygame.init()
 pygame.key.set_repeat(500, 50)

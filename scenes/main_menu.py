@@ -7,6 +7,7 @@ from classes.text_box import TextBox
 from classes.button import Button
 from constants import BOARD_BOTTOM_LEFT, WHITE, PLR_COLORS
 from classes.player import Player
+from scenes.Credit_scen import Credits
 
 
 class MainMenu(Scene):
@@ -37,6 +38,8 @@ class MainMenu(Scene):
 
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
+        px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
+        self.credit_button = Button(px - 100, py, pw, ph, 'Credits', self.go_to_credits)
 
         # Create labels
         self.labels = []
@@ -97,6 +100,9 @@ class MainMenu(Scene):
             else:
                 textbox.error = False
 
+    def go_to_credits(self):
+        self.scene_manager.add_scene(Credits(self.screen, self.scene_manager))
+
     def play(self):
         """Starts the game with the selected settings
 
@@ -138,6 +144,7 @@ class MainMenu(Scene):
             for i in range(self.plr_count_selector.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
+            self.credit_button.update(event)
         self.check_duplicate_names()
         self.center_textboxes()
 
@@ -158,5 +165,6 @@ class MainMenu(Scene):
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
         self.play_button.draw(self.screen)
+        self.credit_button.draw(self.screen)
 
         pygame.display.update()
