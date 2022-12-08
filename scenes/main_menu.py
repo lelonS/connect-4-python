@@ -7,7 +7,7 @@ from classes.text_box import TextBox
 from classes.button import Button
 from constants import WHITE, PLR_COLORS, BLIND_COLOR
 from classes.player import Player
-
+from scenes.Credit_scen import Credits
 
 class MainMenu(Scene):
     col_selector: IntSelector
@@ -40,6 +40,8 @@ class MainMenu(Scene):
 
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
+        px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
+        self.credit_button = Button(px - 100, py, pw, ph, 'Credits', self.go_to_credits)
 
         # Create labels
         self.labels = []
@@ -99,6 +101,9 @@ class MainMenu(Scene):
                 textbox.error = True
             else:
                 textbox.error = False
+
+    def go_to_credits(self):
+        self.scene_manager.add_scene(Credits(self.screen, self.scene_manager))
 
     def tab_to_next(self, direction: int):
         """Tab to the next text box
@@ -166,6 +171,7 @@ class MainMenu(Scene):
             for i in range(self.plr_count_selector.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
+            self.credit_button.update(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     keys_pressed = pygame.key.get_pressed()
@@ -199,5 +205,6 @@ class MainMenu(Scene):
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
         self.play_button.draw(self.screen)
+        self.credit_button.draw(self.screen)
 
         pygame.display.update()
