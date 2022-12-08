@@ -11,7 +11,8 @@ class Button:
     text_color: tuple[int, int, int]
     hover: bool
     on_click: callable
-    load_sound: pygame.mixer.Sound
+    click_sound: pygame.mixer.Sound
+    play_sound = pygame.mixer.Sound
 
     def __init__(self, x: int, y: int, width: int, height: int, text: str, on_click: callable):
         font_size = height
@@ -23,7 +24,8 @@ class Button:
         self.hover_label = Label(text, int(font_size * 1.2), cx, cy, text_color, align=CENTER)
         self.hover = False
         self.on_click = on_click
-        self.load_sound = pygame.mixer.Sound("assets/sounds/click.ogg")
+        self.click_sound = pygame.mixer.Sound("assets/sounds/beep.mp3")
+        self.play_sound = pygame.mixer.Sound("assets/sounds/click.ogg")
 
     def draw(self, screen: pygame.Surface):
         # draw text in center
@@ -38,7 +40,7 @@ class Button:
             self.hover = True
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.on_click()
-                self.load_sound.play()
+                self.click_sound.play()
         else:
             self.hover = False
 
