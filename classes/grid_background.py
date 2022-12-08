@@ -10,6 +10,7 @@ class GridBackground:
     active_falling: bool
     surface: pygame.Surface
     amount_players: int
+    current_plr: int
     use_blind: bool
 
     def __init__(self, screen: pygame.Surface):
@@ -19,6 +20,7 @@ class GridBackground:
         self.surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
         self.draw_grid()
         self.amount_players = 4
+        self.current_plr = 0
         self.use_blind = False
 
     def draw_grid(self):
@@ -59,13 +61,17 @@ class GridBackground:
     def update(self, dt: float):
 
         if len(self.falling_pieces) < 1 and self.active_falling:
-            plr_num = random.randint(0, self.amount_players - 1)
+            plr_num = self.current_plr  # random.randint(0, self.amount_players - 1)
+
             random_x = random.randint(0, self.screen.get_width())
             start_y = -150
             fall_speed = 650
             acc_y = 0
             max_y = 2 * self.screen.get_size()[1]
             self.falling_pieces[plr_num] = FallingPoint((random_x, start_y), fall_speed, acc_y, max_y)
+
+            self.current_plr = (self.current_plr + 1) % self.amount_players
+
         keys_to_remove = []
 
         # Update all falling pieces
