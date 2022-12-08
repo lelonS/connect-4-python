@@ -2,7 +2,7 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT, BLIND_COLOR
+from constants import BOARD_COLOR, COL_HOVER_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT, BLIND_COLOR
 from classes.scene import Scene, SceneManager
 from classes.text_label import Label, TOP_LEFT, CENTER, BOTTOM_CENTER
 
@@ -83,18 +83,25 @@ class GameScene(Scene):
             rows (int): All rows
         """
         # Create surface to use for each tile
-        tile_surface = pygame.Surface(
-            (self.tile_size, self.tile_size), pygame.SRCALPHA)
-        # Fill with blue background
+        tile_surface = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        tile_surface_hover = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+
+        # Fill with background
         tile_surface.fill(BOARD_COLOR)
+        tile_surface_hover.fill(COL_HOVER_COLOR)
         # Draw circle cutout
         pygame.draw.circle(tile_surface, (0, 0, 0, 0), (self.tile_size / 2, self.tile_size / 2), self.tile_size * 0.45)
+        pygame.draw.circle(tile_surface_hover, (0, 0, 0, 0), (self.tile_size /
+                           2, self.tile_size / 2), self.tile_size * 0.45)
 
         for col_num in range(cols):
             for row_num in range(rows):
                 # Draw tile_surface to screen at each tile
                 pos = self.get_tile_pos(col_num, row_num)
-                self.screen.blit(tile_surface, pos)
+                if col_num == self.current_hover_col:
+                    self.screen.blit(tile_surface_hover, pos)
+                else:
+                    self.screen.blit(tile_surface, pos)
 
     def draw_piece(self, pos: tuple[float, float], plr: int):
         """Draw a piece at a position

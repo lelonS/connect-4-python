@@ -34,6 +34,7 @@ BLIND_COLOR = (127, 127, 127)
 
 # Board color
 BOARD_COLOR = (40, 60, 245)  # Seablue
+COL_HOVER_COLOR = (70, 90, 255)
 
 # Variables
 BOARD_BOTTOM_LEFT = (0, HEIGHT)
