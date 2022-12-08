@@ -62,7 +62,6 @@ class GridBackground:
 
         if len(self.falling_pieces) < 1 and self.active_falling:
             plr_num = self.current_plr  # random.randint(0, self.amount_players - 1)
-
             random_x = random.randint(0, self.screen.get_width())
             start_y = -150
             fall_speed = 650
