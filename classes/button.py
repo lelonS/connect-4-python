@@ -12,7 +12,6 @@ class Button:
     hover: bool
     on_click: callable
     click_sound: pygame.mixer.Sound
-    play_sound = pygame.mixer.Sound
 
     def __init__(self, x: int, y: int, width: int, height: int, text: str, on_click: callable):
         font_size = height
@@ -25,7 +24,6 @@ class Button:
         self.hover = False
         self.on_click = on_click
         self.click_sound = pygame.mixer.Sound("assets/sounds/beep.mp3")
-        self.play_sound = pygame.mixer.Sound("assets/sounds/click.ogg")
 
     def draw(self, screen: pygame.Surface):
         # draw text in center

@@ -37,6 +37,7 @@ class MainMenu(Scene):
 
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
+        self.play_button.click_sound = pygame.mixer.Sound("assets/sounds/play.wav")
 
         # Create labels
         self.labels = []
