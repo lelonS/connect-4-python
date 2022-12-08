@@ -24,6 +24,7 @@ class Button:
         self.hover = False
         self.on_click = on_click
         self.click_sound = pygame.mixer.Sound("assets/sounds/beep.mp3")
+        self.click_sound.set_volume(0.2)
 
     def draw(self, screen: pygame.Surface):
         # draw text in center
