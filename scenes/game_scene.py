@@ -171,11 +171,25 @@ class GameScene(Scene):
         self.game_over = True
         # Add scores to players
         for plr_num, plr in enumerate(self.players):
+            if plr.name not in self.scene_manager.highscores:
+                plr_dict = {
+                    "wins": 0,
+                    "ties": 0,
+                    "losses": 0,
+                    "games": 0}
+                self.scene_manager.highscores[plr.name] = plr_dict
             plr.games += 1
+            player_high_score = self.scene_manager.highscores[plr.name]
+            player_high_score["games"] += 1
             if self.game.is_tied:
                 plr.ties += 1
+                player_high_score["ties"] += 1
             elif self.game.winner == plr_num:
                 plr.wins += 1
+                player_high_score["wins"] += 1
+            else:
+                plr.losses += 1
+                player_high_score["losses"] += 1
 
     def attempt_move(self, col: int):
         move_success = self.game.make_move(col)
@@ -226,7 +240,11 @@ class GameScene(Scene):
     def draw_player_names(self):
         for n, plr in enumerate(self.players):
             # Draw player name
-            self.plr_labels[n].set_text(f"{plr.name:>7}: {plr.wins}")  # Make sure label is updated
+            if plr.wins == 1:
+                text = f"{plr.name:>7}: {plr.wins} WIN"
+            else:
+                text = f"{plr.name:>7}: {plr.wins} WINS"
+            self.plr_labels[n].set_text(text)  # Make sure label is updated
             self.plr_labels[n].draw(self.screen)
 
     def draw(self):
@@ -249,7 +267,7 @@ class GameScene(Scene):
         pygame.display.update()
 
     def update(self, events: list[pygame.event.Event], dt: float):
-        # Update scene manager in case of scene change changing these settings
+        # Update scene manager in case of scene change, change these settings
         self.scene_manager.grid_background.active_falling = False
         self.scene_manager.grid_background.amount_players = len(self.players)
 

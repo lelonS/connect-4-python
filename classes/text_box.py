@@ -64,6 +64,8 @@ class TextBox:
         # Draw background
         if self.error:
             pygame.draw.rect(screen, ERROR_COLOR, self.rect)
+        elif self.is_focused:
+            pygame.draw.rect(screen, COLOR_ACTIVE, self.rect)
         else:
             pygame.draw.rect(screen, self.bg_color, self.rect)
         # Draw border
@@ -88,16 +90,16 @@ class TextBox:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(event.pos):
                 self.is_focused = True
-                self.bg_color = COLOR_ACTIVE
+                # self.bg_color = COLOR_ACTIVE
             else:
                 self.is_focused = False
-                self.bg_color = COLOR_INACTIVE
+                # self.bg_color = COLOR_INACTIVE
         if event.type == pygame.KEYDOWN and self.is_focused:
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
             elif event.key == pygame.K_RETURN:
                 self.is_focused = False
-                self.bg_color = COLOR_INACTIVE
+                # self.bg_color = COLOR_INACTIVE
             elif len(self.text) < self.max_chars:
                 if event.unicode.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789":
                     self.text += event.unicode.upper()
