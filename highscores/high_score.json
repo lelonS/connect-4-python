@@ -1,15 +1,15 @@
 {
     "TEDDY": {
-        "wins": 800,
+        "wins": 801,
         "ties": 50,
         "losses": 350,
-        "games": 1200
+        "games": 1201
     },
     "LEON": {
         "wins": 175,
         "ties": 25,
-        "losses": 400,
-        "games": 600
+        "losses": 401,
+        "games": 601
     },
     "ALI": {
         "wins": 175,
@@ -28,5 +28,29 @@
         "ties": 0,
         "losses": 0,
         "games": 99999
+    },
+    "PLAYER1": {
+        "wins": 2,
+        "ties": 0,
+        "losses": 0,
+        "games": 2
+    },
+    "PLAYER2": {
+        "wins": 0,
+        "ties": 0,
+        "losses": 2,
+        "games": 2
+    },
+    "PLAYER3": {
+        "wins": 0,
+        "ties": 0,
+        "losses": 1,
+        "games": 1
+    },
+    "PLAYER4": {
+        "wins": 0,
+        "ties": 0,
+        "losses": 1,
+        "games": 1
     }
 }
