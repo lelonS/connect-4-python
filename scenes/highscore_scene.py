@@ -54,7 +54,7 @@ class HighscoreScene(Scene):
         score = 0
         score += data["wins"] * 1000
         score += data["ties"] * 1
-        score += data["losses"] * -1
+        score += data["losses"] * -10
 
         return score
 
