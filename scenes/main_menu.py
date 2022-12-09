@@ -7,7 +7,8 @@ from classes.text_box import TextBox
 from classes.button import Button
 from constants import WHITE, PLR_COLORS, BLIND_COLOR
 from classes.player import Player
-from scenes.Credit_scen import Credits
+from scenes.credit_scene import Credits
+
 
 class MainMenu(Scene):
     col_selector: IntSelector
