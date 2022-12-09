@@ -18,6 +18,7 @@ class MainMenu(Scene):
     player_text_boxes: list[TextBox]
     play_button: Button
     labels: list[Label]
+    play_sound: pygame.mixer.Sound
 
     def __init__(self, screen: pygame.Surface, scene_manager: SceneManager):
         super().__init__(screen, scene_manager)
@@ -42,8 +43,8 @@ class MainMenu(Scene):
 
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
-        self.play_button.click_sound = pygame.mixer.Sound("assets/sounds/play.wav")
-        self.play_button.click_sound.set_volume(0.2)
+        self.play_sound = pygame.mixer.Sound("assets/sounds/play.wav")
+        self.play_sound.set_volume(0.2)
 
         # More buttons
         px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
@@ -147,6 +148,7 @@ class MainMenu(Scene):
         for i in range(self.plr_count_selector.value):
             name = self.player_text_boxes[i].value
             if name in selected_names:
+                self.play_button.click_sound.set_volume(0.2)
                 return
             selected_names.append(name)
             new_player = Player(name, PLR_COLORS[i])
@@ -158,7 +160,8 @@ class MainMenu(Scene):
         else:
             game_scene = GameScene(self.screen, self.scene_manager, self.col_selector.value,
                                    self.row_selector.value, players)
-
+        self.play_button.click_sound.set_volume(0)
+        self.play_sound.play()
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float):
