@@ -13,7 +13,6 @@ class HighscoreScene(Scene):
         super().__init__(screen, scene_manager)
         highscore_dict = scene_manager.highscores
         self.sorted_list = sorted(highscore_dict.items(), key=self.sorter_key, reverse=True)
-        print(self.sorted_list)
         self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
         self.labels = []
