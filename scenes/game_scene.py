@@ -2,7 +2,8 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, COL_HOVER_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT, BLIND_COLOR
+from constants import BOARD_COLOR, COL_HOVER_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY,\
+    BLIND_COLOR, BOARD_BOTTOM_LEFT
 from classes.scene import Scene, SceneManager
 from classes.text_label import Label, TOP_LEFT, CENTER, BOTTOM_CENTER
 
