@@ -16,7 +16,7 @@ class HighscoreScene(Scene):
         self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
         self.labels = []
-        self.labels.append(Label("HIGH SCORES", 100,  screen.get_width() // 2, 10, (255, 255, 255), TOP_CENTER))
+        self.labels.append(Label("HIGHSCORES", 100,  screen.get_width() // 2, 10, (255, 255, 255), TOP_CENTER))
 
         name_chars = 10
         win_chars = 6
