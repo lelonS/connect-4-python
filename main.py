@@ -4,14 +4,7 @@ from constants import WIDTH, HEIGHT
 from classes.scene import SceneManager
 from scenes.main_menu import MainMenu
 
-pygame.init()
-pygame.key.set_repeat(500, 50)
 
-# Create screen
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Connect4")
-logo = pygame.image.load("assets/logo.png").convert_alpha()
-pygame.display.set_icon(logo)
 
 
 def load_data():
@@ -28,6 +21,16 @@ def save_data(data):
 
 
 def main():
+    # Initialize pygame
+    pygame.init()
+    pygame.key.set_repeat(500, 50)
+
+    # Create screen
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Connect4")
+    logo = pygame.image.load("assets/logo.png").convert_alpha()
+    pygame.display.set_icon(logo)
+
     # Create scene manager
     scene_manager = SceneManager(screen, load_data())
     scene_manager.add_scene(MainMenu(screen, scene_manager))

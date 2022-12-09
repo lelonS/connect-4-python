@@ -43,7 +43,7 @@ class MainMenu(Scene):
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.play_button.click_sound = pygame.mixer.Sound("assets/sounds/play.wav")
-        self.play_button.click_sound.set_volume(0.4)
+        self.play_button.click_sound.set_volume(0.2)
 
         # More buttons
         px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
