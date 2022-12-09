@@ -8,6 +8,7 @@ from classes.button import Button
 from constants import WHITE, PLR_COLORS, BLIND_COLOR
 from classes.player import Player
 from scenes.credit_scene import Credits
+from scenes.highscore_scene import HighscoreScene
 
 
 class MainMenu(Scene):
@@ -41,8 +42,14 @@ class MainMenu(Scene):
 
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
+
+        # More buttons
         px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
-        self.credit_button = Button(px - 100, py, pw, ph, 'Credits', self.go_to_credits)
+        self.credit_button = Button(px - 100, py + 50, pw, ph, 'CREDITS', self.go_to_credits)
+
+        p_b_top_right = self.play_button.rect.topright
+        px, py, pw, ph = self.get_rect(200, 35, 'top-left', p_b_top_right)
+        self.highscore_button = Button(px + 100, py + 50, pw, ph, 'HIGHSCORE', self.go_to_highscore)
 
         # Create labels
         self.labels = []
@@ -105,6 +112,9 @@ class MainMenu(Scene):
 
     def go_to_credits(self):
         self.scene_manager.add_scene(Credits(self.screen, self.scene_manager))
+
+    def go_to_highscore(self):
+        self.scene_manager.add_scene(HighscoreScene(self.screen, self.scene_manager))
 
     def tab_to_next(self, direction: int):
         """Tab to the next text box
@@ -173,6 +183,7 @@ class MainMenu(Scene):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
             self.credit_button.update(event)
+            self.highscore_button.update(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     keys_pressed = pygame.key.get_pressed()
@@ -207,5 +218,6 @@ class MainMenu(Scene):
         # Draw play button
         self.play_button.draw(self.screen)
         self.credit_button.draw(self.screen)
+        self.highscore_button.draw(self.screen)
 
         pygame.display.update()

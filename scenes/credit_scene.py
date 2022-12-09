@@ -12,7 +12,7 @@ class Credits(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
 
-        self.back_button = Button(40, screen.get_height() - 200, 100, 50, 'BACK', self.scene_manager.go_back)
+        self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
         credit_list = ['CREDITS', '', 'CONNECT 4', 'PVT 2022 - KYH', '', 'TEDDY - captain crunchtime',
                        'LEON - the sniper',
