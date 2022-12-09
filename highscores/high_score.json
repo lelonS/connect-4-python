@@ -7,33 +7,21 @@
     },
     "LEON": {
         "wins": 175,
-        "ties": 50,
+        "ties": 25,
         "losses": 400,
-        "games": 625
+        "games": 600
     },
     "ALI": {
         "wins": 175,
-        "ties": 50,
+        "ties": 25,
         "losses": 400,
-        "games": 625
+        "games": 600
     },
     "JNTHN": {
         "wins": 0,
         "ties": 0,
         "losses": 99999,
         "games": 99999
-    },
-    "PLAYER1": {
-        "wins": 0,
-        "ties": 0,
-        "losses": 1,
-        "games": 1
-    },
-    "PLAYER2": {
-        "wins": 0,
-        "ties": 0,
-        "losses": 1,
-        "games": 1
     },
     "BJORN": {
         "wins": 99999,
