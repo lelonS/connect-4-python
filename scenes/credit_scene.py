@@ -1,10 +1,9 @@
 import pygame
-from pygame.locals import *
 from classes.scene import Scene
 from classes.text_box import TextBox
-from classes.text_label import Label, CENTER, TOP_CENTER
+from classes.text_label import Label, CENTER
 from classes.button import Button
-from constants import BG_COLOR, WHITE
+from constants import WHITE
 
 
 class Credits(Scene):
