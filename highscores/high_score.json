@@ -20,13 +20,25 @@
     "PLAYER1": {
         "wins": 1,
         "ties": 0,
-        "losses": 1,
-        "games": 2
+        "losses": 2,
+        "games": 3
     },
     "PLAYER2": {
         "wins": 1,
         "ties": 0,
+        "losses": 2,
+        "games": 3
+    },
+    "PLAYER3": {
+        "wins": 1,
+        "ties": 0,
+        "losses": 0,
+        "games": 1
+    },
+    "PLAYER4": {
+        "wins": 0,
+        "ties": 0,
         "losses": 1,
-        "games": 2
+        "games": 1
     }
 }

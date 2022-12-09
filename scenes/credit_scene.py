@@ -7,7 +7,7 @@ from constants import WHITE
 
 class Credits(Scene):
     back_button: Button
-    labels: list[tuple[float, Label]]
+    labels: list[list[float, Label]]
 
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
@@ -39,4 +39,4 @@ class Credits(Scene):
 
         if self.labels[0][0] > 100:
             for i in range(len(self.labels)):
-                self.labels[i][0] -= 60 * dt
+                self.labels[i][0] -= 120 * dt

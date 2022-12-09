@@ -355,21 +355,4 @@ class GameSceneBlind(GameScene):
             self.name_tag.set_text(self.players[self.game.turn].name)
             self.name_tag.set_color(self.players[self.game.turn].color)
             # self.name_tag.set_color(BLIND_COLOR)
-            self.name_tag.draw(self.screen, x + self.tile_size / 2, y)
-
-# if __name__ == "__main__":
-#     pygame.init()
-#     s = pygame.display.set_mode((900, 600))
-#     clock = pygame.time.Clock()
-#     sceneManager = SceneManager(s)
-#     sceneManager.add_scene(GameScene(s, BOARD_BOTTOM_LEFT, 7, 6, [
-#         Player("test", (255, 0, 0))]))
-#     while True:
-#         seconds = clock.tick() / 1000
-#         evs = pygame.event.get()
-#         for e in evs:
-#             if e.type == pygame.QUIT:
-#                 pygame.quit()
-#                 exit()
-#         sceneManager.update(evs, seconds)
-#         sceneManager.draw()
+            self.name_tag.draw(self.screen, int(x + self.tile_size / 2), int(y))

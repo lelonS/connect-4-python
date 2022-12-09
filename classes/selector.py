@@ -3,8 +3,6 @@ from constants import WHITE
 from classes.button import Button
 from classes.text_label import Label, CENTER, TOP_CENTER
 
-# from constants import PLR_COLORS
-
 
 class Selector:
     """A class that represent a selector for a list of options
@@ -17,8 +15,6 @@ class Selector:
         options (list): List of options
         last_change (int): 1 if the last change was to the next option,
                           -1 if the last change was to the previous option, 0 if there was no change
-
-        font_color (tuple[int, int, int]): Color of the text
 
         next_button (Button): Button to change to the next option
         previous_button (Button): Button to change to the previous option
@@ -102,7 +98,7 @@ class IntSelector(Selector):
         nums = list(range(min_val, max_val + 1))
         super().__init__(x, y, h, btn_width, nums, **kwargs)
         self.value = default_val
-        self.label = Label(str(self.value), h, x + btn_width * 1.5, y + h / 2, WHITE, CENTER)
+        self.label = Label(str(self.value), h, int(x + btn_width * 1.5), int(y + h / 2), WHITE, CENTER)
 
     def update(self, event: pygame.event.Event):
         super().update(event)
@@ -122,7 +118,7 @@ class ModeSelector(Selector):
         modes = [("Connect4", "Classic"), ("Blind4", "Every player is the same color")]
         super().__init__(x, y, height, button_width, modes, **kwargs)
         mid_x = x + (button_width * 2 + text_width) / 2
-        self.mode_label = Label(self.value[0], height, mid_x, y + height / 2, WHITE, CENTER)
+        self.mode_label = Label(self.value[0], height, mid_x, y + height // 2, WHITE, CENTER)
         self.description_label = Label(self.value[1], int(height * 0.2), mid_x, y + height, WHITE, TOP_CENTER)
 
         # Create a next button at the correct position
@@ -193,37 +189,8 @@ class ModeSelector(Selector):
 #     def draw(self, surface: pygame.Surface):
 #         pygame.draw.rect(surface, self.value, (self.x + self.button_width, self.y, self.button_width, self.height))
 #         # Draw the border
-#         pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y, self.button_width, self.height),
-#                          2)
+#         pygame.draw.rect(surface, self.font_color, (self.x + self.button_width, self.y, self.button_width,
+#         self.height), 2)
 #         # Draw the buttons
 #         self.next_button.draw(surface)
 #         self.previous_button.draw(surface)
-
-# if __name__ == "__main__":
-#     pygame.init()
-#     pygame.display.set_caption('IntSelector')
-#     s = pygame.display.set_mode((800, 600))
-#     clock = pygame.time.Clock()
-#
-#     int_selector = IntSelector(100, 100, 36, 36, 24321, 0, 50)
-#     int_selector2 = IntSelector(200, 100, 36, 36, 7, 0, 10)
-#     selector_group2 = SelectorGroup([int_selector, int_selector2])
-#     color_selector = ColorSelector(100, 200, 36, 36, [])
-#     color_selector2 = ColorSelector(100, 300, 36, 36, [])
-#     color_selector3 = ColorSelector(100, 400, 36, 36, [])
-#     selector_group = SelectorGroup(
-#         [color_selector, color_selector2, color_selector3], PLR_COLORS)
-#
-#     while True:
-#         clock.tick(60)
-#         for e in pygame.event.get():
-#             if e.type == pygame.QUIT:
-#                 pygame.quit()
-#                 exit()
-#             selector_group2.update(e)
-#             selector_group.update(e)
-#
-#         s.fill((0, 0, 0))
-#         selector_group2.draw(s)
-#         selector_group.draw(s)
-#         pygame.display.update()

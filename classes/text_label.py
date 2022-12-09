@@ -41,7 +41,7 @@ class Label:
         self.render_font()
 
     def set_size(self, size: int):
-        # If size is same dont render again
+        # If size is same don't render again
         if self._font_size == size:
             return
         self._font_size = size
@@ -49,7 +49,7 @@ class Label:
         self.render_font()
 
     def set_color(self, color: tuple[int, int, int]):
-        # If size is same dont render again
+        # If color is same don't render again
         if self._font_color == color:
             return
         self._font_color = color

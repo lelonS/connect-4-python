@@ -43,7 +43,7 @@ class MainMenu(Scene):
         # Create play button
         self.play_button = Button(px, py, pw, ph, 'PLAY', self.play)
         self.play_button.click_sound = pygame.mixer.Sound("assets/sounds/play.wav")
-        self.play_button.click_sound.set_volume(0.2)
+        self.play_button.click_sound.set_volume(0.4)
 
         # More buttons
         px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
@@ -200,9 +200,6 @@ class MainMenu(Scene):
     def draw(self):
         """Draws the scene to the screen
         """
-
-        # draw a circle at mouse position
-        # pygame.draw.circle(self.screen, (255, 0, 0), pygame.mouse.get_pos(), 70)
         # Draw title
         for label in self.labels:
             label.draw(self.screen)

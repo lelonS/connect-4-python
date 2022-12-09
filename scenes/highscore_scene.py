@@ -7,16 +7,17 @@ import pygame
 class HighscoreScene(Scene):
     back_button: Button
     labels: list[Label]
-    sorted_list: list[tuple[str, dict]]  # list[tuple[plr_name, saved_data]]
+    sorted_list: list  # list[tuple[plr_name, saved_data]]
 
     def __init__(self, screen: pygame.Surface, scene_manager: SceneManager) -> None:
         super().__init__(screen, scene_manager)
         highscore_dict = scene_manager.highscores
         self.sorted_list = sorted(highscore_dict.items(), key=self.sorter_key, reverse=True)
+        print(self.sorted_list)
         self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
         self.labels = []
-        self.labels.append(Label("HIGH SCORES", 100,  screen.get_width() / 2, 10, (255, 255, 255), TOP_CENTER))
+        self.labels.append(Label("HIGH SCORES", 100,  screen.get_width() // 2, 10, (255, 255, 255), TOP_CENTER))
 
         name_chars = 10
         win_chars = 6
@@ -27,7 +28,7 @@ class HighscoreScene(Scene):
         counter = 0
 
         start_y = 200
-        start_x = self.screen.get_width() / 2
+        start_x = self.screen.get_width() // 2
 
         padding = 50
 

@@ -24,7 +24,7 @@ class Button:
         self.hover = False
         self.on_click = on_click
         self.click_sound = pygame.mixer.Sound("assets/sounds/beep.mp3")
-        self.click_sound.set_volume(0.1)
+        self.click_sound.set_volume(0.2)
 
     def draw(self, screen: pygame.Surface):
         # draw text in center
@@ -42,24 +42,3 @@ class Button:
                 self.click_sound.play()
         else:
             self.hover = False
-
-# if __name__ == '__main__':
-#     pygame.init()
-#     s = pygame.display.set_mode((500, 500))
-#     pygame.display.set_caption("Button")
-#
-#     button = Button(50, 50, 200, 60, 'test', lambda: print('clicked'))
-#
-#     run = True
-#
-#     while run:
-#         for e in pygame.event.get():
-#             button.update(e)
-#             if e.type == pygame.QUIT:
-#                 run = False
-#
-#         s.fill((0, 0, 0))
-#         button.draw(s)
-#         pygame.display.update()
-#
-#     pygame.quit()

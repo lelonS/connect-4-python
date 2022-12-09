@@ -104,30 +104,3 @@ class TextBox:
                 if event.unicode.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789":
                     self.text += event.unicode.upper()
         self.text_label.set_text(self.text)
-
-# if __name__ == '__main__':
-#     pygame.init()
-#     pygame.key.set_repeat(500, 50)
-#     s = pygame.display.set_mode((500, 500))
-#     pygame.display.set_caption("TextBox")
-#
-#     text_boxes = [
-#         TextBox(100, 100, 200, 50, "PLAYER1", 7),
-#         TextBox(100, 200, 200, 50, "PLAYER2", 7),
-#         TextBox(100, 300, 200, 50, "PLAYER3", 7),
-#         TextBox(100, 400, 200, 50, "PLAYER4", 7)
-#     ]
-#
-#     run = True
-#     while run:
-#         for e in pygame.event.get():
-#             if e.type == pygame.QUIT:
-#                 run = False
-#             for textbox in text_boxes:
-#                 textbox.update(e)
-#         s.fill((100, 100, 100))
-#         for textbox in text_boxes:
-#             textbox.draw(s)
-#         pygame.display.update()
-#
-#     pygame.quit()

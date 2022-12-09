@@ -16,7 +16,6 @@ class Scene:
         Args:
             events (list[pygame.event.Event]): All events that have happened since the last update excluding quit events
             dt (float): Time since last update in seconds
-            scene_manager (SceneManager): The scene manager that is managing this scene
 
         Raises:
             NotImplementedError: If update is not implemented
