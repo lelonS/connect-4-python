@@ -14,15 +14,26 @@ class Credits(Scene):
 
         self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
-        credit_list = ['CREDITS', '', 'CONNECT 4', 'PVT 2022 - KYH', '', 'TEDDY - captain crunchtime',
-                       'LEON - the sniper',
-                       'ALI - the chief', 'JONATHAN - mr.late']
+        #find best player
+        best_player = None
+        best_score = 0
+        for player in self.scene_manager.highscores:
+            if self.scene_manager.highscores[player]['wins'] > best_score:
+                best_score = self.scene_manager.highscores[player]['wins']
+                best_player = player
+        credit_list = ['CREDITS', '', 'CONNECT 4', 'PVT 2022 - KYH', '', 'TEDDY - IndexError: list index out of range',
+                       'LEON - NameError: name \'LEON\' is not defined',
+                       'ALI - func() takes exactly 2 arguments (2 given)', 'JNTHN - print("Hello World!")',
+                       '', 'BEST PLAYER', f'{best_player} - {best_score} WINS']
 
         self.labels = []
 
         for i, text in enumerate(credit_list):
             screen_r = screen.get_rect()
-            label = Label(text, 40, screen_r.centerx, screen_r.bottom + i * 45, WHITE, CENTER)
+            font_size = 40
+            if i >= 5:
+                font_size = 30
+            label = Label(text, font_size, screen_r.centerx, screen_r.bottom + i * 45, WHITE, CENTER)
             y_pos = screen_r.bottom + i * 45
             self.labels.append([y_pos, label])
 
