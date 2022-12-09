@@ -14,7 +14,7 @@ class Credits(Scene):
 
         self.back_button = Button(40, screen.get_height() - 100, 100, 50, 'BACK', self.scene_manager.go_back)
 
-        #find best player
+        # Find best player
         best_player = None
         best_score = 0
         for player in self.scene_manager.highscores:
