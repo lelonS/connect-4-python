@@ -2,9 +2,10 @@ import pygame
 from classes.falling_point import FallingPoint
 from classes.connect4 import ConnectFour
 from classes.player import Player
-from constants import BOARD_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY, BOARD_BOTTOM_LEFT
+from constants import BOARD_COLOR, COL_HOVER_COLOR, BLACK, WHITE, MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, GRAY,\
+    BLIND_COLOR, BOARD_BOTTOM_LEFT
 from classes.scene import Scene, SceneManager
-from classes.text_label import Label, TOP_LEFT, CENTER
+from classes.text_label import Label, TOP_LEFT, CENTER, BOTTOM_CENTER
 
 
 class GameScene(Scene):
@@ -24,6 +25,8 @@ class GameScene(Scene):
     plr_labels: list[Label]
     result_label: Label
 
+    name_tag: Label
+
     def __init__(self, screen: pygame.Surface, scene_manager: SceneManager, cols: int, rows: int, plrs: list[Player]):
         super().__init__(screen, scene_manager)
         self.falling_pieces = {}
@@ -41,6 +44,7 @@ class GameScene(Scene):
 
         # Create labels
         self.result_label = Label("RESULT HERE", 32, screen.get_width() // 2, 50, WHITE, CENTER)
+        self.name_tag = Label("NAME HERE", 16, 0, 0, WHITE, BOTTOM_CENTER)
         self.plr_labels = []
         start_x = self.board_bottom_left[0] + self.tile_size * cols + 10
         start_y = self.screen.get_height() - len(self.players) * 40
@@ -80,18 +84,25 @@ class GameScene(Scene):
             rows (int): All rows
         """
         # Create surface to use for each tile
-        tile_surface = pygame.Surface(
-            (self.tile_size, self.tile_size), pygame.SRCALPHA)
-        # Fill with blue background
+        tile_surface = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+        tile_surface_hover = pygame.Surface((self.tile_size, self.tile_size), pygame.SRCALPHA)
+
+        # Fill with background
         tile_surface.fill(BOARD_COLOR)
+        tile_surface_hover.fill(COL_HOVER_COLOR)
         # Draw circle cutout
         pygame.draw.circle(tile_surface, (0, 0, 0, 0), (self.tile_size / 2, self.tile_size / 2), self.tile_size * 0.45)
+        pygame.draw.circle(tile_surface_hover, (0, 0, 0, 0), (self.tile_size /
+                           2, self.tile_size / 2), self.tile_size * 0.45)
 
         for col_num in range(cols):
             for row_num in range(rows):
                 # Draw tile_surface to screen at each tile
                 pos = self.get_tile_pos(col_num, row_num)
-                self.screen.blit(tile_surface, pos)
+                if col_num == self.current_hover_col:
+                    self.screen.blit(tile_surface_hover, pos)
+                else:
+                    self.screen.blit(tile_surface, pos)
 
     def draw_piece(self, pos: tuple[float, float], plr: int):
         """Draw a piece at a position
@@ -202,6 +213,9 @@ class GameScene(Scene):
             # Create animated piece and add to dictionary
             self.falling_pieces[(col, landed_row)] = FallingPoint(top_pos, 0, 2300, landed_pos[1])
 
+            # Update can move
+            self.can_move = False
+
     def draw_win_line(self):
 
         # Check if all pieces has fallen
@@ -247,11 +261,14 @@ class GameScene(Scene):
             self.plr_labels[n].set_text(text)  # Make sure label is updated
             self.plr_labels[n].draw(self.screen)
 
-    def draw(self):
+    def draw_hover_piece(self):
         if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
             # Draw column mouse hovers over if user can move
             self.draw_piece_at_tile(self.current_hover_col, self.game.total_rows, self.game.turn)
 
+    def draw(self):
+
+        self.draw_hover_piece()
         self.draw_player_names()
 
         # Draw a black background to the board
@@ -264,6 +281,7 @@ class GameScene(Scene):
         self.draw_pieces()
         self.draw_board_overlay(self.game.total_cols, self.game.total_rows)
         self.draw_result_info()
+
         pygame.display.update()
 
     def update(self, events: list[pygame.event.Event], dt: float):
@@ -300,6 +318,44 @@ class GameScene(Scene):
         # Update all falling pieces
         self.update_all_falling(dt)
         self.current_hover_col = mouse_col
+
+
+class GameSceneBlind(GameScene):
+
+    def draw_piece(self, pos: tuple[float, float], plr: int):
+        """Draw a piece at a position
+
+        Args:
+            pos (tuple[float, float]): Top left position of piece rect
+            plr (int): Player index
+        """
+        # Variables
+        half_tile = self.tile_size / 2
+
+        x_pos, y_pos = pos
+
+        # Get middle of tile
+        x_mid = x_pos + half_tile
+        y_mid = y_pos + half_tile
+
+        # If game is over and all pieces have fallen, draw player color. Otherwise, draw blind color
+        if self.game_over and len(self.falling_pieces) <= 0:
+            plr_color = self.players[plr].color
+        else:
+            plr_color = BLIND_COLOR
+
+        # Draw piece
+        pygame.draw.circle(self.screen, plr_color, (x_mid, y_mid), half_tile)
+        self.screen.blit(self.coin_frame, (x_pos, y_pos))
+
+    def draw_hover_piece(self):
+        super().draw_hover_piece()
+        if self.can_move and 0 <= self.current_hover_col < self.game.total_cols:
+            x, y = self.get_tile_pos(self.current_hover_col, self.game.total_rows)
+            self.name_tag.set_text(self.players[self.game.turn].name)
+            self.name_tag.set_color(self.players[self.game.turn].color)
+            # self.name_tag.set_color(BLIND_COLOR)
+            self.name_tag.draw(self.screen, x + self.tile_size / 2, y)
 
 # if __name__ == "__main__":
 #     pygame.init()

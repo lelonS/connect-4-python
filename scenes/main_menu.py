@@ -1,12 +1,14 @@
 import pygame
-from classes.text_label import Label, TOP_CENTER, TOP_RIGHT
+from classes.text_label import Label,  TOP_RIGHT
 from classes.scene import Scene, SceneManager
-from scenes.game_scene import GameScene
-from classes.selector import IntSelector
+from scenes.game_scene import GameScene, GameSceneBlind
+from classes.selector import IntSelector, ModeSelector
 from classes.text_box import TextBox
 from classes.button import Button
-from constants import WHITE, PLR_COLORS
+from constants import WHITE, PLR_COLORS, BLIND_COLOR
 from classes.player import Player
+from scenes.credit_scene import Credits
+from scenes.highscore_scene import HighscoreScene
 
 
 class MainMenu(Scene):
@@ -26,6 +28,9 @@ class MainMenu(Scene):
         self.row_selector = IntSelector(mid_x, 300, 50, 50, 6, 5, 12)
         self.plr_count_selector = IntSelector(mid_x, 400, 50, 50, 2, 2, 4)
 
+        px, py, pw, ph = self.get_rect(700, 100, 'top-center', (mid_x, 25))
+        self.mode_selector = ModeSelector(px, py, 100, 100, 500)
+
         # Create text boxes
         self.tb_width = 220
         self.tb_spacing = 50
@@ -40,9 +45,17 @@ class MainMenu(Scene):
         self.play_button.click_sound = pygame.mixer.Sound("assets/sounds/play.wav")
         self.play_button.click_sound.set_volume(0.2)
 
+        # More buttons
+        px, py, pw, ph = self.get_rect(200, 35, 'top-right', (px, py))
+        self.credit_button = Button(px - 100, py + 50, pw, ph, 'CREDITS', self.go_to_credits)
+
+        p_b_top_right = self.play_button.rect.topright
+        px, py, pw, ph = self.get_rect(200, 35, 'top-left', p_b_top_right)
+        self.highscore_button = Button(px + 100, py + 50, pw, ph, 'HIGHSCORE', self.go_to_highscore)
+
         # Create labels
         self.labels = []
-        self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
+        # self.labels.append(Label('Connect4', 100, mid_x, 25, WHITE, align=TOP_CENTER))
         self.labels.append(Label('Columns:', 40, mid_x, 200, WHITE, align=TOP_RIGHT))
         self.labels.append(Label('Rows:', 40, mid_x, 300, WHITE, align=TOP_RIGHT))
         self.labels.append(Label('Players:', 40, mid_x, 400, WHITE, align=TOP_RIGHT))
@@ -99,6 +112,12 @@ class MainMenu(Scene):
             else:
                 textbox.error = False
 
+    def go_to_credits(self):
+        self.scene_manager.add_scene(Credits(self.screen, self.scene_manager))
+
+    def go_to_highscore(self):
+        self.scene_manager.add_scene(HighscoreScene(self.screen, self.scene_manager))
+
     def tab_to_next(self, direction: int):
         """Tab to the next text box
 
@@ -133,8 +152,13 @@ class MainMenu(Scene):
             new_player = Player(name, PLR_COLORS[i])
             players.append(new_player)
 
-        game_scene = GameScene(self.screen, self.scene_manager, self.col_selector.value,
-                               self.row_selector.value, players)
+        if self.mode_selector.value[0].lower() == 'blind4':
+            game_scene = GameSceneBlind(self.screen, self.scene_manager,
+                                        self.col_selector.value, self.row_selector.value, players)
+        else:
+            game_scene = GameScene(self.screen, self.scene_manager, self.col_selector.value,
+                                   self.row_selector.value, players)
+
         self.scene_manager.add_scene(game_scene)
 
     def update(self, events: list[pygame.event.Event], seconds: float):
@@ -149,7 +173,10 @@ class MainMenu(Scene):
         """
         self.scene_manager.grid_background.active_falling = True
         self.scene_manager.grid_background.amount_players = self.plr_count_selector.value
+        self.scene_manager.grid_background.use_blind = self.mode_selector.value[0].lower() == 'blind4'
+
         for event in events:
+            self.mode_selector.update(event)
             self.col_selector.update(event)
             self.row_selector.update(event)
             self.plr_count_selector.update(event)
@@ -157,6 +184,8 @@ class MainMenu(Scene):
             for i in range(self.plr_count_selector.value):
                 self.player_text_boxes[i].update(event)
             self.play_button.update(event)
+            self.credit_button.update(event)
+            self.highscore_button.update(event)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     keys_pressed = pygame.key.get_pressed()
@@ -178,12 +207,19 @@ class MainMenu(Scene):
         for label in self.labels:
             label.draw(self.screen)
         # Draw column buttons
+        self.mode_selector.draw(self.screen)
         self.col_selector.draw(self.screen)
         self.row_selector.draw(self.screen)
         self.plr_count_selector.draw(self.screen)
         for i in range(self.plr_count_selector.value):  # Only draw the number of players selected
+            if self.mode_selector.value[0].lower() == 'blind4':
+                self.player_text_boxes[i].border_color = BLIND_COLOR
+            else:
+                self.player_text_boxes[i].border_color = PLR_COLORS[i]
             self.player_text_boxes[i].draw(self.screen)
         # Draw play button
         self.play_button.draw(self.screen)
+        self.credit_button.draw(self.screen)
+        self.highscore_button.draw(self.screen)
 
         pygame.display.update()

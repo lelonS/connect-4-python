@@ -1,7 +1,7 @@
 import pygame
 from constants import WHITE
 from classes.button import Button
-from classes.text_label import Label, CENTER
+from classes.text_label import Label, CENTER, TOP_CENTER
 
 # from constants import PLR_COLORS
 
@@ -72,15 +72,15 @@ class Selector:
         if new_value in self.options:
             self._current_index = self.options.index(new_value)
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, screen: pygame.Surface):
         """Draws the selector
 
         Args:
-            surface (pygame.Surface): The surface to draw on
+            screen (pygame.Surface): The surface to draw on
         """
         # Draw the buttons
-        self.next_button.draw(surface)
-        self.previous_button.draw(surface)
+        self.next_button.draw(screen)
+        self.previous_button.draw(screen)
 
     def update(self, event: pygame.event.Event):
         """Updates the selector
@@ -108,10 +108,37 @@ class IntSelector(Selector):
         super().update(event)
         self.label.set_text(str(self.value))
 
-    def draw(self, surface: pygame.Surface):
-        super().draw(surface)
+    def draw(self, screen: pygame.Surface):
+        super().draw(screen)
         # Draw the value
-        self.label.draw(surface)
+        self.label.draw(screen)
+
+
+class ModeSelector(Selector):
+    mode_label: Label
+    description_label: Label
+
+    def __init__(self, x: int, y: int, height: int, button_width: int, text_width, **kwargs):
+        modes = [("Connect4", "Classic"), ("Blind4", "Every player is the same color")]
+        super().__init__(x, y, height, button_width, modes, **kwargs)
+        mid_x = x + (button_width * 2 + text_width) / 2
+        self.mode_label = Label(self.value[0], height, mid_x, y + height / 2, WHITE, CENTER)
+        self.description_label = Label(self.value[1], int(height * 0.2), mid_x, y + height, WHITE, TOP_CENTER)
+
+        # Create a next button at the correct position
+        self.next_button = Button(x + button_width + text_width, y, button_width, height, ">", self.next_option)
+
+    def update(self, event: pygame.event.Event):
+        super().update(event)
+        self.mode_label.set_text(self.value[0])
+        self.description_label.set_text(self.value[1])
+
+    def draw(self, screen: pygame.Surface):
+        super().draw(screen)
+        # Draw the mode name
+        self.mode_label.draw(screen)
+        # Draw the description
+        self.description_label.draw(screen)
 
 
 # class SelectorGroup:
