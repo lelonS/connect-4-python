@@ -1,13 +1,13 @@
 import pygame
 from classes.scene import Scene
-from classes.text_box import TextBox
 from classes.text_label import Label, CENTER
 from classes.button import Button
 from constants import WHITE
 
 
 class Credits(Scene):
-    Credits_text_boxes: list[TextBox]
+    back_button: Button
+    labels: list[tuple[float, Label]]
 
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
@@ -18,24 +18,25 @@ class Credits(Scene):
                        'LEON - the sniper',
                        'ALI - the chief', 'JONATHAN - mr.late']
 
-        self.texts = []
+        self.labels = []
 
-        for i, line in enumerate(credit_list):
+        for i, text in enumerate(credit_list):
             screen_r = screen.get_rect()
-            s = Label(line, 40, screen_r.centerx, screen_r.bottom + i * 45, WHITE, CENTER)
-            r = pygame.Rect(screen_r.centerx, screen_r.bottom + i * 45, 1, 1)
-            self.texts.append((r, s))
+            label = Label(text, 40, screen_r.centerx, screen_r.bottom + i * 45, WHITE, CENTER)
+            y_pos = screen_r.bottom + i * 45
+            self.labels.append([y_pos, label])
 
     def draw(self):
         self.back_button.draw(self.screen)
-        for r, s in self.texts:
-            s.draw(self.screen, r.x, r.y)
+        for pos_y, label in self.labels:
+            label.draw(self.screen, y=int(pos_y))
 
         pygame.display.update()
 
     def update(self, events: list[pygame.event.Event], dt: float):
         for event in events:
             self.back_button.update(event)
-        if self.texts[0][0].y > 100:
-            for r, s in self.texts:
-                r.move_ip(0, -1)
+
+        if self.labels[0][0] > 100:
+            for i in range(len(self.labels)):
+                self.labels[i][0] -= 60 * dt
