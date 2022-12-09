@@ -5,8 +5,6 @@ from classes.scene import SceneManager
 from scenes.main_menu import MainMenu
 
 
-
-
 def load_data():
     try:
         with open("highscores/high_score.json", "r") as f:
